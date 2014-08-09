@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BvDH</string>
+    <string name="btnAddPhoto">Photo and message</string>
+    <string name="btnAddTxt">Message</string>
+    <string name="PreviewbtnChangeTxt">Change message</string>
+    <string name="PreviewbtnChangePhoto">Change photo</string>
+    <string name="deletephoto">Delete photo</string>
+    <string name="ChooseaTask">Pick a source</string>
+    <string name="ChooseApp">Pick an app</string>
+    <string name="Continue">I\'m satisfied!</string>
+    <string name="PreviewbtnAddPhoto">Add a photo</string>
+    <string name="CapturePhoto">Take a photo with the Camera"</string>
+    <string name="ChoosefromGallery">Choose a photo from Gallery</string>
+    <string name="PreviewbtnAddTxt">Add a message</string>
+    <string name="CropOption">Change cropping</string>
+    <string name="PhotoOption">Select a photo</string>
+    <string name="SplashTextWelcome">Welcome to Beeld van Den Haag</string>
+    <string name="SplashTextIntro">Here you can send your message to the screen on the Haagse Toren.</string>
+    <string name="SplashTextCheck">Skip next time</string>
+    <string name="SplashTextInfoBtn">More information</string>
+    <string name="SplashTextInfo">Welcome to the app of Beeld van Den Haag.\n\n
+
+        In this app you can easily send a message with or without picture to the Haagse Toren, always and everywhere.\n\n
+
+        There are no charges made for this (excluding the costs of using mobile internet).\n
+        After your entry has been approved you will receive an email notification. A few minutes after this your message will appear in the block "Beeld van Den Haag" on the Haagse Toren.\n\n
+
+        Beeld van Den Haag is an initiative of Ngage Media. Every entry will be moderated. Ngage Media reserves the right to dismiss a message without notifying the user. For commercial enquiries you can contact sales@ngagemedia.nl.</string>
+    <string name="StartQuestion">What would you like to display on the Den Haag tower?</string>
+    <string name="MsgHint">type your message here.</string>
+    <string name="MsgMaxLines">The message must have a max of 4 lines.</string>
+    <string name="MsgTip">The message is displayed in the same way on the Den Haag Tower.</string>
+    <string name="MsgCont">Satisfied? Then check out the preview!</string>
+    <string name="MsgBtnPrev">Check out the preview!</string>
+    <string name="ConfirmCheckbox">I declare that I own all rights to the uploaded image.</string>
+    <string name="ConfirmEmailHint">Please fill in your email address</string>
+    <string name="ConfirmBtn">Send it</string>
+    <string name="ConfirmCheckboxError">Please tick the check box if youve agreed with the terms</string>
+    <string name="ConfirmEmailError">Please check your email address.</string>
+    <string name="FinalThnx">Thanks for sending your Message!</string>
+    <string name="FinalTip">You will receive an email when your message has been approved! Your Message will soon be displayed on the screen of Den Haag</string>
+    <string name="InternetCheck">No internet connection was found. Please check your internet connection and try again.</string>
+    <string name="UploadDialog">Your message is being sent</string>
+    
+</resources>

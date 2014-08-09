@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/backrepeat"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6" >
+
+        <ImageView
+            android:id="@+id/aspectv"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/back"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY" />
+
+        <EditText
+            android:id="@+id/txtView_msg"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/aspectv"
+            android:layout_alignLeft="@+id/aspectv"
+            android:layout_alignRight="@+id/aspectv"
+            android:layout_alignTop="@+id/aspectv"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_above="@+id/txtView_maxLine"
+            android:background="#010101"
+            android:clickable="true"
+            android:gravity="center_vertical|left"
+            android:hint="@string/MsgHint"
+            android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+            android:lineSpacingExtra="-4dp"
+            android:lines="4"
+            android:maxHeight="450dp"
+            android:maxLines="4"
+            android:maxWidth="600dp"
+            android:minHeight="225dp"
+            android:minLines="4"
+            android:minWidth="300dp"
+            android:singleLine="false"
+            android:textColor="#f5f5f5"
+            android:textSize="50sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtView_maxLine"
+            style="@style/textCapsCentre"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:gravity="center_horizontal|bottom"
+            android:padding="10dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/MsgMaxLines"
+            android:layout_alignParentBottom="true"
+            android:textColor="@android:color/white"
+            android:textIsSelectable="false" />
+
+        <ImageButton
+            android:id="@+id/btnhidekey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/aspectv"
+            android:layout_alignEnd="@+id/txtView_msg"
+            android:layout_alignRight="@+id/aspectv"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="3dp"
+            android:layout_above="@+id/txtView_maxLine"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/checkmark" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:background="@android:color/white" >
+
+        <TextView
+            android:id="@+id/txtView_msgTip"
+            style="@style/textCentre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="false"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif-light"
+            android:gravity="left"
+            android:maxWidth="300dp"
+            android:padding="10dp"
+            android:text="@string/MsgTip"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            android:textIsSelectable="false" />
+
+        <Button
+            android:id="@+id/btnpreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="false"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/button_green"
+            android:drawableLeft="@drawable/preview"
+            android:drawablePadding="20dp"
+            android:drawableRight="@drawable/arrow"
+            android:gravity="center_vertical|left"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/MsgBtnPrev"
+            android:textColor="#FFFFFF" />
+    </RelativeLayout>
+
+</LinearLayout>

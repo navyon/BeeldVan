@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BvDH</string>
+    <string name="btnAddPhoto">Foto toevoegen</string>
+    <string name="btnAddTxt">Overslaan</string>
+    <string name="PreviewbtnChangeTxt">Wijzig Tekst</string>
+    <string name="PreviewbtnChangePhoto">Wijzig Photo</string>
+    <string name="Continue">ik ben tevreden!</string>
+    <string name="deletephoto">Verwijder foto</string>
+    <string name="ChooseaTask">Selecteer een bron</string>
+    <string name="ChooseApp">Kies een applicatie</string>
+    <string name="ChoosefromGallery">Selecteer een bestaande foto</string>
+    <string name="CapturePhoto">Maak een foto"</string>
+    <string name="PreviewbtnAddPhoto">Foto toevoegen</string>
+    <string name="PreviewbtnAddTxt">Tekst toevoegen</string>
+    <string name="CropOption">Pas formaat aan</string>
+    <string name="PhotoOption">Selecteer afbeelding</string>
+    <string name="SplashTextWelcome">Welkom bij Beeld van Den Haag</string>
+    <string name="SplashTextCheck">Toon niet meer</string>
+    <string name="SplashTextInfoBtn">Meer informatie</string>
+    <string name="SplashTextInfo">Welkom bij de app van Beeld van Den Haag.\n\nIn deze app kunt u altijd en overal gemakkelijk een bericht met of zonder foto naar het mega scherm op de Haagse Toren sturen. Hier zijn geen kosten aan verbonden (excl. de eventuele kosten voor het gebruik van mobiel internet). Na uw inzending krijgt u email als uw bericht is goedgekeurd. Hierna verschijnt het uw inzending in het blok “Beeld van Den Haag” op de Haagse Toren.\n
+Beeld van Den Haag is een initiatief van Ngage Media. Alle inzendingen moeten worden goedgekeurd door een van onze moderators. Ngage Media behoudt het recht om inzendingen zonder melding af te keuren. Voor commerciële doeleinden kunt u contact opnemen met (email van sales/ info@bvdh).</string>
+    <string name="SplashTextIntro">Hier kunt u uw bericht naar het grote scherm op de Haagse Toren sturen.</string>
+    <string name="StartQuestion">Wat wilt u plaatsen op de haagse toren?</string>
+    <string name="MsgHint">Voer hier direct jouw bericht in.</string>
+    <string name="MsgMaxLines">Houd er rekening mee dat er maximaal 4 regels op kunnen.</string>
+    <string name="MsgTip">De tekst komt er precies hetzelfde uit te zien op het Beeld van Den Haag.\n\nTevreden? Bekijk dan je preview!</string>
+    <string name="MsgCont">Tevreden? Bekijk dan je preview!</string>
+    <string name="MsgBtnPrev">Preview</string>
+    <string name="ConfirmCheckbox">Bij deze bevestig ik dat ik alle rechten heb voor het gebruiken
+van de door mij toegevoegde afbeelding</string>
+    <string name="ConfirmEmailHint">Vul hier uw e-mailadres in</string>
+    <string name="ConfirmBtn">Plaats uw inzending!</string>
+    <string name="ConfirmCheckboxError">U moet akkoord gaan</string>
+    <string name="ConfirmEmailError">Controleer uw e-mailadres.</string>
+    <string name="FinalThnx">Bedankt voor uw inzending!</string>
+    <string name="FinalTip">U ontvangt een e-mail zodra je bericht is goedgekeurd! Het verschijnt vervolgens zo spoedig mogelijk op het Beeld van Den Haag</string>
+    <string name="InternetCheck">Er is geen internet verbinding gevonden, controleer uw internetverbinding en probeer het opnieuw.</string>
+    <string name="UploadDialog">Uw inzending wordt verstuurd</string>
+	 <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+	  <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item >Home</item>
+        <item >Find People</item>
+        <item >Photos</item>
+        <item >Communities</item>
+        <item >Pages</item>
+        <item >What\'s Hot</item>
+    </string-array>
+    
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_people</item>
+        <item>@drawable/ic_photos</item>
+        <item>@drawable/ic_communities</item>
+        <item>@drawable/ic_pages</item>
+        <item>@drawable/ic_whats_hot</item>
+    </array>
+    
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+    <string name="start_">Start!</string>
+    <string name="english">English</string>
+    <string name="nederlands">Nederlands</string>
+    <string name="communities_view">Communities View</string>
+    <string name="find_people_view">Find People View</string>
+    <string name="home_view">Home View</string>
+    <string name="pages_view">Pages View</string>
+    <string name="photos_view">Photos View</string>
+    <string name="what_s_hot_view">What\'s Hot View</string>
+    <string name="like_ons_op_facebook_">Like ons op Facebook!</string>
+    <string name="wat_wilt_u_plaatsen_op_de_haagse_toren_">Wat wilt u plaatsen op de haagse toren?</string>
+    <string name="foto_en_tekst">Foto en tekst</string>
+    <string name="alleen_tekst">Alleen tekst</string>
+    <string name="Overslaan">Overslaan</string>
+    <string name="done">Done</string>
+    <string name="afbleeding">Afbleeding</string>
+
+</resources>
