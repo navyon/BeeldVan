@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,18 +35,26 @@ public class MessageActivity extends Activity
 	private ImageView aspectv;
 	String msg = null;
 	float textsize;
-
+	RelativeLayout msgRL;
+	String imagePath;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		// setContentView(R.layout.message);
 		setContentView(R.layout.message_layout);
-
+		msgRL=(RelativeLayout)findViewById(R.id.msgRL);
+		imagePath= getIntent().getStringExtra("imagePath");
 		// build alert dialog for max line check
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage("Er passen maar 4 regels tekst op het scherm");
-
+		
+		Bundle extras=getIntent().getExtras();
+		
+		Bitmap photo=extras.getParcelable("data");
+		if(photo!=null)
+		{
+			msgRL.setBackground(new BitmapDrawable(photo));
+		}
 		txtView_msg = (EditText) findViewById(R.id.txtView_msg);
 		txtView_maxLines = (TextView) findViewById(R.id.txtView_maxLine);
 		txtView_msgTip = (TextView) findViewById(R.id.txtView_msgTip);
@@ -90,7 +100,7 @@ public class MessageActivity extends Activity
 					// this can probably done simpler..like last line comment
 					if (getIntent().hasExtra("imagePath"))
 					{
-						intent.putExtra("imagePath", getIntent().getStringExtra("imagePath"));
+						intent.putExtra("imagePath", imagePath);
 					}
 
 					intent.putExtra("msg", msg);
@@ -182,5 +192,7 @@ public class MessageActivity extends Activity
 		txt.setTextSize(TypedValue.COMPLEX_UNIT_PX, textsize);
 		txt.setPadding(margin, margin, margin, margin);
 	}
+	
+
 
 }

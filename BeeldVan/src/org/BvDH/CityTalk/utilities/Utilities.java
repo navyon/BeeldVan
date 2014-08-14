@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.widget.Toast;
 
 public class Utilities
@@ -79,6 +80,10 @@ public class Utilities
 	{
 		e.printStackTrace();
 		
+	}
+	public static void printLog(String TAG, String msg)
+	{
+		Log.e(TAG, msg);
 	}
 	
 	public List<NavImagesInfo> convertJSONToNavImagesInfoList(JSONArray jsonArray)

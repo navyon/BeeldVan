@@ -8,9 +8,20 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical" >
 
+    <ImageView
+        android:id="@+id/progress_2Img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/progress_2" />
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/msgRL"
         android:layout_weight="6" >
 
         <ImageView
@@ -31,6 +42,7 @@
             android:id="@+id/txtView_msg"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/txtView_maxLine"
             android:layout_alignBottom="@+id/aspectv"
             android:layout_alignLeft="@+id/aspectv"
             android:layout_alignRight="@+id/aspectv"
@@ -40,7 +52,6 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:layout_above="@+id/txtView_maxLine"
             android:background="#010101"
             android:clickable="true"
             android:gravity="center_vertical|left"
@@ -64,14 +75,14 @@
             style="@style/textCapsCentre"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
+            android:layout_marginTop="5dp"
             android:gravity="center_horizontal|bottom"
             android:padding="10dp"
-            android:layout_marginTop="5dp"
             android:text="@string/MsgMaxLines"
-            android:layout_alignParentBottom="true"
             android:textColor="@android:color/white"
             android:textIsSelectable="false" />
 
@@ -79,12 +90,12 @@
             android:id="@+id/btnhidekey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/txtView_maxLine"
             android:layout_alignBottom="@+id/aspectv"
             android:layout_alignEnd="@+id/txtView_msg"
             android:layout_alignRight="@+id/aspectv"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="3dp"
-            android:layout_above="@+id/txtView_maxLine"
             android:background="@android:color/transparent"
             android:contentDescription="@string/app_name"
             android:src="@drawable/checkmark" />
