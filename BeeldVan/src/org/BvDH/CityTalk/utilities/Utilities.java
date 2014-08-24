@@ -76,12 +76,12 @@ public class Utilities
 		context.startActivity(new Intent(context, activityName));
 	}
 
-	public static void printStactTrace(Exception e, Context mContext)
+	public  void printStactTrace(Exception e)
 	{
 		e.printStackTrace();
 		
 	}
-	public static void printLog(String TAG, String msg)
+	public  void printLog(String TAG, String msg)
 	{
 		Log.e(TAG, msg);
 	}
@@ -104,7 +104,7 @@ public class Utilities
 		}
 		catch(Exception e)
 		{
-			Utilities.printStactTrace(e, context);
+			printStactTrace(e);
 		}
 		
 		return imagesInfoList;

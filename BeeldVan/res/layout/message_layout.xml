@@ -40,7 +40,7 @@
 
         <EditText
             android:id="@+id/txtView_msg"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/txtView_maxLine"
             android:layout_alignBottom="@+id/aspectv"
@@ -52,7 +52,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:background="#010101"
+            android:background="@drawable/msgtxt_bg"
             android:clickable="true"
             android:gravity="center_vertical|left"
             android:hint="@string/MsgHint"

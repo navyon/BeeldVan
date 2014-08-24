@@ -49,7 +49,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -336,7 +335,7 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 
 	private void showPhotoOptionsDialog()
 	{
-		final String[] items = new String[] { getString(R.string.CapturePhoto), getString(R.string.ChoosefromGallery) };
+		final String[] items = new String[] { getString(R.string.CapturePhoto), getString(R.string.ChoosefromGallery),getString(R.string.cancel) };
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, items);
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -366,12 +365,17 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 						e.printStackTrace();
 					}
 				}
-				else
+				else if(item==1)
 				{ // pick from file
 					Intent intent = new Intent();
 					intent.setType("image/*");
 					intent.setAction(Intent.ACTION_GET_CONTENT);
 					startActivityForResult(Intent.createChooser(intent, getString(R.string.ChooseApp)), PICK_FROM_FILE);
+				}
+				else if(item==2)
+				{
+					dialog.cancel();
+					dialog.dismiss();
 				}
 			}
 		});
@@ -390,7 +394,7 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 	{
 		// if (resultCode != RESULT_OK)
 		// return;
-
+		
 		switch (requestCode)
 		{
 		case PICK_FROM_CAMERA:
@@ -497,7 +501,14 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 						{
 							if (mImageCaptureUri != null)
 							{
+								try
+								{
 								getContentResolver().delete(mImageCaptureUri, null, null);
+								}
+								catch(Exception e)
+								{
+									utils.printStactTrace(e);
+								}
 								mImageCaptureUri = null;
 							}
 						}
@@ -553,18 +564,18 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 	{
 		if (json != null && json.optString("status").equals("OK"))
 		{
-			navImagesInfoList = utils.convertJSONToNavImagesInfoList(json.optJSONArray("data"));
-			userImagesAdapter = new UserImagesAdapter(MainActivity.this, navImagesInfoList);
-			postedImgsGridView.setAdapter(userImagesAdapter);
-			postedImgsGridView.setOnItemClickListener(new OnItemClickListener()
-			{
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-				{
-					utils.showToastMessage("Item Clicked", MainActivity.this);
-				}
-			});
+//			navImagesInfoList = utils.convertJSONToNavImagesInfoList(json.optJSONArray("data"));
+//			userImagesAdapter = new UserImagesAdapter(MainActivity.this, navImagesInfoList);
+//			postedImgsGridView.setAdapter(userImagesAdapter);
+//			postedImgsGridView.setOnItemClickListener(new OnItemClickListener()
+//			{
+//
+//				@Override
+//				public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+//				{
+//					utils.showToastMessage("Item Clicked", MainActivity.this);
+//				}
+//			});
 		}
 		else
 		{

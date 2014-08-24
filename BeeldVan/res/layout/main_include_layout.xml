@@ -43,7 +43,8 @@
         android:layout_below="@+id/camaerIconImg"
         android:layout_alignParentBottom="true"
         android:cacheColorHint="@color/transparent"
-        android:numColumns="3" >
+        android:numColumns="3"
+        android:visibility="gone" >
     </GridView>
 
     <RelativeLayout

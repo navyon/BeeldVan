@@ -53,7 +53,7 @@ public class GetImagesAsyncTask extends AsyncTask<Void, Void, Void>
 		}
 		catch(Exception e)
 		{
-			Utilities.printStactTrace(e, context);
+			new Utilities(context).printStactTrace(e);
 		}
 		return null;
 	}

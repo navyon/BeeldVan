@@ -153,7 +153,7 @@ public class GetResizedImage
 		}
 		catch (Exception e)
 		{
-			Utilities.printStactTrace(e,mContext);
+			new Utilities(mContext).printStactTrace(e);
 		}
 
 		return f;

@@ -80,5 +80,8 @@ van de door mij toegevoegde afbeelding</string>
     <string name="Overslaan">Overslaan</string>
     <string name="done">Done</string>
     <string name="afbleeding">Afbleeding</string>
+    
+    <!-- More Strings -->
+    <string name="cancel">Cancel</string>
 
 </resources>
