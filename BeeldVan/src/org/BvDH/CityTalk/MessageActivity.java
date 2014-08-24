@@ -37,21 +37,22 @@ public class MessageActivity extends Activity
 	float textsize;
 	RelativeLayout msgRL;
 	String imagePath;
+	Bundle extras;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.message_layout);
-		msgRL=(RelativeLayout)findViewById(R.id.msgRL);
-		imagePath= getIntent().getStringExtra("imagePath");
+		msgRL = (RelativeLayout) findViewById(R.id.msgRL);
+		imagePath = getIntent().getStringExtra("imagePath");
 		// build alert dialog for max line check
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage("Er passen maar 4 regels tekst op het scherm");
-		
-		Bundle extras=getIntent().getExtras();
-		
-		Bitmap photo=extras.getParcelable("data");
-		if(photo!=null)
+
+		extras = getIntent().getExtras();
+		final Bitmap photo = extras.getParcelable("data");
+		if (photo != null)
 		{
 			msgRL.setBackground(new BitmapDrawable(photo));
 		}
@@ -98,12 +99,19 @@ public class MessageActivity extends Activity
 					intent = new Intent(MessageActivity.this, PreviewActivity.class);
 
 					// this can probably done simpler..like last line comment
-					if (getIntent().hasExtra("imagePath"))
+//					if (getIntent().hasExtra("imagePath"))
+//					{
+//						intent.putExtra("imagePath", imagePath);
+//					}
+					
+					if(photo==null)
 					{
-						intent.putExtra("imagePath", imagePath);
+						extras=new Bundle();
 					}
 
-					intent.putExtra("msg", msg);
+					extras.putString("msg", msg);
+					
+					intent.putExtras(extras);
 
 					startActivity(intent);
 
@@ -192,7 +200,5 @@ public class MessageActivity extends Activity
 		txt.setTextSize(TypedValue.COMPLEX_UNIT_PX, textsize);
 		txt.setPadding(margin, margin, margin, margin);
 	}
-	
-
 
 }

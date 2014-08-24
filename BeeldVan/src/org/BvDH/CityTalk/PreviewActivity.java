@@ -20,6 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -298,22 +299,30 @@ public class PreviewActivity extends Activity implements Animation.AnimationList
 
 	void LoadMsgImg()
 	{
-		if (getIntent().hasExtra("msg"))
+		///////
+		Bundle extras = getIntent().getExtras();
+		final Bitmap photo = extras.getParcelable("data");
+		if (photo != null)
 		{
-			msg = getIntent().getStringExtra("msg");
+			imagev.setBackground(new BitmapDrawable(photo));
+		}
+		//////
+		if (extras.getString("msg")!=null)
+		{
+			msg = extras.getString("msg");
 			hasmessage = true;
 			setTextSizes(txtview);
 		}
-		if (getIntent().hasExtra("imagePath"))
-		{
-			image_path = getIntent().getStringExtra("imagePath");
-			Bitmap b = BitmapFactory.decodeFile(image_path);
-
-			if (b != null)
-			{
-				imagev.setImageBitmap(b);
-			}
-		}
+//		if (getIntent().hasExtra("imagePath"))
+//		{
+//			image_path = getIntent().getStringExtra("imagePath");
+//			Bitmap b = BitmapFactory.decodeFile(image_path);
+//
+//			if (b != null)
+//			{
+//				imagev.setImageBitmap(b);
+//			}
+//		}
 
 	}
 
