@@ -366,11 +366,14 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 					}
 				}
 				else if(item==1)
-				{ // pick from file
-					Intent intent = new Intent();
-					intent.setType("image/*");
-					intent.setAction(Intent.ACTION_GET_CONTENT);
-					startActivityForResult(Intent.createChooser(intent, getString(R.string.ChooseApp)), PICK_FROM_FILE);
+				{ 
+					// pick from gallery
+					Intent pickImageIntent = new Intent();
+					pickImageIntent.setType("image/*");
+					pickImageIntent.setAction(Intent.ACTION_GET_CONTENT);
+					startActivityForResult(Intent.createChooser(pickImageIntent, getString(R.string.ChooseApp)), PICK_FROM_FILE);
+					
+					
 				}
 				else if(item==2)
 				{
@@ -398,13 +401,12 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 		switch (requestCode)
 		{
 		case PICK_FROM_CAMERA:
-			// mImageCaptureUri = data.getData();
 			doCrop();
 
 			break;
 
 		case PICK_FROM_FILE:
-			// mImageCaptureUri = data.getData();
+			 mImageCaptureUri = data.getData();
 
 			doCrop();
 
