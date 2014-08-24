@@ -123,7 +123,7 @@ public class PreviewActivity extends Activity implements Animation.AnimationList
 		adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item);
 		adapter.add(getString(R.string.CapturePhoto));
 		adapter.add(getString(R.string.ChoosefromGallery));
-
+		adapter.add(getString(R.string.cancel));
 		if (hasphoto)
 			adapter.add(getString(R.string.deletephoto));
 
@@ -159,32 +159,8 @@ public class PreviewActivity extends Activity implements Animation.AnimationList
 						e.printStackTrace();
 					}
 				}
-				else if (item == 2)
-				{
-					try
-					{
-						// Deletes the stored file from the sd
-						if (image_path != null)
-						{
-							File file = new File(image_path);
-							if (file.exists())
-								file.delete();
-						}
-						imagev.setImageBitmap(null);
-						imagev.destroyDrawingCache();
-						hasphoto = false;
-						tempURI = null;
-						ChangeButtons();
-
-					}
-					catch (Exception e)
-					{
-						Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
-
-					}
-
-				}
-				else
+			
+				else if (item == 1)
 				{ // pick from file
 					Intent intent = new Intent();
 					intent.setType("image/*");
@@ -192,6 +168,34 @@ public class PreviewActivity extends Activity implements Animation.AnimationList
 					startActivityForResult(Intent.createChooser(intent, getString(R.string.ChooseApp)), PICK_FROM_FILE);
 
 					ChangeButtons();
+				}
+				
+				else if (item == 2)
+				{
+					dialog.dismiss();
+					dialog.cancel();
+//					try
+//					{
+//						// Deletes the stored file from the sd
+//						if (image_path != null)
+//						{
+//							File file = new File(image_path);
+//							if (file.exists())
+//								file.delete();
+//						}
+//						imagev.setImageBitmap(null);
+//						imagev.destroyDrawingCache();
+//						hasphoto = false;
+//						tempURI = null;
+//						ChangeButtons();
+//
+//					}
+//					catch (Exception e)
+//					{
+//						Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+//
+//					}
+
 				}
 
 			}
@@ -297,6 +301,7 @@ public class PreviewActivity extends Activity implements Animation.AnimationList
 		txt.setPadding(margin, margin, margin, margin);
 	}
 
+	@SuppressWarnings("deprecation")
 	void LoadMsgImg()
 	{
 		///////

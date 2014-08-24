@@ -30,7 +30,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.TimePicker.OnTimeChangedListener;
 import android.widget.Toast;
 
 public class ConfirmActivity extends Activity
@@ -60,6 +65,10 @@ public class ConfirmActivity extends Activity
 	int serverResponseCode = 0;
 	boolean hasphoto = false;
 
+	DatePicker datePicker1;
+	TimePicker timePicker1;
+
+	TextView dateTimeTv;
 	public final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+");
 
 	@Override
@@ -76,6 +85,31 @@ public class ConfirmActivity extends Activity
 
 		setContentView(R.layout.confirm_layout);
 
+		dateTimeTv = (TextView) findViewById(R.id.dateTimeTv);
+		timePicker1 = (TimePicker) findViewById(R.id.timePicker1);
+		datePicker1 = (DatePicker) findViewById(R.id.datePicker1);
+
+		showDateTime(datePicker1.getDayOfMonth(), (datePicker1.getMonth() + 1),  datePicker1.getYear(), timePicker1.getCurrentHour(), timePicker1.getCurrentMinute());
+		timePicker1.setOnTimeChangedListener(new OnTimeChangedListener()
+		{
+
+			@Override
+			public void onTimeChanged(TimePicker view, int hourOfDay, int minute)
+			{
+				showDateTime(datePicker1.getDayOfMonth(), (datePicker1.getMonth() + 1),  datePicker1.getYear(), timePicker1.getCurrentHour(), timePicker1.getCurrentMinute());
+			}
+		});
+
+		datePicker1.init(datePicker1.getYear(), datePicker1.getMonth(), datePicker1.getDayOfMonth(), new OnDateChangedListener()
+		{
+
+			@Override
+			public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+			{
+				showDateTime(datePicker1.getDayOfMonth(), (datePicker1.getMonth() + 1),  datePicker1.getYear(), timePicker1.getCurrentHour(), timePicker1.getCurrentMinute());
+				
+			}
+		});
 		Button submitbox = (Button) findViewById(R.id.btnfinalsubmit);
 		edittx_email = (EditText) findViewById(R.id.editText_email);
 		edittx_email.setTextColor(Color.BLACK);
@@ -428,5 +462,46 @@ public class ConfirmActivity extends Activity
 		{
 			return "0.0.0.0";
 		}
+	}
+
+	private void showDateTime(int day, int month, int year, int hour, int minutes)
+	{
+		String dateTimeStr = "";
+		if (day < 10)
+		{
+			dateTimeStr += "0" + day;
+		}
+		else
+		{
+			dateTimeStr += day;
+		}
+
+		if (month < 10)
+		{
+			dateTimeStr += "-0" + month;
+		}
+		else
+		{
+			dateTimeStr += "-" + month;
+		}
+
+		dateTimeStr += "-" + year;
+		if (hour < 10)
+		{
+			dateTimeStr += "   0" + hour;
+		}
+		else
+		{
+			dateTimeStr += "   " + hour;
+		}
+		if (minutes < 10)
+		{
+			dateTimeStr += ":0" + minutes;
+		}
+		else
+		{
+			dateTimeStr += ":" + minutes;
+		}
+		dateTimeTv.setText(dateTimeStr);
 	}
 }

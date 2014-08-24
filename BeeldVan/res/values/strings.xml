@@ -83,5 +83,8 @@ van de door mij toegevoegde afbeelding</string>
     
     <!-- More Strings -->
     <string name="cancel">Cancel</string>
+    <string name="date">Date</string>
+    <string name="time_">"Time: "</string>
+    <string name="date_">"Date: "</string>
 
 </resources>

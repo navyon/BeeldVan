@@ -3,7 +3,6 @@ package org.BvDH.CityTalk.adapter;
 import java.util.ArrayList;
 
 import org.BvDH.CityTalk.R;
-import org.BvDH.CityTalk.interfaces.ListItemClickedInterface;
 import org.BvDH.CityTalk.model.NavDrawerItem;
 
 import android.app.Activity;

@@ -5,19 +5,103 @@
     android:background="@drawable/backrepeat"
     android:orientation="vertical" >
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/progress_4Img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/progress_4" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/confirmOptionsLL"
-        android:gravity="center" >
+        android:layout_below="@+id/progress_4Img"
+        android:gravity="center"
+        android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/imageView"
+        <TextView
+            android:id="@+id/dateLblTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/logo" />
-    </LinearLayout>
+            android:text="@string/date"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dateTimeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/lineSeparator"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/dateLblTv"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/dark_trans" />
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lineSeparator" >
+
+            <RelativeLayout
+                android:id="@+id/dateTimeLL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/datePickerLbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date_"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <DatePicker
+                    android:id="@+id/datePicker1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/datePickerLbl"
+                    android:calendarViewShown="false"
+                    android:fitsSystemWindows="true"
+                    android:textDirection="locale" />
+
+                <TextView
+                    android:id="@+id/timePickerLbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/timePicker1"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/datePicker1"
+                    android:text="@string/time_"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TimePicker
+                    android:id="@+id/timePicker1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/timePickerLbl"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/datePicker1"
+                    android:fitsSystemWindows="true"
+                    android:layoutMode="clipBounds" />
+            </RelativeLayout>
+        </HorizontalScrollView>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/confirmOptionsLL"
@@ -48,6 +132,7 @@
                 android:background="@drawable/email"
                 android:drawableLeft="@drawable/envelope"
                 android:drawablePadding="25dp"
+                android:drawableRight="@drawable/question_mark"
                 android:ems="10"
                 android:hint="@string/ConfirmEmailHint"
                 android:inputType="textEmailAddress"
@@ -57,20 +142,6 @@
                 android:paddingTop="15dp"
                 android:selectAllOnFocus="true"
                 android:textSize="18sp" />
-
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/editText_email"
-                android:layout_alignEnd="@+id/editText_email"
-                android:layout_alignRight="@+id/editText_email"
-                android:layout_alignTop="@+id/editText_email"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/app_name"
-                android:paddingLeft="10dp"
-                android:paddingRight="15dp"
-                android:src="@drawable/question_mark" />
         </RelativeLayout>
 
         <CheckBox

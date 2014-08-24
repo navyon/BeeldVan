@@ -39,6 +39,7 @@ public class MessageActivity extends Activity
 	String imagePath;
 	Bundle extras;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -95,22 +96,15 @@ public class MessageActivity extends Activity
 				if (!msg.isEmpty())
 				{
 
-					// The ImagePath from the previous Activity sent on to the Next
 					intent = new Intent(MessageActivity.this, PreviewActivity.class);
 
-					// this can probably done simpler..like last line comment
-//					if (getIntent().hasExtra("imagePath"))
-//					{
-//						intent.putExtra("imagePath", imagePath);
-//					}
-					
-					if(photo==null)
+					if (photo == null)
 					{
-						extras=new Bundle();
+						extras = new Bundle();
 					}
 
 					extras.putString("msg", msg);
-					
+
 					intent.putExtras(extras);
 
 					startActivity(intent);
