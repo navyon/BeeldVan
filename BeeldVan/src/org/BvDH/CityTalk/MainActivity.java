@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import android.widget.*;
 import org.BvDH.CityTalk.adapter.CropOptionAdapter;
 import org.BvDH.CityTalk.adapter.NavDrawerListAdapter;
 import org.BvDH.CityTalk.adapter.UserImagesAdapter;
@@ -48,12 +49,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener, ImageLoadInterface, ListItemClickedInterface
 {
@@ -92,11 +87,17 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 	{
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
 		// setContentView(R.layout.main);
 		setContentView(R.layout.main_new);
 		utils = new Utilities(this);
 		main_include_layout = (View) findViewById(R.id.main_include_layout);
 		postedImgsGridView = (GridView) findViewById(R.id.postedImgsGridView);
+        TextView overslaanTV = (TextView) findViewById(R.id.overslaanTv);
+        overslaanTV.setOnClickListener(this);
+
+        TextView doneTV = (TextView) findViewById(R.id.doneTV);
+        doneTV.setOnClickListener(this);
 		loadLocale();
 
 		// load fonts
@@ -337,7 +338,8 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 	{
 		final String[] items = new String[] { getString(R.string.CapturePhoto), getString(R.string.ChoosefromGallery),getString(R.string.cancel) };
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, items);
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.DialogSlideAnim);
+        builder.setInverseBackgroundForced(true);
 
 		builder.setTitle(getString(R.string.ChooseaTask));
 		builder.setAdapter(adapter, new DialogInterface.OnClickListener()
@@ -487,7 +489,7 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 					}
 
 					CropOptionAdapter adapter = new CropOptionAdapter(getApplicationContext(), cropOptions);
-					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.DialogSlideAnim);
 					builder.setTitle("Choose Crop App");
 					builder.setAdapter(adapter, new DialogInterface.OnClickListener()
 					{
@@ -554,6 +556,22 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 		case R.id.camaerIconImg:
 			showPhotoOptionsDialog();
 			break;
+        case R.id.overslaanTv:
+            try
+            {
+
+                Intent intent = new Intent(MainActivity.this, MessageActivity.class);
+                startActivity(intent);
+
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+                break;
+        case R.id.doneTV:
+
+                break;
 
 		default:
 			break;

@@ -38,8 +38,9 @@ public class MessageActivity extends Activity
 	RelativeLayout msgRL;
 	String imagePath;
 	Bundle extras;
+    Bitmap photo;
 
-	@SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -50,13 +51,13 @@ public class MessageActivity extends Activity
 		// build alert dialog for max line check
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage("Er passen maar 4 regels tekst op het scherm");
-
-		extras = getIntent().getExtras();
-		final Bitmap photo = extras.getParcelable("data");
-		if (photo != null)
-		{
-			msgRL.setBackground(new BitmapDrawable(photo));
-		}
+        if(getIntent().getExtras()!=null) {
+            extras = getIntent().getExtras();
+            photo = extras.getParcelable("data");
+            if (photo != null) {
+                msgRL.setBackground(new BitmapDrawable(photo));
+            }
+        }
 		txtView_msg = (EditText) findViewById(R.id.txtView_msg);
 		txtView_maxLines = (TextView) findViewById(R.id.txtView_maxLine);
 		txtView_msgTip = (TextView) findViewById(R.id.txtView_msgTip);
