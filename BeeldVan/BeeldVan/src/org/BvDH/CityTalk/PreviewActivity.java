@@ -224,7 +224,7 @@ public class PreviewActivity extends Activity implements Animation.AnimationList
 				Intent intent = new Intent(PreviewActivity.this, ConfirmActivity.class);
 
 				if (hasphoto)
-					intent.putExtra("imagePath", imagePath);
+					intent.putExtra("imagePath", getIntent().getStringExtra("imagePath"));
 				intent.putExtra("msg", msg);
 				intent.putExtra("hasphoto", hasphoto);
 				PreviewActivity.this.startActivity(intent);

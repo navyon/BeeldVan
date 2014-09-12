@@ -2,27 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/backrepeat"
     android:orientation="vertical" >
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/app_name"
-        android:scaleType="centerCrop"
-        android:src="@drawable/background_new" />
-
-    <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="600dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal|top"
         android:layout_marginTop="30dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/bvdh_logo" />
+        android:src="@drawable/smiley" />
 
     <TextView
         android:id="@+id/thanks"
@@ -32,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center_horizontal|bottom"
-        android:background="@color/dark_trans"
+        android:background="@color/transparent"
         android:gravity="center_horizontal|bottom"
         android:padding="10dp"
         android:text="@string/FinalThnx" />
@@ -47,7 +39,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:background="@color/dark_trans"
+        android:background="@color/transparent"
         android:gravity="center_horizontal|top"
         android:maxWidth="300dp"
         android:padding="10dp"

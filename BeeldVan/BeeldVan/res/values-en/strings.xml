@@ -39,7 +39,7 @@
     <string name="ConfirmCheckboxError">Please tick the check box if youve agreed with the terms</string>
     <string name="ConfirmEmailError">Please check your email address.</string>
     <string name="FinalThnx">Thanks for sending your Message!</string>
-    <string name="FinalTip">You will receive an email when your message has been approved! Your Message will soon be displayed on the screen of Den Haag</string>
+    <string name="FinalTip">You will receive an email when your message has been approved!</string>
     <string name="InternetCheck">No internet connection was found. Please check your internet connection and try again.</string>
     <string name="UploadDialog">Your message is being sent</string>
     

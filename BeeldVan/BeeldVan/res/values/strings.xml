@@ -33,8 +33,8 @@ van de door mij toegevoegde afbeelding</string>
     <string name="ConfirmBtn">Plaats uw inzending!</string>
     <string name="ConfirmCheckboxError">U moet akkoord gaan</string>
     <string name="ConfirmEmailError">Controleer uw e-mailadres.</string>
-    <string name="FinalThnx">Bedankt voor uw inzending!</string>
-    <string name="FinalTip">U ontvangt een e-mail zodra je bericht is goedgekeurd! Het verschijnt vervolgens zo spoedig mogelijk op het Beeld van Den Haag</string>
+    <string name="FinalThnx">Bedankt!</string>
+    <string name="FinalTip">Je krijgt een e-mail wanneer je bericht is goedgekeurd.</string>
     <string name="InternetCheck">Er is geen internet verbinding gevonden, controleer uw internetverbinding en probeer het opnieuw.</string>
     <string name="UploadDialog">Uw inzending wordt verstuurd</string>
 	 <string name="action_settings">Settings</string>
