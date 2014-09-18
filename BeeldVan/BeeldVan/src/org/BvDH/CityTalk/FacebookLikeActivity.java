@@ -68,4 +68,11 @@ public class FacebookLikeActivity extends Activity
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(i);
 	}
+
+    /**
+     * Created by admin on 9/19/2014.
+     */
+    public static class News
+    {
+    }
 }
