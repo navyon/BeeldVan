@@ -2,52 +2,32 @@
 
 package org.BvDH.CityTalk;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 
+import android.app.*;
+import android.content.*;
+import android.widget.*;
 import org.BvDH.CityTalk.adapter.CropOptionAdapter;
 import org.BvDH.CityTalk.adapter.NavDrawerListAdapter;
 import org.BvDH.CityTalk.adapter.UserImagesAdapter;
 import org.BvDH.CityTalk.asynctasks.GetImagesAsyncTask;
 import org.BvDH.CityTalk.asynctasks.Sync2Manager;
-import org.BvDH.CityTalk.fragments.CommunityFragment;
-import org.BvDH.CityTalk.fragments.FindPeopleFragment;
-import org.BvDH.CityTalk.fragments.HomeFragment;
-import org.BvDH.CityTalk.fragments.PagesFragment;
-import org.BvDH.CityTalk.fragments.PhotosFragment;
-import org.BvDH.CityTalk.fragments.WhatsHotFragment;
+import org.BvDH.CityTalk.fragments.*;
+import org.BvDH.CityTalk.fragments.InfoFragment;
 import org.BvDH.CityTalk.interfaces.ImageLoadInterface;
 import org.BvDH.CityTalk.interfaces.ListItemClickedInterface;
-import org.BvDH.CityTalk.model.CropOption;
-import org.BvDH.CityTalk.model.LocationData;
-import org.BvDH.CityTalk.model.NavDrawerItem;
-import org.BvDH.CityTalk.model.NavImagesInfo;
+import org.BvDH.CityTalk.model.*;
 import org.BvDH.CityTalk.utilities.RESTClient;
 import org.BvDH.CityTalk.utilities.SportanStringUtil;
 import org.BvDH.CityTalk.utilities.Utilities;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.RequestLine;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -68,26 +48,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.myjson.Gson;
 import com.google.myjson.GsonBuilder;
 import com.google.myjson.reflect.TypeToken;
 
-public class MainActivity extends Activity implements OnClickListener, ImageLoadInterface, ListItemClickedInterface, LocationListener
+public class MainActivity extends Activity implements OnClickListener,ImageLoadInterface, ListItemClickedInterface, LocationListener
 	{
 		private static Uri mImageCaptureUri;
 		// Sliding menu objects
-		private DrawerLayout mDrawerLayout;
-		private ListView mDrawerList;
+		public static DrawerLayout mDrawerLayout;
+		public static ExpandableListView mDrawerList;
 		private ActionBarDrawerToggle mDrawerToggle;
 
+        ExpandableListAdapter listAdapter;
+        ExpandableListView expListView;
+        List<String> listDataHeader;
+        HashMap<String, List<String>> listDataChild;
 		// nav drawer title
 		private CharSequence mDrawerTitle;
 
@@ -110,12 +87,15 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 		UserImagesAdapter userImagesAdapter;
 		List<NavImagesInfo> navImagesInfoList;
 		GridView postedImgsGridView;
-		View main_include_layout;
+		public static View main_include_layout;
 		String imagePath;
 		public static String imageLocation;
 
 		Location mLocation;
 		LocationManager mLocationManager;
+        public static ArrayList<LocationData> mList;
+
+        public static int sgroupPosition;
 
 		@Override
 		public void onCreate(Bundle savedInstanceState)
@@ -135,12 +115,10 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 				doneTV.setOnClickListener(this);
 				loadLocale();
 
-				// load fonts
-				// Typeface fontRegular = utils.loadTypeFace(0);
-				// Typeface fontLight = utils.loadTypeFace(1);
-
 				camaerIconImg = (ImageView) findViewById(R.id.camaerIconImg);
 				camaerIconImg.setOnClickListener(this);
+
+
 
 				// Slider Menu methods
 				mTitle = mDrawerTitle = getTitle();
@@ -152,9 +130,76 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 				navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
 
 				mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-				mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
+				mDrawerList = (ExpandableListView) findViewById(R.id.list_slidermenu);
+                // preparing list data
+                prepareListData();
 
-				navDrawerItems = new ArrayList<NavDrawerItem>();
+                listAdapter = new NavDrawerListAdapter(this, listDataHeader, listDataChild);
+                // setting list adapter
+                mDrawerList.setAdapter(listAdapter);
+                mDrawerList.setGroupIndicator(null);
+                // Listview Group click listener
+                mDrawerList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+                    @Override
+                    public boolean onGroupClick(ExpandableListView parent, View v,
+                                                int groupPosition, long id) {
+                        /* Toast.makeText(getApplicationContext(),
+                        "Group Clicked " + listDataHeader.get(groupPosition),
+                         Toast.LENGTH_SHORT).show();*/
+                        return false;
+                    }
+                });
+
+                // Listview Group expanded listener
+                mDrawerList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+                    @Override
+                    public void onGroupExpand(int groupPosition) {
+                        /*Toast.makeText(getApplicationContext(),
+                                listDataHeader.get(groupPosition) + " Expanded",
+                                Toast.LENGTH_SHORT).show();*/
+                    }
+                });
+
+                // Listview Group collasped listener
+                mDrawerList.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+
+                    @Override
+                    public void onGroupCollapse(int groupPosition) {
+                       /* Toast.makeText(getApplicationContext(),
+                                listDataHeader.get(groupPosition) + " Collapsed",
+                                Toast.LENGTH_SHORT).show();*/
+
+                    }
+                });
+
+                // Listview on child click listener
+                mDrawerList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+                    @Override
+                    public boolean onChildClick(ExpandableListView parent, View v,
+                                                int groupPosition, int childPosition, long id) {
+                        sgroupPosition = groupPosition;
+                        displayView(childPosition,groupPosition);
+
+
+
+                      /*  Toast.makeText(
+                                getApplicationContext(),
+                                listDataHeader.get(groupPosition)
+                                        + " : "
+                                        + listDataChild.get(
+                                        listDataHeader.get(groupPosition)).get(
+                                        childPosition), Toast.LENGTH_SHORT)
+                                .show();*/
+                        return false;
+                    }
+                });
+
+
+
+               /* navDrawerItems = new ArrayList<NavDrawerItem>();
 
 				// adding nav drawer items to array
 				// Home
@@ -173,11 +218,11 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 				// Recycle the typed array
 				navMenuIcons.recycle();
 
-				mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
+				//mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 
 				// setting the nav drawer list adapter
-				adaptermenu = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
-				mDrawerList.setAdapter(adaptermenu);
+				//adaptermenu = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
+				mDrawerList.setAdapter(adaptermenu);*/
 
 				// enabling action bar app icon and behaving it as toggle button
 				getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -204,15 +249,16 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 							}
 					};
 				mDrawerLayout.setDrawerListener(mDrawerToggle);
-				mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+				/*//mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_L);
 				if (savedInstanceState == null)
 					{
 						// on first time display view for first nav item
 						displayView(0);
-					}
+					}*/
 
 				loadImagesList();
 			}
+
 
 		@Override
 		protected void onResume()
@@ -225,7 +271,8 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 					mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, this, Looper.getMainLooper());
 				mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 1, this, Looper.getMainLooper());
-			}
+
+            }
 
 		@Override
 		protected void onStop()
@@ -241,18 +288,45 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 
 			}
 
-		/**
-		 * Slide menu item click listener
-		 * */
-		private class SlideMenuClickListener implements ListView.OnItemClickListener
-			{
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-					{
-						// display view for selected nav drawer item
-						displayView(position);
-					}
-			}
+
+        private void prepareListData() {
+
+            // Adding child data
+            List<String> childItems = new ArrayList<String>();
+            childItems.add("Nieuwe Bericht");
+            childItems.add("Informatie");
+            childItems.add("Nieuws");
+
+            listDataHeader = new ArrayList<String>();
+            listDataChild = new HashMap<String, List<String>>();
+
+
+             mList = new Utilities(this).getAllLocationList();
+            if(mList!=null){
+                for (int i = 0; i < mList.size(); i++) {
+                    List<Locations> l = mList.get(i).getLocations();
+                    if (mList.get(i).getLocations().size() > 0) {
+                        for (int j = 0; j < mList.get(j).getLocations().size(); j++) {
+
+                            listDataHeader.add(mList.get(i).getName() + " " + l.get(j).getName());
+
+                            System.out.println(mList.get(i));
+
+                        }
+                    }
+                }
+                for (int c = 0; c < 3; c++) {
+                    listDataChild.put(listDataHeader.get(c), childItems);
+
+
+                }
+            }
+
+        }
+
+
+
+
 
 		@Override
 		public boolean onCreateOptionsMenu(Menu menu)
@@ -294,17 +368,26 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 		/**
 		 * Diplaying fragment view for selected nav drawer list item
 		 * */
-		private void displayView(int position)
+		private void displayView(int childposition,int groupPosition)
 			{
 				// update the main content by replacing fragments
 				Fragment fragment = null;
-				switch (position)
+				switch (childposition)
 					{
 					case 0:
 						fragment = new HomeFragment();
+
+                        /*Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                        startActivity(intent);*/
 						break;
 					case 1:
-						fragment = new FindPeopleFragment();
+                        FragmentManager fm = getFragmentManager();
+                        FragmentTransaction ft = fm.beginTransaction();
+
+                        fragment = new InfoFragment(childposition,groupPosition);
+                        ft.addToBackStack(null);
+                        ft.commit();
+
 						break;
 					case 2:
 						fragment = new PhotosFragment();
@@ -337,9 +420,9 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 						FragmentManager fragmentManager = getFragmentManager();
 						fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
 						// update selected item and title, then close the drawer
-						mDrawerList.setItemChecked(position, true);
-						mDrawerList.setSelection(position);
-						setTitle(navMenuTitles[position]);
+						mDrawerList.setItemChecked(childposition, true);
+						mDrawerList.setSelection(childposition);
+						setTitle(navMenuTitles[childposition]);
 						mDrawerLayout.closeDrawer(mDrawerList);
 
 					}
@@ -768,7 +851,7 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 		@Override
 		public void whichItemClicked(int position)
 			{
-				displayView(position);
+				displayView(position,sgroupPosition);
 
 			}
 

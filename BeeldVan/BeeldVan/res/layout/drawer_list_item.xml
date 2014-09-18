@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:background="@drawable/list_selector" >
+    android:layout_height="55dp"
+    android:orientation="vertical"
+    android:background="#000000" >
 
     <ImageView
         android:id="@+id/icon"
@@ -16,24 +17,17 @@
         android:src="@drawable/ic_home" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/lblListItem"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/icon"
-        android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:paddingRight="40dp"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:textColor="@color/list_item_title" />
+        android:textSize="17dip"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#ffffff"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+            />
 
-    <TextView
-        android:id="@+id/counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/counter_bg"
-        android:textColor="@color/counter_text_color" />
+
 
 </RelativeLayout>

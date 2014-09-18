@@ -174,27 +174,27 @@ public class PreviewActivity extends Activity implements Animation.AnimationList
 				{
 					dialog.dismiss();
 					dialog.cancel();
-//					try
-//					{
-//						// Deletes the stored file from the sd
-//						if (image_path != null)
-//						{
-//							File file = new File(image_path);
-//							if (file.exists())
-//								file.delete();
-//						}
-//						imagev.setImageBitmap(null);
-//						imagev.destroyDrawingCache();
-//						hasphoto = false;
-//						tempURI = null;
-//						ChangeButtons();
-//
-//					}
-//					catch (Exception e)
-//					{
-//						Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
-//
-//					}
+					try
+					{
+						// Deletes the stored file from the sd
+						if (MainActivity.imageLocation != null)
+						{
+							File file = new File(MainActivity.imageLocation);
+							if (file.exists())
+								file.delete();
+						}
+						imagev.setImageBitmap(null);
+						imagev.destroyDrawingCache();
+						hasphoto = false;
+						tempURI = null;
+						ChangeButtons();
+
+					}
+					catch (Exception e)
+					{
+						Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+
+					}
 
 				}
 

@@ -1,7 +1,11 @@
 package org.BvDH.CityTalk.adapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import android.graphics.Typeface;
+import android.widget.BaseExpandableListAdapter;
 import org.BvDH.CityTalk.R;
 import org.BvDH.CityTalk.model.NavDrawerItem;
 
@@ -14,64 +18,110 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class NavDrawerListAdapter extends BaseAdapter
+public class NavDrawerListAdapter extends BaseExpandableListAdapter
 {
 
-	private Context context;
-	private ArrayList<NavDrawerItem> navDrawerItems;
-	public NavDrawerListAdapter(Context context, ArrayList<NavDrawerItem> navDrawerItems)
-	{
-		this.context = context;
-		this.navDrawerItems = navDrawerItems;
-	}
+    private Context _context;
+    private List<String> _listDataHeader; // header titles
+    // child data in format of header title, child title
+    private HashMap<String, List<String>> _listDataChild;
 
-	@Override
-	public int getCount()
-	{
-		return navDrawerItems.size();
-	}
+    public NavDrawerListAdapter(Context context, List<String> listDataHeader,
+                                 HashMap<String, List<String>> listChildData) {
+        this._context = context;
+        this._listDataHeader = listDataHeader;
+        this._listDataChild = listChildData;
+    }
 
-	@Override
-	public Object getItem(int position)
-	{
-		return navDrawerItems.get(position);
-	}
+    @Override
+    public Object getChild(int groupPosition, int childPosititon) {
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+                .get(childPosititon);
+    }
 
-	@Override
-	public long getItemId(int position)
-	{
-		return position;
-	}
+    @Override
+    public long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
+    }
 
-	@Override
-	public View getView(final int position, View convertView, ViewGroup parent)
-	{
-		if (convertView == null)
-		{
-			LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-			convertView = mInflater.inflate(R.layout.drawer_list_item, null);
-		}
+    @Override
+    public View getChildView(int groupPosition, final int childPosition,
+                             boolean isLastChild, View convertView, ViewGroup parent) {
 
-		ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
-		TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
-		TextView txtCount = (TextView) convertView.findViewById(R.id.counter);
+        final String childText = (String) getChild(groupPosition, childPosition);
 
-		imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
-		txtTitle.setText(navDrawerItems.get(position).getTitle());
+        if (convertView == null) {
+            LayoutInflater infalInflater = (LayoutInflater) this._context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.drawer_list_item, null);
+        }
 
-		// displaying count
-		// check whether it set visible or not
-		if (navDrawerItems.get(position).getCounterVisibility())
-		{
-			txtCount.setText(navDrawerItems.get(position).getCount());
-		}
-		else
-		{
-			// hide the counter view
-			txtCount.setVisibility(View.GONE);
-		}
+        TextView txtListChild = (TextView) convertView
+                .findViewById(R.id.lblListItem);
 
-		return convertView;
-	}
+        txtListChild.setText(childText);
+        return convertView;
+    }
+
+    @Override
+    public int getChildrenCount(int groupPosition) {
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+                .size();
+    }
+
+    @Override
+    public Object getGroup(int groupPosition) {
+        return this._listDataHeader.get(groupPosition);
+    }
+
+    @Override
+    public int getGroupCount() {
+        return this._listDataHeader.size();
+    }
+
+    @Override
+    public long getGroupId(int groupPosition) {
+        return groupPosition;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded,
+                             View convertView, ViewGroup parent) {
+        ImageView image = null;
+        String headerTitle = (String) getGroup(groupPosition);
+        if (convertView == null) {
+            LayoutInflater infalInflater = (LayoutInflater) this._context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.list_group, null);
+        }
+        image = (ImageView) convertView.findViewById(R.id.expandableIcon);
+        if(groupPosition != -1){
+            int imageResourceId = isExpanded ? android.R.drawable.arrow_up_float : android.R.drawable.arrow_down_float;
+            image.setImageResource(imageResourceId);
+
+            image.setVisibility(View.VISIBLE);
+        } else {
+            image.setVisibility(View.INVISIBLE);
+        }
+        TextView lblListHeader = (TextView) convertView
+                .findViewById(R.id.lblListHeader);
+        lblListHeader.setTypeface(null, Typeface.BOLD);
+        lblListHeader.setText(headerTitle);
+        //ImageView icon = (ImageView) findViewById(R.id.icon);
+        //  icon.setImageResource(R.drawable.ic_drawer);
+        //data.get(from[i]), "drawable", "yourdefaultpackage"));
+
+        return convertView;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
+    }
 
 }

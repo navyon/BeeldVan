@@ -205,7 +205,7 @@ public final class R {
         public static final int crop_selector=0x7f030001;
         public static final int drawer_list_item=0x7f030002;
         public static final int fragment_community=0x7f030003;
-        public static final int fragment_find_people=0x7f030004;
+        public static final int fragment_city_info =0x7f030004;
         public static final int fragment_home=0x7f030005;
         public static final int fragment_pages=0x7f030006;
         public static final int fragment_photos=0x7f030007;

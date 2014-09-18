@@ -5,7 +5,9 @@
     android:layout_height="match_parent" >
      <include
         android:id="@+id/main_include_layout"
-        layout="@layout/main_include_layout" />
+        layout="@layout/main_include_layout"
+
+             />
 
     <!-- Framelayout to display Fragments -->
 
@@ -16,7 +18,7 @@
 
     <!-- Listview to display slider menu -->
 
-    <ListView
+    <ExpandableListView
         android:id="@+id/list_slidermenu"
         android:layout_width="240dp"
         android:layout_height="match_parent"
@@ -25,8 +27,10 @@
         android:choiceMode="singleChoice"
         android:divider="@color/list_divider"
         android:dividerHeight="1dp"
-        android:listSelector="@drawable/list_selector" />
+        android:listSelector="@drawable/list_selector"
+        android:cacheColorHint="#00000000"
+            />
 
-   
+
 
 </android.support.v4.widget.DrawerLayout>

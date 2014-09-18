@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@drawable/backrepeat"
-    android:clickable="true"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     android:orientation="vertical" >
+    <ImageView
+            android:id="@+id/progress_3Img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/progress_3"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/previewTxtOptionsLL" >
+        android:layout_height="300dp"
+        >
 
         <ImageView
             android:id="@+id/animView"
@@ -90,34 +98,31 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/previewTxtOptionsLL"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="fill_parent"
         android:background="#FFFFFF"
         android:orientation="vertical" >
 
         <Button
             android:id="@+id/btnChangePreviewPhoto"
             style="@style/buttonArrowGrey"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:visibility="gone"
+            android:layout_marginTop="55sp"
             android:drawableLeft="@drawable/camera"
             android:text="@string/PreviewbtnChangePhoto"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+           />
 
         <Button
             android:id="@+id/btnchangePreviewText"
             style="@style/buttonArrowGrey"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2sp"
             android:layout_weight="1"
             android:drawableLeft="@drawable/text"
             android:text="@string/PreviewbtnChangeTxt"
@@ -127,13 +132,14 @@
             android:id="@+id/btnSubmitmsgtxt"
             style="@style/buttonArrowGreen"
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="108sp"
             android:layout_weight="1"
             android:drawableLeft="@drawable/happy"
             android:text="@string/Continue"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
+            android:textColor="@android:color/white"
 
-</RelativeLayout>
+            />
+    </RelativeLayout>
+
+</LinearLayout>

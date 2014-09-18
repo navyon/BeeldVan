@@ -20,7 +20,8 @@ public class Locations
 		private String twitterHashTag;
 		private int clientType;
 		private int order;
-
+		float distance;
+		
 		public int getLid()
 			{
 				return lid;
@@ -200,5 +201,13 @@ public class Locations
 			{
 				this.order = order;
 			}
+		public void setDistance(float f)
+			{
+				this.distance = f;
+			}
 
+		public float getDistance()
+			{
+				return distance;
+			}
 	}

@@ -150,23 +150,21 @@ public class ConfirmActivity extends Activity
 							String email = edittx_email.getText().toString();
 							if (checkEmail(email))
 								{
-									if (hasphoto)
+									if (hasphoto&&chkbox.isChecked())
 										{
-											if (chkbox.isChecked())
-												{
+
 													// Call the php upload method which starts a new
 													// thread
-
 													StartNewThreadUpload();
 													// creating new message in background thread
                                                     new CreateNewMessage().execute();
-												}
-											else
-												{
-													String chkboxerror = getString(R.string.ConfirmCheckboxError);
-													Toast.makeText(getApplicationContext(), chkboxerror, Toast.LENGTH_LONG).show();
-												}
+
 										}
+                                    else if(hasphoto&&!chkbox.isChecked())
+                                    {
+                                        String chkboxerror = getString(R.string.ConfirmCheckboxError);
+                                        Toast.makeText(getApplicationContext(), chkboxerror, Toast.LENGTH_LONG).show();
+                                    }
 
 								}
 							else
@@ -197,7 +195,7 @@ public class ConfirmActivity extends Activity
 				try
 					{
 						pDialog = new ProgressDialog(ConfirmActivity.this);
-						pDialog.setMessage("Sending Message");
+						pDialog.setMessage(getString(R.string.UploadDialog));
 						pDialog.setIndeterminate(false);
 						pDialog.setCancelable(true);
 						pDialog.show();

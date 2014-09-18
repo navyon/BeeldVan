@@ -1,11 +1,14 @@
 package org.BvDH.CityTalk.utilities;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.BvDH.CityTalk.model.LocationData;
+import org.BvDH.CityTalk.model.Locations;
 import org.BvDH.CityTalk.model.NavImagesInfo;
 import org.apache.http.HttpEntity;
 import org.json.JSONArray;
@@ -20,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -154,4 +158,37 @@ public class Utilities
 				Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 			}
 
+		public ArrayList<Locations> setDistnace(ArrayList<Locations> locationList, Location crntLocation)
+			{
+				for (int i = 0; i < locationList.size(); i++)
+					{
+						double lat = locationList.get(i).getLatitude();
+						double lng = locationList.get(i).getLongitude();
+
+						Location loc = new Location("");
+						loc.setLatitude(lat);
+						loc.setLongitude(lng);
+
+						locationList.get(i).setDistance(loc.distanceTo(crntLocation));
+					}
+				Collections.sort(locationList, new CompareToSort());
+				return locationList;
+			}
+
+        public static void CopyStream(InputStream is, OutputStream os)
+        {
+            final int buffer_size=1024;
+            try
+            {
+                byte[] bytes=new byte[buffer_size];
+                for(;;)
+                {
+                    int count=is.read(bytes, 0, buffer_size);
+                    if(count==-1)
+                        break;
+                    os.write(bytes, 0, count);
+                }
+            }
+            catch(Exception ex){}
+        }
 	}

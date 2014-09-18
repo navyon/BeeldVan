@@ -43,9 +43,9 @@ van de door mij toegevoegde afbeelding</string>
     <string name="drawer_close">Slider Menu Closed</string>
 	  <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
-        <item >Home</item>
-        <item >Find People</item>
-        <item >Photos</item>
+        <item >BvDH</item>
+        <item >Info</item>
+        <item >Nieuws</item>
         <item >Communities</item>
         <item >Pages</item>
         <item >What\'s Hot</item>
@@ -68,7 +68,7 @@ van de door mij toegevoegde afbeelding</string>
     <string name="english">English</string>
     <string name="nederlands">Nederlands</string>
     <string name="communities_view">Communities View</string>
-    <string name="find_people_view">Find People View</string>
+    <string name="News">Nieuws</string>
     <string name="home_view">Home View</string>
     <string name="pages_view">Pages View</string>
     <string name="photos_view">Photos View</string>
