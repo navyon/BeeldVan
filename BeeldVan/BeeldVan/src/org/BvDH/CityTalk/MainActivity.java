@@ -84,6 +84,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
 		Utilities utils;
 		ImageView camaerIconImg;
+
 		UserImagesAdapter userImagesAdapter;
 		List<NavImagesInfo> navImagesInfoList;
 		GridView postedImgsGridView;
@@ -116,6 +117,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 				loadLocale();
 
 				camaerIconImg = (ImageView) findViewById(R.id.camaerIconImg);
+
 				camaerIconImg.setOnClickListener(this);
 
 
@@ -317,6 +319,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                 }
                 for (int c = 0; c < 3; c++) {
                     listDataChild.put(listDataHeader.get(c), childItems);
+
 
 
                 }
