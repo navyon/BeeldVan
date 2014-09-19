@@ -390,7 +390,8 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
 						break;
 					case 2:
-						fragment = new PhotosFragment();
+						Intent intent = new Intent(MainActivity.this, TwitterListActivity.class);
+                        startActivity(intent);
 						break;
 					case 3:
 						fragment = new CommunityFragment();
