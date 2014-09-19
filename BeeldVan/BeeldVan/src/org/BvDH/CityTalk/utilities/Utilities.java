@@ -22,11 +22,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.Toast;
 
 public class Utilities
@@ -191,4 +194,35 @@ public class Utilities
             }
             catch(Exception ex){}
         }
+
+
+        //get screen width in pixels (minus the 10dp margin) and calculate correct font size
+        public static float getFontSize(float w){
+
+
+            //get font size from selected screen
+            int font = new Locations().getFontSize();
+            //get width from selected screen
+            int lWidth = new Locations().getAspectRatioWidth();
+
+            //calculate ratio value
+            float r = font/lWidth;
+
+            //set fontsize (screenpixels * ratio)
+            float fontSize = w * r;
+
+            return fontSize;
+        }
+
+        public static int getMargin(float w){
+
+            int lWidth = new Locations().getAspectRatioWidth();
+            int lMargin = new Locations().getHorizontalTextInset();
+
+            float r = lMargin/lWidth;
+            int margin = (int)(w * r);
+            return margin;
+        }
+
+
 	}

@@ -26,6 +26,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.BvDH.CityTalk.utilities.Utilities;
+
 // The Message Activity
 public class MessageActivity extends Activity
 	{
@@ -179,6 +181,7 @@ public class MessageActivity extends Activity
 			{
 				// force aspect ratio for txtView
 				Bitmap.Config conf = Bitmap.Config.ALPHA_8;
+                //TODO change to createBitmap(lid.width, lid.height) to use location aspect
 				Bitmap bmp = Bitmap.createBitmap(1024, 776, conf);// create transparent bitmap
 				aspectv.setImageBitmap(bmp);
 				// get display size
@@ -187,12 +190,17 @@ public class MessageActivity extends Activity
 				display.getSize(size);
 
 				Resources r = getResources();
+
+
 				float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());
 				float width = size.x - marginpx; // substract the margins (2x 5dp) from the width in px
+                //TODO call utility for setting font size and margin (also on preview activity)
+                //textsize = Utilities.getFontSize(width);
+                // int margin = Utilities.getMarginSize(width);
 
-				// convert width to textsize (120 at 1024 -> = 1024*0.117
-				textsize = (float) (width * 0.1171875);
-				int margin = (int) (width * 0.062);
+				// ->this can be deleted convert width to textsize (120 at 1024 -> = 1024*0.117
+				textsize = (float) (width * 0.1171875); //old hardcoded
+				int margin = (int) (width * 0.062); //old hardcoded
 				// set sizes
 				txt.setTextSize(TypedValue.COMPLEX_UNIT_PX, textsize);
 				txt.setPadding(margin, margin, margin, margin);
