@@ -127,12 +127,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/BvDH/CityTalk/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="124.42857" vertical-offset="4113" max-vertical-offset="13804">
-              <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.53825855" vertical-offset="1615" max-vertical-offset="13957">
+              <caret line="161" column="66" selection-start-line="161" selection-start-column="66" selection-end-line="161" selection-end-column="66" />
+              <folding>
+                <element signature="e#5705#6190#0" expanded="true" />
+                <element signature="e#6171#6172#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -140,7 +143,7 @@
       <file leaf-file-name="NavDrawerListAdapter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/BvDH/CityTalk/adapter/NavDrawerListAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="592" max-vertical-offset="1972">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1972">
               <caret line="66" column="52" selection-start-line="66" selection-start-column="52" selection-end-line="66" selection-end-column="52" />
               <folding>
                 <element signature="e#4608#4609#0" expanded="true" />
@@ -199,13 +202,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="drawer_list_item.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="drawer_list_item.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/drawer_list_item.xml">
           <provider editor-type-id="android-designer">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.87114847" vertical-offset="148" max-vertical-offset="646">
+            <state vertical-scroll-proportion="-11.518518" vertical-offset="148" max-vertical-offset="646">
               <caret line="27" column="8" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding />
             </state>
@@ -272,9 +275,9 @@
         <option value="$PROJECT_DIR$/src/org/BvDH/CityTalk/MessageActivity.java" />
         <option value="$PROJECT_DIR$/res/layout/main_new_incluedlayout.xml" />
         <option value="$PROJECT_DIR$/src/org/BvDH/CityTalk/TwitterListActivity.java" />
-        <option value="$PROJECT_DIR$/src/org/BvDH/CityTalk/MainActivity.java" />
         <option value="$PROJECT_DIR$/src/org/BvDH/CityTalk/adapter/NavDrawerListAdapter.java" />
         <option value="$PROJECT_DIR$/res/layout/drawer_list_item.xml" />
+        <option value="$PROJECT_DIR$/src/org/BvDH/CityTalk/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -649,7 +652,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33383802" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33383802" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -659,13 +662,13 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33169934" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23039216" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23039216" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24942264" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22861469" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22844176" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -695,12 +698,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/org/BvDH/CityTalk/MainActivity.java</url>
-          <line>647</line>
+          <line>652</line>
           <properties />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/org/BvDH/CityTalk/MainActivity.java</url>
-          <line>627</line>
+          <line>632</line>
           <properties />
           <option name="timeStamp" value="41" />
         </line-breakpoint>
@@ -736,7 +739,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/org/BvDH/CityTalk/MainActivity.java</url>
-          <line>186</line>
+          <line>191</line>
           <properties />
           <option name="timeStamp" value="106" />
         </line-breakpoint>
@@ -772,7 +775,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/org/BvDH/CityTalk/MainActivity.java</url>
-          <line>855</line>
+          <line>860</line>
           <properties class="org.BvDH.CityTalk.MainActivity" method="whichItemClicked" />
           <option name="timeStamp" value="109" />
         </line-breakpoint>
@@ -1152,25 +1155,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/BvDH/CityTalk/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="124.42857" vertical-offset="4113" max-vertical-offset="13804">
-          <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/BvDH/CityTalk/adapter/NavDrawerListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="592" max-vertical-offset="1972">
-          <caret line="66" column="52" selection-start-line="66" selection-start-column="52" selection-end-line="66" selection-end-column="52" />
-          <folding>
-            <element signature="e#4608#4609#0" expanded="true" />
-            <element signature="e#4635#4636#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/list_item_message.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -1220,9 +1204,31 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.87114847" vertical-offset="148" max-vertical-offset="646">
+        <state vertical-scroll-proportion="-11.518518" vertical-offset="148" max-vertical-offset="646">
           <caret line="27" column="8" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/BvDH/CityTalk/adapter/NavDrawerListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="592" max-vertical-offset="1972">
+          <caret line="66" column="52" selection-start-line="66" selection-start-column="52" selection-end-line="66" selection-end-column="52" />
+          <folding>
+            <element signature="e#4608#4609#0" expanded="true" />
+            <element signature="e#4635#4636#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/BvDH/CityTalk/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.53825855" vertical-offset="1615" max-vertical-offset="13957">
+          <caret line="161" column="66" selection-start-line="161" selection-start-column="66" selection-end-line="161" selection-end-column="66" />
+          <folding>
+            <element signature="e#5705#6190#0" expanded="true" />
+            <element signature="e#6171#6172#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
