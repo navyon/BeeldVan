@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import com.google.myjson.Gson;
 import org.BvDH.CityTalk.model.*;
 import org.apache.http.HttpEntity;
@@ -38,32 +39,30 @@ public class TwitterListActivity extends Activity {
     private static final String TAG = "TwitterListActivity";
     private CardArrayAdapter cardArrayAdapter;
     private ListView listView;
-
+    private ProgressBar spinner;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listview);
         listView = (ListView) findViewById(R.id.card_listView);
-
+        spinner = (ProgressBar)findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.GONE);
         listView.addHeaderView(new View(this));
         listView.addFooterView(new View(this));
-
+       // call method to download tweets
        downloadTweets();
-        /*cardArrayAdapter = new CardArrayAdapter(getApplicationContext(), R.layout.list_item_card);
 
-        for (int i = 0; i < 10; i++) {
-            Card card = new Card("Card " + (i+1) + " Line 1", "Card " + (i+1) + " Line 2");
-            cardArrayAdapter.add(card);
-        }
-        listView.setAdapter(cardArrayAdapter);*/
     }
-
+    public void load(View view){
+        spinner.setVisibility(View.VISIBLE);
+    }
     // download twitter timeline after first checking to see if there is a network connection
     public void downloadTweets() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         if (networkInfo != null && networkInfo.isConnected()) {
+            load(listView);
             new DownloadTwitterTask().execute(ScreenName);
         } else {
             Log.v(LOG_TAG, "No network connection available.");
@@ -96,10 +95,6 @@ public class TwitterListActivity extends Activity {
                 Log.i(LOG_TAG, tweet.getText());
             }
 
-            // send the tweets to the adapter for rendering
-            /*ArrayAdapter<Tweet> adapter = new ArrayAdapter<Tweet>(activity, android.R.layout.simple_list_item_1, twits);
-            setListAdapter(adapter);*/
-
            cardArrayAdapter = new CardArrayAdapter(getApplicationContext(), R.layout.list_item_card);
 
             for (int i = 0; i < twits.size(); i++) {
@@ -108,6 +103,7 @@ public class TwitterListActivity extends Activity {
                 cardArrayAdapter.add(card);
             }
            listView.setAdapter(cardArrayAdapter);
+            spinner.setVisibility(View.GONE);
         }
 
         // converts a string of JSON data into a Twitter object

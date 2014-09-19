@@ -6,7 +6,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/backrepeat">
-
+    <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
     <ListView
             android:id="@+id/card_listView"
             android:layout_width="match_parent"
