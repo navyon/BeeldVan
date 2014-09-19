@@ -1,11 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--these are the buttons used.
+        Simple button is solid green-->
+    <style name="button_simple">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/button_simple</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+    </style>
 
-    <style name="BvDH_button">
-        <item name="android:textSize">25sp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:background">@color/purple</item>
-        <item name="android:gravity">center_horizontal|bottom</item>
+    <!--This is a button with only a border-->
+    <style name="button_transparant">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/button_transparant</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+    </style>
+
+    <!--This is a button that stretches across the screen at the bottom
+    add a empty view with this style to add space in the center.
+    See email comments-->
+    <!--The left part-->
+    <style name="button_wide_left">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/button_wide</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
+    </style>
+    <!--The right part-->
+    <style name="button_wide_right">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/button_wide</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">0dp</item>
     </style>
 
     <style name="simpleText">

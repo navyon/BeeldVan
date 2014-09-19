@@ -1,5 +1,6 @@
 package org.BvDH.CityTalk;
 
+import org.BvDH.CityTalk.asynctasks.Sync2Manager;
 import org.BvDH.CityTalk.utilities.Utilities;
 
 import android.app.Activity;

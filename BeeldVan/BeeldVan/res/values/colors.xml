@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="purple_trans">#E1342A3C</color>
-    <color name="red_trans">#BB491506</color>
-    <color name="green_trans">#BB034348</color>
-    <color name="purple">#342A3C</color>
-    <color name="red">#491506</color>
-    <color name="green">#034348</color>
+    <color name="white">#FFF</color>
+    <color name="transparent">#0000</color>
+    <color name="mainBottomBarColor">#339966</color>
+
+    <color name="purple_trans">#E1342A3C</color><color name="red_trans">#BB491506</color>
+    <color name="green_trans">#BB4d8d77</color>
+    <color name="purple">#342A3C</color><color name="red">#491506</color>
+    <color name="green">#4d8d77</color>
+
     <color name="dark_trans">#99000000</color>
     <color name="list_item_title">#fff</color>
     <color name="list_background">#303030</color>
@@ -14,8 +17,5 @@
     <color name="list_divider">#272727</color>
     <color name="counter_text_bg">#626262</color>
     <color name="counter_text_color">#c5c4c4</color>
-    <color name="white">#FFF</color>
-    <color name="transparent">#0000</color>
-    <color name="mainBottomBarColor">#339966</color>
-
+    <color name="transparant">#00000000</color>
 </resources>
