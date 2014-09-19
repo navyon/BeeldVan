@@ -270,7 +270,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 				if (mLocationManager == null)
 					mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, this, Looper.getMainLooper());
-				mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 1, this, Looper.getMainLooper());
+//				mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 1, this, Looper.getMainLooper());
 
             }
 

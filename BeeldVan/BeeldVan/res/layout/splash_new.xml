@@ -84,7 +84,7 @@
 
         <Button
             android:id="@+id/SplBtn"
-            style="@style/BvDH_button"
+            style="@style/button_simple"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_marginLeft="10dp"

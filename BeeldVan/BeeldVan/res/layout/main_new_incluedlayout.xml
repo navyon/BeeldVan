@@ -36,7 +36,7 @@
 
     <Button
         android:id="@+id/btn_crop"
-        style="@style/BvDH_button"
+        style="@style/button_simple"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_Skip"
@@ -58,7 +58,7 @@
 
     <Button
         android:id="@+id/btn_Skip"
-        style="@style/BvDH_button"
+        style="@style/button_simple"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
