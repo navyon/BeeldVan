@@ -84,13 +84,14 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
 		Utilities utils;
 		ImageView camaerIconImg;
+
 		UserImagesAdapter userImagesAdapter;
 		List<NavImagesInfo> navImagesInfoList;
 		GridView postedImgsGridView;
 		public static View main_include_layout;
 		String imagePath;
 		public static String imageLocation;
-
+        int lastExpandedGroupPosition =-1;
 		Location mLocation;
 		LocationManager mLocationManager;
         public static ArrayList<LocationData> mList;
@@ -116,6 +117,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 				loadLocale();
 
 				camaerIconImg = (ImageView) findViewById(R.id.camaerIconImg);
+
 				camaerIconImg.setOnClickListener(this);
 
 
@@ -147,6 +149,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                         /* Toast.makeText(getApplicationContext(),
                         "Group Clicked " + listDataHeader.get(groupPosition),
                          Toast.LENGTH_SHORT).show();*/
+                        lastExpandedGroupPosition =groupPosition;
                         return false;
                     }
                 });
@@ -156,9 +159,13 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
                     @Override
                     public void onGroupExpand(int groupPosition) {
-                        /*Toast.makeText(getApplicationContext(),
-                                listDataHeader.get(groupPosition) + " Expanded",
-                                Toast.LENGTH_SHORT).show();*/
+                        for (int i = 0; i < mDrawerList.getCount(); i++)
+                        {
+                            if (i != groupPosition)
+                            {
+                                mDrawerList.collapseGroup(i);
+                            }
+                        }
                     }
                 });
 
@@ -317,6 +324,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                 }
                 for (int c = 0; c < 3; c++) {
                     listDataChild.put(listDataHeader.get(c), childItems);
+
 
 
                 }

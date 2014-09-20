@@ -22,9 +22,12 @@ public class NavDrawerListAdapter extends BaseExpandableListAdapter
 {
 
     private Context _context;
+    ImageView childIcon;
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
+    Integer[] slideImages = { R.drawable.slide_newmessage,
+            R.drawable.slide_info, R.drawable.slide_news };
 
     public NavDrawerListAdapter(Context context, List<String> listDataHeader,
                                  HashMap<String, List<String>> listChildData) {
@@ -55,7 +58,13 @@ public class NavDrawerListAdapter extends BaseExpandableListAdapter
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.drawer_list_item, null);
         }
-
+        childIcon = (ImageView)convertView.findViewById(R.id.icon);
+        if(childPosition==0)
+        childIcon.setImageResource(slideImages[0]);
+        if(childPosition==1)
+            childIcon.setImageResource(slideImages[1]);
+        if(childPosition==2)
+            childIcon.setImageResource(slideImages[2]);
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.lblListItem);
 

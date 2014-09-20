@@ -27,6 +27,11 @@ import org.apache.http.params.BasicHttpParams;
 
 import java.io.*;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by admin on 9/19/2014.
@@ -98,8 +103,8 @@ public class TwitterListActivity extends Activity {
            cardArrayAdapter = new CardArrayAdapter(getApplicationContext(), R.layout.list_item_card);
 
             for (int i = 0; i < twits.size(); i++) {
-
-                Card card = new Card(twits.get(i).getUser().getScreenName()+" "+twits.get(i).getDateCreated(),twits.get(i).toString());
+                String dt = twits.get(i).getDateCreated();
+                Card card = new Card(twits.get(i).getUser().getScreenName()+" "+ dt.substring(0,10),twits.get(i).toString());
                 cardArrayAdapter.add(card);
             }
            listView.setAdapter(cardArrayAdapter);
