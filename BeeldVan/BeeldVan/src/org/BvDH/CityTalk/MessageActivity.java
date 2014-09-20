@@ -38,6 +38,7 @@ public class MessageActivity extends Activity
 		private TextView txtView_msgTip;
         private TextView txtView_continue;
 		private ImageView aspectv;
+        private ImageView progress2;
 		String msg = null;
 		float textsize;
 		RelativeLayout msgRL;
@@ -70,6 +71,7 @@ public class MessageActivity extends Activity
 //				txtView_maxLines = (TextView) findViewById(R.id.txtView_maxLine);
 //				txtView_msgTip = (TextView) findViewById(R.id.txtView_msgTip);
 				aspectv = (ImageView) findViewById(R.id.aspectv);
+                progress2 = (ImageView) findViewById(R.id.progress_2Img);
 				setTextSizes(txtView_msg);
 				builder.setMessage("Er passen maximaal 4 regels op het scherm!").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener()
 					{
@@ -159,29 +161,14 @@ public class MessageActivity extends Activity
 								// hide keyboard
 								InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 								inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                                getActionBar().show();
                                 txtView_msg.clearFocus();
                                 btnPrev.setVisibility(View.VISIBLE);
                                 txtView_continue.setVisibility(View.VISIBLE);
-
+                                progress2.setVisibility(View.VISIBLE);
 
 							}
 					});
 
-//                txtView_msg.setOnTouchListener(new View.OnTouchListener()
-//                {
-//                    @Override
-//                    public boolean onTouch(View arg0, MotionEvent arg1)
-//                    {
-//                        				btnhidekeyb.setVisibility(View.VISIBLE);
-//                                        layhidekeyb.setVisibility(View.VISIBLE);
-//                                        btnPrev.setVisibility(View.GONE);
-//                                        txtView_continue.setVisibility(View.GONE);
-//                                        getActionBar().hide();
-//                        return true;
-//
-//                    }
-//                });
 
 				txtView_msg.setOnFocusChangeListener(new View.OnFocusChangeListener()
 					{
@@ -190,22 +177,18 @@ public class MessageActivity extends Activity
 							{
 								if (hasFocus)
 									{
-                                        getActionBar().hide();
-                                        btnhidekeyb.setVisibility(View.VISIBLE);
                                         layhidekeyb.setVisibility(View.VISIBLE);
                                         btnPrev.setVisibility(View.GONE);
                                         txtView_continue.setVisibility(View.GONE);
+                                        progress2.setVisibility(View.GONE);
 
 
 
                                     }
 								else
-                                    getActionBar().show();
-                                    btnhidekeyb.setVisibility(View.GONE);
                                     layhidekeyb.setVisibility(View.GONE);
-                                    btnPrev.setVisibility(View.VISIBLE);
-                                    txtView_continue.setVisibility(View.VISIBLE);
-
+//                                    btnPrev.setVisibility(View.VISIBLE);
+//                                    txtView_continue.setVisibility(View.VISIBLE);
 
                             }
 					});
@@ -228,7 +211,7 @@ public class MessageActivity extends Activity
 				Resources r = getResources();
 
 
-				float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());
+				float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
 				float width = size.x - marginpx; // substract the margins (2x 5dp) from the width in px
                 //TODO call utility for setting font size and margin (also on preview activity)
                 //textsize = Utilities.getFontSize(width);

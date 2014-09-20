@@ -30,8 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
             android:adjustViewBounds="true"
             android:background="@drawable/back"
@@ -51,7 +51,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/msgtxt_bg"
+            android:background="@drawable/border"
             android:clickable="true"
             android:gravity="center_vertical|left"
             android:hint="@string/MsgHint"
@@ -74,11 +74,11 @@
     <RelativeLayout
         android:id="@+id/layouthidekey"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:orientation="horizontal"
         android:background="@color/green"
-        android:gravity="center"
-        android:visibility="gone">
+        android:gravity="center|end"
+        android:visibility="visible">
 
         <Button
             android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
             android:layout_alignParentRight="true"
             style="@style/button_wide_right"
             android:paddingLeft="30dp"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </RelativeLayout>
 
     <TextView
