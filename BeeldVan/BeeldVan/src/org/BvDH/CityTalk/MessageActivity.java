@@ -18,6 +18,8 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +47,8 @@ public class MessageActivity extends Activity
 		String imagePath;
 		Bundle extras;
 		Bitmap photo;
+        Animation slideUpIn;
+        Animation slideDownIn;
 
 		@SuppressWarnings("deprecation")
 		@Override
@@ -73,6 +77,10 @@ public class MessageActivity extends Activity
 				aspectv = (ImageView) findViewById(R.id.aspectv);
                 progress2 = (ImageView) findViewById(R.id.progress_2Img);
 				setTextSizes(txtView_msg);
+
+                slideUpIn = AnimationUtils.loadAnimation(this, R.anim.slide_up_dialog);
+                slideDownIn = AnimationUtils.loadAnimation(this, R.anim.slide_out_down);
+
 				builder.setMessage("Er passen maximaal 4 regels op het scherm!").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener()
 					{
 						public void onClick(DialogInterface dialog, int id)
@@ -162,8 +170,11 @@ public class MessageActivity extends Activity
 								InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 								inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                                 txtView_msg.clearFocus();
+                                btnPrev.startAnimation(slideUpIn);
+                                txtView_continue.startAnimation(slideUpIn);
                                 btnPrev.setVisibility(View.VISIBLE);
                                 txtView_continue.setVisibility(View.VISIBLE);
+                                progress2.startAnimation(slideDownIn);
                                 progress2.setVisibility(View.VISIBLE);
 
 							}
