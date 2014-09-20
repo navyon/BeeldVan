@@ -16,6 +16,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -35,6 +36,7 @@ public class MessageActivity extends Activity
 		private EditText txtView_msg;
 		private TextView txtView_maxLines;
 		private TextView txtView_msgTip;
+        private TextView txtView_continue;
 		private ImageView aspectv;
 		String msg = null;
 		float textsize;
@@ -65,8 +67,8 @@ public class MessageActivity extends Activity
 
 					}
 				txtView_msg = (EditText) findViewById(R.id.txtView_msg);
-				txtView_maxLines = (TextView) findViewById(R.id.txtView_maxLine);
-				txtView_msgTip = (TextView) findViewById(R.id.txtView_msgTip);
+//				txtView_maxLines = (TextView) findViewById(R.id.txtView_maxLine);
+//				txtView_msgTip = (TextView) findViewById(R.id.txtView_msgTip);
 				aspectv = (ImageView) findViewById(R.id.aspectv);
 				setTextSizes(txtView_msg);
 				builder.setMessage("Er passen maximaal 4 regels op het scherm!").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener()
@@ -81,12 +83,14 @@ public class MessageActivity extends Activity
 				Typeface fontLight = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
 				Typeface fontHelv = Typeface.createFromAsset(getAssets(), "fonts/HelveticaBold.ttf");
 				txtView_msg.setTypeface(fontHelv);
-				txtView_maxLines.setTypeface(fontRegular);
-				txtView_msgTip.setTypeface(fontLight);
+//				txtView_maxLines.setTypeface(fontRegular);
+//				txtView_msgTip.setTypeface(fontLight);
 
-				Button btnPrev = (Button) findViewById(R.id.btnpreview);
+                txtView_continue = (TextView) findViewById(R.id.txtpreview); //text above button
+				final Button btnPrev = (Button) findViewById(R.id.btnpreview);
 				btnPrev.setTypeface(fontLight);
-				final ImageButton btnhidekeyb = (ImageButton) findViewById(R.id.btnhidekey);
+				final Button btnhidekeyb = (Button) findViewById(R.id.btnhidekey);
+                final RelativeLayout layhidekeyb = (RelativeLayout) findViewById(R.id.layouthidekey);
 
 				if (getIntent().hasExtra("msg"))
 					{
@@ -155,10 +159,29 @@ public class MessageActivity extends Activity
 								// hide keyboard
 								InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 								inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-								txtView_msg.clearFocus();
+                                getActionBar().show();
+                                txtView_msg.clearFocus();
+                                btnPrev.setVisibility(View.VISIBLE);
+                                txtView_continue.setVisibility(View.VISIBLE);
+
 
 							}
 					});
+
+//                txtView_msg.setOnTouchListener(new View.OnTouchListener()
+//                {
+//                    @Override
+//                    public boolean onTouch(View arg0, MotionEvent arg1)
+//                    {
+//                        				btnhidekeyb.setVisibility(View.VISIBLE);
+//                                        layhidekeyb.setVisibility(View.VISIBLE);
+//                                        btnPrev.setVisibility(View.GONE);
+//                                        txtView_continue.setVisibility(View.GONE);
+//                                        getActionBar().hide();
+//                        return true;
+//
+//                    }
+//                });
 
 				txtView_msg.setOnFocusChangeListener(new View.OnFocusChangeListener()
 					{
@@ -167,11 +190,24 @@ public class MessageActivity extends Activity
 							{
 								if (hasFocus)
 									{
-										btnhidekeyb.setVisibility(View.VISIBLE);
-									}
+                                        getActionBar().hide();
+                                        btnhidekeyb.setVisibility(View.VISIBLE);
+                                        layhidekeyb.setVisibility(View.VISIBLE);
+                                        btnPrev.setVisibility(View.GONE);
+                                        txtView_continue.setVisibility(View.GONE);
+
+
+
+                                    }
 								else
-									btnhidekeyb.setVisibility(View.INVISIBLE);
-							}
+                                    getActionBar().show();
+                                    btnhidekeyb.setVisibility(View.GONE);
+                                    layhidekeyb.setVisibility(View.GONE);
+                                    btnPrev.setVisibility(View.VISIBLE);
+                                    txtView_continue.setVisibility(View.VISIBLE);
+
+
+                            }
 					});
 
 			}
