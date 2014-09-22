@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.BvDH.CityTalk.MainActivity;
 import org.BvDH.CityTalk.model.LocationData;
 import org.BvDH.CityTalk.model.Locations;
 import org.BvDH.CityTalk.model.NavImagesInfo;
@@ -196,32 +197,48 @@ public class Utilities
         }
 
 
-        //get screen width in pixels (minus the 10dp margin) and calculate correct font size
+        //get screen width in pixels (minus the 40dp margin) and calculate correct font size
         public static float getFontSize(float w){
 
-
+            float width = w;
             //get font size from selected screen
-            int font = new Locations().getFontSize();
+            float font = (float) MainActivity.mFontSize;
             //get width from selected screen
-            int lWidth = new Locations().getAspectRatioWidth();
+            float lWidth = (float) MainActivity.mAspectRatioWidth;
 
             //calculate ratio value
             float r = font/lWidth;
 
             //set fontsize (screenpixels * ratio)
-            float fontSize = w * r;
-
+            float fontSize = (width * r);
+            System.out.println("fontsize = " + fontSize);
             return fontSize;
         }
 
-        public static int getMargin(float w){
+        public static int getMarginSize(float w){
 
-            int lWidth = new Locations().getAspectRatioWidth();
-            int lMargin = new Locations().getHorizontalTextInset();
+            float width = w;
+            System.out.println("width = " + width);
+
+            float lWidth = (float)MainActivity.mAspectRatioWidth;
+            float lMargin = (float)MainActivity.mMargin;
 
             float r = lMargin/lWidth;
-            int margin = (int)(w * r);
+            int margin = (int)(width * r);
+            System.out.println("margin = " + margin);
             return margin;
+        }
+
+        public static int getPreviewHeight(float w){
+
+            float width = w;
+            float height;
+            float lWidth = (float)MainActivity.mAspectRatioWidth;
+            float lHeight = (float)MainActivity.mAspectRatioHeight;
+
+            height = (width/lWidth)*lHeight;
+
+            return (int)height;
         }
 
 

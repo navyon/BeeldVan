@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="simplecrop">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/BeeldVan/BeeldVan/simple-crop-image-lib/src" />
+    </SOURCES>
+  </library>
+</component>

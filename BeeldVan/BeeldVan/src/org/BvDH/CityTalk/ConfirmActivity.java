@@ -198,7 +198,7 @@ public class ConfirmActivity extends Activity
 						pDialog.setMessage(getString(R.string.UploadDialog));
 						pDialog.setIndeterminate(false);
 						pDialog.setCancelable(true);
-						pDialog.show();
+//						pDialog.show();
 					}
 				catch (Exception e)
 					{

@@ -49,6 +49,7 @@ public class MessageActivity extends Activity
 		Bitmap photo;
         Animation slideUpIn;
         Animation slideDownIn;
+        boolean hasPhoto;
 
 		@SuppressWarnings("deprecation")
 		@Override
@@ -65,10 +66,13 @@ public class MessageActivity extends Activity
 					{
 						extras = getIntent().getExtras();
 						photo = extras.getParcelable("data");
-						if (photo != null)
+                        hasPhoto = getIntent().getBooleanExtra("hasPhoto", false);
+						if (hasPhoto)
 							{
 								imagePath = getIntent().getStringExtra("imagePath");
-							}
+
+							    System.out.println("imagePath = "+imagePath);
+                            }
 
 					}
 				txtView_msg = (EditText) findViewById(R.id.txtView_msg);
@@ -125,6 +129,8 @@ public class MessageActivity extends Activity
 											extras = getIntent().getExtras();
 										extras.putString("msg", msg);
 										extras.putString("imagePath", imagePath);
+                                        if(hasPhoto) intent.putExtra("hasPhoto", true);
+                                        System.out.println("msg = "+msg+" imagePath = "+imagePath);
 										intent.putExtras(extras);
 										startActivity(intent);
 									}
@@ -209,28 +215,27 @@ public class MessageActivity extends Activity
 		// function to mimic text size in relation with the Haagse Toren
 		void setTextSizes(EditText txt)
 			{
-				// force aspect ratio for txtView
+
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+
+                Resources r = getResources();
+
+
+                float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
+                float width = size.x - marginpx; // substract the margins (2x 5dp) from the width in px
+
+                // force aspect ratio for txtView
 				Bitmap.Config conf = Bitmap.Config.ALPHA_8;
-                //TODO change to createBitmap(lid.width, lid.height) to use location aspect
-				Bitmap bmp = Bitmap.createBitmap(1024, 776, conf);// create transparent bitmap
+				Bitmap bmp = Bitmap.createBitmap(MainActivity.mAspectRatioWidth, Utilities.getPreviewHeight(width), conf);// create transparent bitmap
 				aspectv.setImageBitmap(bmp);
 				// get display size
-				Display display = getWindowManager().getDefaultDisplay();
-				Point size = new Point();
-				display.getSize(size);
+				//TODO call utility for setting font size and margin (also on preview activity)
+                textsize = Utilities.getFontSize(width);
 
-				Resources r = getResources();
+                int margin = Utilities.getMarginSize(width);
 
-
-				float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
-				float width = size.x - marginpx; // substract the margins (2x 5dp) from the width in px
-                //TODO call utility for setting font size and margin (also on preview activity)
-                //textsize = Utilities.getFontSize(width);
-                // int margin = Utilities.getMarginSize(width);
-
-				// ->this can be deleted convert width to textsize (120 at 1024 -> = 1024*0.117
-				textsize = (float) (width * 0.1171875); //old hardcoded
-				int margin = (int) (width * 0.062); //old hardcoded
 				// set sizes
 				txt.setTextSize(TypedValue.COMPLEX_UNIT_PX, textsize);
 				txt.setPadding(margin, margin, margin, margin);
