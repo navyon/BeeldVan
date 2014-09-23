@@ -44,7 +44,7 @@ import android.widget.Toast;
 
 import eu.janmuller.android.simplecropimage.CropImage;
 
-public class PreviewActivity extends Activity implements Animation.AnimationListener
+public class PreviewActivity extends BaseActivity implements Animation.AnimationListener
 {
 	private Uri mImageCaptureUri;
 	private TextView txtview;
@@ -220,7 +220,7 @@ public class PreviewActivity extends Activity implements Animation.AnimationList
         float width = size.x - marginpx; // substract the margins (2x 5dp) from the width in px
         Bitmap.Config conf = Bitmap.Config.ALPHA_8;
         //TODO change to createBitmap(lid.width, lid.height) to use location aspect
-        Bitmap bmp = Bitmap.createBitmap(MainActivity.mAspectRatioWidth, Utilities.getPreviewHeight(width), conf);// create transparent bitmap
+        Bitmap bmp = Bitmap.createBitmap(BaseActivity.mAspectRatioWidth, Utilities.getPreviewHeight(width), conf);// create transparent bitmap
         aspectv.setImageBitmap(bmp);
 
         //TODO call utility for setting font size and margin (also on preview activity)
@@ -506,8 +506,8 @@ public class PreviewActivity extends Activity implements Animation.AnimationList
         intent.putExtra(CropImage.MSG, msg);
         intent.putExtra(CropImage.IMAGE_PATH, mFileTemp.getPath());
         intent.putExtra(CropImage.SCALE, true);
-        intent.putExtra(CropImage.ASPECT_X, MainActivity.mAspectRatioWidth);
-        intent.putExtra(CropImage.ASPECT_Y, MainActivity.mAspectRatioHeight);
+        intent.putExtra(CropImage.ASPECT_X, BaseActivity.mAspectRatioWidth);
+        intent.putExtra(CropImage.ASPECT_Y, BaseActivity.mAspectRatioHeight);
 
         startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
     }

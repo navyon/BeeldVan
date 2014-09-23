@@ -32,7 +32,7 @@ import android.widget.Toast;
 import org.BvDH.CityTalk.utilities.Utilities;
 
 // The Message Activity
-public class MessageActivity extends Activity
+public class MessageActivity extends BaseActivity
 	{
 		Intent intent;
 		private EditText txtView_msg;
@@ -53,7 +53,7 @@ public class MessageActivity extends Activity
 
 		@SuppressWarnings("deprecation")
 		@Override
-		protected void onCreate(Bundle savedInstanceState)
+		public void onCreate(Bundle savedInstanceState)
 			{
 				super.onCreate(savedInstanceState);
 				setContentView(R.layout.message_layout);
@@ -228,7 +228,7 @@ public class MessageActivity extends Activity
 
                 // force aspect ratio for txtView
 				Bitmap.Config conf = Bitmap.Config.ALPHA_8;
-				Bitmap bmp = Bitmap.createBitmap(MainActivity.mAspectRatioWidth, Utilities.getPreviewHeight(width), conf);// create transparent bitmap
+				Bitmap bmp = Bitmap.createBitmap(BaseActivity.mAspectRatioWidth, Utilities.getPreviewHeight(width), conf);// create transparent bitmap
 				aspectv.setImageBitmap(bmp);
 				// get display size
 				//TODO call utility for setting font size and margin (also on preview activity)

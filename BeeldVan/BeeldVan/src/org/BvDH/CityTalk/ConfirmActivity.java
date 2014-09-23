@@ -42,7 +42,7 @@ import android.widget.TimePicker;
 import android.widget.TimePicker.OnTimeChangedListener;
 import android.widget.Toast;
 
-public class ConfirmActivity extends Activity
+public class ConfirmActivity extends BaseActivity
 {
 
 	JSONParser jsonParser = new JSONParser();

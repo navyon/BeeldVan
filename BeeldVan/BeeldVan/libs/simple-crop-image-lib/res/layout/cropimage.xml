@@ -2,14 +2,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@drawable/back_pattern">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_alignParentBottom="false"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/progress_1"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
 
     <view
         class="eu.janmuller.android.simplecropimage.CropImageView"
         android:id="@+id/image"
-        android:background="@drawable/back_pattern"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="300dp"
         android:layout_x="0dip"
         android:layout_y="0dip"
         />
@@ -54,4 +67,5 @@
             android:textStyle="bold" />
 
     </RelativeLayout>
+
 </RelativeLayout>

@@ -54,21 +54,17 @@ import android.view.View.OnClickListener;
 import com.google.myjson.Gson;
 import com.google.myjson.GsonBuilder;
 import com.google.myjson.reflect.TypeToken;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
 
 import eu.janmuller.android.simplecropimage.CropImage;
 
-public class MainActivity extends Activity implements OnClickListener,ImageLoadInterface, ListItemClickedInterface, LocationListener
+public class MainActivity extends BaseActivity implements OnClickListener,ImageLoadInterface, ListItemClickedInterface, LocationListener
 	{
 		private static Uri mImageCaptureUri;
 		// Sliding menu objects
-		public static DrawerLayout mDrawerLayout;
-		public static ExpandableListView mDrawerList;
 		private ActionBarDrawerToggle mDrawerToggle;
 
-        ExpandableListAdapter listAdapter;
-        ExpandableListView expListView;
-        List<String> listDataHeader;
-        HashMap<String, List<String>> listDataChild;
 		// nav drawer title
 		private CharSequence mDrawerTitle;
 
@@ -76,8 +72,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		private CharSequence mTitle;
 
 		// slide menu items
-		private String[] navMenuTitles;
-		private TypedArray navMenuIcons;
 
 		private ArrayList<NavDrawerItem> navDrawerItems;
 		private NavDrawerListAdapter adaptermenu;
@@ -85,23 +79,19 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		Utilities utils;
 		ImageView camaerIconImg;
 
-		UserImagesAdapter userImagesAdapter;
-		List<NavImagesInfo> navImagesInfoList;
+//		UserImagesAdapter userImagesAdapter;
+//		List<NavImagesInfo> navImagesInfoList;
 		GridView postedImgsGridView;
 		public static View main_include_layout;
 		String imagePath;
 		public static String imageLocation;
-        int lastExpandedGroupPosition =-1;
 		Location mLocation;
 		LocationManager mLocationManager;
-        public static ArrayList<LocationData> mList;
 
-        public static int sgroupPosition;
-
-        public static int mAspectRatioHeight;
-        public static int mAspectRatioWidth;
-        public static int mMargin;
-        public static int mFontSize;
+//        public static int mAspectRatioHeight;
+//        public static int mAspectRatioWidth;
+//        public static int mMargin;
+//        public static int mFontSize;
 
 
         // implementation of crop
@@ -115,17 +105,27 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
         private ImageView mImageView;
         private File      mFileTemp;
 
-
 		@Override
 		public void onCreate(Bundle savedInstanceState)
 			{
 				super.onCreate(savedInstanceState);
+
+
+
+
+
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 				// setContentView(R.layout.main);
-				setContentView(R.layout.main_new);
+				setContentView(R.layout.main_include_layout);
+
+//                setBehindContentView(R.layout.main_new);
+
+
+
+
 				utils = new Utilities(this);
-				main_include_layout = (View) findViewById(R.id.main_include_layout);
+//				main_include_layout = (View) findViewById(R.id.main_include_layout);
 				postedImgsGridView = (GridView) findViewById(R.id.postedImgsGridView);
 				TextView overslaanTV = (TextView) findViewById(R.id.overslaanTv);
 				overslaanTV.setOnClickListener(this);
@@ -150,151 +150,151 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                 }
 
 				// Slider Menu methods
-				mTitle = mDrawerTitle = getTitle();
+//				mTitle = mDrawerTitle = getTitle();
 
 				// load slide menu items
-				navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
+//				navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
 
 				// nav drawer icons from resources
-				navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
+//				navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
 
-				mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-				mDrawerList = (ExpandableListView) findViewById(R.id.list_slidermenu);
+//				mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//				mDrawerList = (ExpandableListView) findViewById(R.id.list_slidermenu);
                 // preparing list data
-                prepareListData();
+//                prepareListData();
 
-                setAspectRatio(sgroupPosition);
+//                setAspectRatio(sgroupPosition);
 
                 //set aspect stuff
 
 
-                listAdapter = new NavDrawerListAdapter(this, listDataHeader, listDataChild);
+//                listAdapter = new NavDrawerListAdapter(this, listDataHeader, listDataChild);
                 // setting list adapter
-                mDrawerList.setAdapter(listAdapter);
-                mDrawerList.setGroupIndicator(null);
+//                mDrawerList.setAdapter(listAdapter);
+//                mDrawerList.setGroupIndicator(null);
                 // Listview Group click listener
-                mDrawerList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-
-                    @Override
-                    public boolean onGroupClick(ExpandableListView parent, View v,
-                                                int groupPosition, long id) {
-                        /* Toast.makeText(getApplicationContext(),
-                        "Group Clicked " + listDataHeader.get(groupPosition),
-                         Toast.LENGTH_SHORT).show();*/
-                        lastExpandedGroupPosition =groupPosition;
-                        return false;
-                    }
-                });
-
-                // Listview Group expanded listener
-                mDrawerList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
-                    @Override
-                    public void onGroupExpand(int groupPosition) {
-                        for (int i = 0; i < mDrawerList.getCount(); i++)
-                        {
-                            if (i != groupPosition)
-                            {
-                                mDrawerList.collapseGroup(i);
-                            }
-                        }
-                    }
-                });
-
-                // Listview Group collasped listener
-                mDrawerList.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-
-                    @Override
-                    public void onGroupCollapse(int groupPosition) {
-                       /* Toast.makeText(getApplicationContext(),
-                                listDataHeader.get(groupPosition) + " Collapsed",
-                                Toast.LENGTH_SHORT).show();*/
-
-                    }
-                });
-
-                // Listview on child click listener
-                mDrawerList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-
-                    @Override
-                    public boolean onChildClick(ExpandableListView parent, View v,
-                                                int groupPosition, int childPosition, long id) {
-                        sgroupPosition = groupPosition;
-                        System.out.println("Groupposition = "+sgroupPosition);
-                        displayView(childPosition,groupPosition);
-
-                        setAspectRatio(sgroupPosition);
-
-                      /*  Toast.makeText(
-                                getApplicationContext(),
-                                listDataHeader.get(groupPosition)
-                                        + " : "
-                                        + listDataChild.get(
-                                        listDataHeader.get(groupPosition)).get(
-                                        childPosition), Toast.LENGTH_SHORT)
-                                .show();*/
-                        return false;
-                    }
-                });
-
-
-
-               /* navDrawerItems = new ArrayList<NavDrawerItem>();
-
-				// adding nav drawer items to array
-				// Home
-				navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-				// Find People
-				navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-				// Photos
-				navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-				// Communities, Will add a counter here
-				navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "22"));
-				// Pages
-				navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-				// What's hot, We will add a counter here
-				navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-
-				// Recycle the typed array
-				navMenuIcons.recycle();
-
-				//mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
-
-				// setting the nav drawer list adapter
-				//adaptermenu = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
-				mDrawerList.setAdapter(adaptermenu);*/
-
-				// enabling action bar app icon and behaving it as toggle button
-				getActionBar().setDisplayHomeAsUpEnabled(true);
-				getActionBar().setHomeButtonEnabled(true);
-
-				mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, // nav menu toggle icon
-						R.string.app_name, // nav drawer open - description for accessibility
-						R.string.app_name // nav drawer close - description for accessibility
-				)
-					{
-						public void onDrawerClosed(View view)
-							{
-								getActionBar().setTitle(mTitle);
-								// calling onPrepareOptionsMenu() to show action bar icons
-								invalidateOptionsMenu();
-							}
-
-						public void onDrawerOpened(View drawerView)
-							{
-								getActionBar().setTitle(mDrawerTitle);
-								// calling onPrepareOptionsMenu() to hide action bar icons
-								Sync2Manager.getSync2Manager().getCurrentVersion();
-								invalidateOptionsMenu();
-							}
-					};
-				mDrawerLayout.setDrawerListener(mDrawerToggle);
-				/*//mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_L);
-				if (savedInstanceState == null)
-					{
-						// on first time display view for first nav item
-						displayView(0);
-					}*/
+//                mDrawerList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+//
+//                    @Override
+//                    public boolean onGroupClick(ExpandableListView parent, View v,
+//                                                int groupPosition, long id) {
+//                        /* Toast.makeText(getApplicationContext(),
+//                        "Group Clicked " + listDataHeader.get(groupPosition),
+//                         Toast.LENGTH_SHORT).show();*/
+//                        lastExpandedGroupPosition =groupPosition;
+//                        return false;
+//                    }
+//                });
+//
+//                // Listview Group expanded listener
+//                mDrawerList.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+//
+//                    @Override
+//                    public void onGroupExpand(int groupPosition) {
+//                        for (int i = 0; i < mDrawerList.getCount(); i++)
+//                        {
+//                            if (i != groupPosition)
+//                            {
+//                                mDrawerList.collapseGroup(i);
+//                            }
+//                        }
+//                    }
+//                });
+//
+//                // Listview Group collasped listener
+//                mDrawerList.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+//
+//                    @Override
+//                    public void onGroupCollapse(int groupPosition) {
+//                       /* Toast.makeText(getApplicationContext(),
+//                                listDataHeader.get(groupPosition) + " Collapsed",
+//                                Toast.LENGTH_SHORT).show();*/
+//
+//                    }
+//                });
+//
+//                // Listview on child click listener
+//                mDrawerList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+//
+//                    @Override
+//                    public boolean onChildClick(ExpandableListView parent, View v,
+//                                                int groupPosition, int childPosition, long id) {
+//                        sgroupPosition = groupPosition;
+//                        System.out.println("Groupposition = "+sgroupPosition);
+//                        displayView(childPosition,groupPosition);
+//
+//                        setAspectRatio(sgroupPosition);
+//
+//                      /*  Toast.makeText(
+//                                getApplicationContext(),
+//                                listDataHeader.get(groupPosition)
+//                                        + " : "
+//                                        + listDataChild.get(
+//                                        listDataHeader.get(groupPosition)).get(
+//                                        childPosition), Toast.LENGTH_SHORT)
+//                                .show();*/
+//                        return false;
+//                    }
+//                });
+//
+//
+//
+//               /* navDrawerItems = new ArrayList<NavDrawerItem>();
+//
+//				// adding nav drawer items to array
+//				// Home
+//				navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
+//				// Find People
+//				navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
+//				// Photos
+//				navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
+//				// Communities, Will add a counter here
+//				navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "22"));
+//				// Pages
+//				navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
+//				// What's hot, We will add a counter here
+//				navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
+//
+//				// Recycle the typed array
+//				navMenuIcons.recycle();
+//
+//				//mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
+//
+//				// setting the nav drawer list adapter
+//				//adaptermenu = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
+//				mDrawerList.setAdapter(adaptermenu);*/
+//
+//				// enabling action bar app icon and behaving it as toggle button
+//				getActionBar().setDisplayHomeAsUpEnabled(true);
+//				getActionBar().setHomeButtonEnabled(true);
+//
+//				mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, // nav menu toggle icon
+//						R.string.app_name, // nav drawer open - description for accessibility
+//						R.string.app_name // nav drawer close - description for accessibility
+//				)
+//					{
+//						public void onDrawerClosed(View view)
+//							{
+//								getActionBar().setTitle(mTitle);
+//								// calling onPrepareOptionsMenu() to show action bar icons
+//								invalidateOptionsMenu();
+//							}
+//
+//						public void onDrawerOpened(View drawerView)
+//							{
+//								getActionBar().setTitle(mDrawerTitle);
+//								// calling onPrepareOptionsMenu() to hide action bar icons
+//								Sync2Manager.getSync2Manager().getCurrentVersion();
+//								invalidateOptionsMenu();
+//							}
+//					};
+//				mDrawerLayout.setDrawerListener(mDrawerToggle);
+////				//mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_L);
+//				if (savedInstanceState == null)
+//					{
+//						// on first time display view for first nav item
+//						displayView(0);
+//					}
 
 				loadImagesList();
 			}
@@ -329,39 +329,39 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 			}
 
 
-        private void prepareListData() {
-
-            // Adding child data
-            List<String> childItems = new ArrayList<String>();
-            childItems.add("Nieuw Bericht");
-            childItems.add("Informatie");
-            childItems.add("Nieuws");
-
-            listDataHeader = new ArrayList<String>();
-            listDataChild = new HashMap<String, List<String>>();
-
-
-             mList = new Utilities(this).getAllLocationList();
-            if(mList!=null){
-                for (int i = 0; i < mList.size(); i++) {
-                    List<Locations> l = mList.get(i).getLocations();
-                    if (mList.get(i).getLocations().size() > 0) {
-                        for (int j = 0; j < mList.get(j).getLocations().size(); j++) {
-
-                            listDataHeader.add(mList.get(i).getName() + " " + l.get(j).getName());
-                            System.out.println(mList.get(i));
-                        }
-                    }
-                }
-                for (int c = 0; c < 3; c++) {
-                    listDataChild.put(listDataHeader.get(c), childItems);
-
-
-
-                }
-            }
-
-        }
+//        private void prepareListData() {
+//
+//            // Adding child data
+//            List<String> childItems = new ArrayList<String>();
+//            childItems.add("Nieuw Bericht");
+//            childItems.add("Informatie");
+//            childItems.add("Nieuws");
+//
+//            listDataHeader = new ArrayList<String>();
+//            listDataChild = new HashMap<String, List<String>>();
+//
+//
+//             mList = new Utilities(this).getAllLocationList();
+//            if(mList!=null){
+//                for (int i = 0; i < mList.size(); i++) {
+//                    List<Locations> l = mList.get(i).getLocations();
+//                    if (mList.get(i).getLocations().size() > 0) {
+//                        for (int j = 0; j < mList.get(j).getLocations().size(); j++) {
+//
+//                            listDataHeader.add(mList.get(i).getName() + " " + l.get(j).getName());
+//                            System.out.println(mList.get(i));
+//                        }
+//                    }
+//                }
+//                for (int c = 0; c < 3; c++) {
+//                    listDataChild.put(listDataHeader.get(c), childItems);
+//
+//
+//
+//                }
+//            }
+//
+//        }
 
 
 
@@ -397,106 +397,106 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		public boolean onPrepareOptionsMenu(Menu menu)
 			{
 				// if nav drawer is opened, hide the action items
-				boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-				menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+//				boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+//				menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
 				return super.onPrepareOptionsMenu(menu);
 			}
 
 		/**
 		 * Diplaying fragment view for selected nav drawer list item
 		 * */
- 		private void displayView(int childposition,int groupPosition)
-			{
-				// update the main content by replacing fragments
-				Fragment fragment = null;
-				switch (childposition)
-					{
-					case 0:
-						fragment = new HomeFragment();
+// 		private void displayView(int childposition,int groupPosition)
+//			{
+//				// update the main content by replacing fragments
+//				Fragment fragment = null;
+//				switch (childposition)
+//					{
+//					case 0:
+//						fragment = new HomeFragment();
+//
+//                        /*Intent intent = new Intent(MainActivity.this, MainActivity.class);
+//                        startActivity(intent);*/
+//						break;
+//					case 1:
+//                        FragmentManager fm = getFragmentManager();
+//                        FragmentTransaction ft = fm.beginTransaction();
+//
+//                        fragment = new InfoFragment(childposition,groupPosition);
+//                        ft.addToBackStack(null);
+//                        ft.commit();
+//
+//						break;
+//					case 2:
+//						Intent intent = new Intent(MainActivity.this, TwitterListActivity.class);
+//                        startActivity(intent);
+//						break;
+//					case 3:
+//						fragment = new CommunityFragment();
+//						break;
+//					case 4:
+//						fragment = new PagesFragment();
+//						break;
+//					case 5:
+//						fragment = new WhatsHotFragment();
+//						break;
+//
+//					default:
+//						break;
+//					}
+//
+//				if (fragment != null)
+//					{
+//						if (fragment instanceof HomeFragment)
+//							{
+//								main_include_layout.setVisibility(View.VISIBLE);
+//							}
+//						else
+//							{
+//								main_include_layout.setVisibility(View.GONE);
+//
+//							}
+//						FragmentManager fragmentManager = getFragmentManager();
+//						fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+//						// update selected item and title, then close the drawer
+//						mDrawerList.setItemChecked(childposition, true);
+//						mDrawerList.setSelection(childposition);
+//						setTitle(navMenuTitles[childposition]);
+//						mDrawerLayout.closeDrawer(mDrawerList);
+//
+//					}
+//				else
+//					{
+//						// error in creating fragment
+//						Log.e("MainActivity", "Error in creating fragment");
+//					}
+//			}
 
-                        /*Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                        startActivity(intent);*/
-						break;
-					case 1:
-                        FragmentManager fm = getFragmentManager();
-                        FragmentTransaction ft = fm.beginTransaction();
-
-                        fragment = new InfoFragment(childposition,groupPosition);
-                        ft.addToBackStack(null);
-                        ft.commit();
-
-						break;
-					case 2:
-						Intent intent = new Intent(MainActivity.this, TwitterListActivity.class);
-                        startActivity(intent);
-						break;
-					case 3:
-						fragment = new CommunityFragment();
-						break;
-					case 4:
-						fragment = new PagesFragment();
-						break;
-					case 5:
-						fragment = new WhatsHotFragment();
-						break;
-
-					default:
-						break;
-					}
-
-				if (fragment != null)
-					{
-						if (fragment instanceof HomeFragment)
-							{
-								main_include_layout.setVisibility(View.VISIBLE);
-							}
-						else
-							{
-								main_include_layout.setVisibility(View.GONE);
-
-							}
-						FragmentManager fragmentManager = getFragmentManager();
-						fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
-						// update selected item and title, then close the drawer
-						mDrawerList.setItemChecked(childposition, true);
-						mDrawerList.setSelection(childposition);
-						setTitle(navMenuTitles[childposition]);
-						mDrawerLayout.closeDrawer(mDrawerList);
-
-					}
-				else
-					{
-						// error in creating fragment
-						Log.e("MainActivity", "Error in creating fragment");
-					}
-			}
-
-		@Override
-		public void setTitle(CharSequence title)
-			{
-				mTitle = title;
-				getActionBar().setTitle(mTitle);
-			}
+//		@Override
+//		public void setTitle(CharSequence title)
+//			{
+//				mTitle = title;
+//				getActionBar().setTitle(mTitle);
+//			}
 
 		/**
 		 * When using the ActionBarDrawerToggle, you must call it during onPostCreate() and onConfigurationChanged()...
 		 */
 
-		@Override
-		protected void onPostCreate(Bundle savedInstanceState)
-			{
-				super.onPostCreate(savedInstanceState);
-				// Sync the toggle state after onRestoreInstanceState has occurred.
-				mDrawerToggle.syncState();
-			}
+//		@Override
+//		public void onPostCreate(Bundle savedInstanceState)
+//			{
+//				super.onPostCreate(savedInstanceState);
+//				// Sync the toggle state after onRestoreInstanceState has occurred.
+//				mDrawerToggle.syncState();
+//			}
 
-		@Override
-		public void onConfigurationChanged(Configuration newConfig)
-			{
-				super.onConfigurationChanged(newConfig);
-				// Pass any configuration change to the drawer toggls
-				mDrawerToggle.onConfigurationChanged(newConfig);
-			}
+//		@Override
+//		public void onConfigurationChanged(Configuration newConfig)
+//			{
+//				super.onConfigurationChanged(newConfig);
+//				// Pass any configuration change to the drawer toggls
+//				mDrawerToggle.onConfigurationChanged(newConfig);
+//			}
 
 		// check if directory exists. if not, create.
 		void checkDir()
@@ -582,8 +582,8 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
             intent.putExtra(CropImage.IMAGE_PATH, mFileTemp.getPath());
             intent.putExtra(CropImage.SCALE, true);
             //TODO add dynamic resolution here!
-            intent.putExtra(CropImage.ASPECT_X, mAspectRatioWidth);
-            intent.putExtra(CropImage.ASPECT_Y, mAspectRatioHeight);
+            intent.putExtra(CropImage.ASPECT_X, BaseActivity.mAspectRatioWidth);
+            intent.putExtra(CropImage.ASPECT_Y, BaseActivity.mAspectRatioHeight);
 
             startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
         }
@@ -707,13 +707,13 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
 			}
 
-        public void setAspectRatio(int i){
-            mAspectRatioHeight = mList.get(i).getLocations().get(0).getAspectRatioHeight();
-            mAspectRatioWidth = mList.get(i).getLocations().get(0).getAspectRatioWidth();
-            mMargin = mList.get(i).getLocations().get(0).getHorizontalTextInset();
-            mFontSize = mList.get(i).getLocations().get(0).getFontSize();
-            System.out.println("height = "+mAspectRatioHeight+ " Width = "+ mAspectRatioWidth);
-        }
+//        public void setAspectRatio(int i){
+//            mAspectRatioHeight = mList.get(i).getLocations().get(0).getAspectRatioHeight();
+//            mAspectRatioWidth = mList.get(i).getLocations().get(0).getAspectRatioWidth();
+//            mMargin = mList.get(i).getLocations().get(0).getHorizontalTextInset();
+//            mFontSize = mList.get(i).getLocations().get(0).getFontSize();
+//            System.out.println("height = "+mAspectRatioHeight+ " Width = "+ mAspectRatioWidth);
+//        }
 
 		public void changeLang(String lang)
 			{
@@ -833,7 +833,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		@Override
 		public void whichItemClicked(int position)
 			{
-				displayView(position,sgroupPosition);
+//				displayView(position,sgroupPosition);
 
 			}
 

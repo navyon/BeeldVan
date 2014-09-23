@@ -1,9 +1,9 @@
 <component name="libraryTable">
-  <library name="simplecrop">
+  <library name="slidingmenu">
     <CLASSES />
     <JAVADOC />
     <SOURCES>
-      <root url="file://$PROJECT_DIR$/BeeldVan/BeeldVan/simple-crop-image-lib/src" />
+      <root url="file://$PROJECT_DIR$/BeeldVan/BeeldVan/libs/slidingmenu/src" />
     </SOURCES>
   </library>
 </component>
