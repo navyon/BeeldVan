@@ -105,7 +105,8 @@ public class NavDrawerListAdapter extends BaseExpandableListAdapter
         }
         image = (ImageView) convertView.findViewById(R.id.expandableIcon);
         if(groupPosition != -1){
-            int imageResourceId = isExpanded ? android.R.drawable.arrow_up_float : android.R.drawable.arrow_down_float;
+            int imageResourceId = isExpanded ? R.drawable.arrow_up_float : R.drawable.arrow_down_float;
+//            int imageResourceId = isExpanded ? android.R.drawable.arrow_up_float : android.R.drawable.arrow_down_float;
             image.setImageResource(imageResourceId);
 
             image.setVisibility(View.VISIBLE);
@@ -114,7 +115,7 @@ public class NavDrawerListAdapter extends BaseExpandableListAdapter
         }
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
+        lblListHeader.setTypeface(null, Typeface.NORMAL);
         lblListHeader.setText(headerTitle);
         //ImageView icon = (ImageView) findViewById(R.id.icon);
         //  icon.setImageResource(R.drawable.ic_drawer);

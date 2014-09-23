@@ -365,8 +365,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
 
 
-
-
 		@Override
 		public boolean onCreateOptionsMenu(Menu menu)
 			{
@@ -407,7 +405,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		/**
 		 * Diplaying fragment view for selected nav drawer list item
 		 * */
-		private void displayView(int childposition,int groupPosition)
+ 		private void displayView(int childposition,int groupPosition)
 			{
 				// update the main content by replacing fragments
 				Fragment fragment = null;
