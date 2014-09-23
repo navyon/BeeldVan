@@ -10,7 +10,7 @@ import android.os.Handler;
 
 public class SplashActivity extends BaseActivity
 {
-	long splashTimeInSeconds = 5000; // 3 seconds
+	long splashTimeInSeconds = 4000; // 3 seconds
 	Utilities utils;
 
 	@Override
