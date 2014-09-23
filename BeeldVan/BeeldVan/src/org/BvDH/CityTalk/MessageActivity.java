@@ -45,11 +45,14 @@ public class MessageActivity extends BaseActivity
 		String imagePath;
 		Bundle extras;
 		Bitmap photo;
+<<<<<<< HEAD
 
         Animation slideUpIn;
         Animation slideDownIn;
         boolean hasPhoto;
 
+=======
+>>>>>>> parent of 8c7c4a0... message layout update (will fix anim later)
 
 		@SuppressWarnings("deprecation")
 		@Override
