@@ -15,7 +15,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         >
 
         <ImageView
@@ -35,8 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:adjustViewBounds="true"
             android:background="@drawable/back"
@@ -100,7 +100,7 @@
     <RelativeLayout
         android:id="@+id/previewTxtOptionsLL"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:orientation="vertical" >
 
         <Button
@@ -109,42 +109,34 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginTop="55sp"
             android:drawableLeft="@drawable/camera_new"
             android:text="@string/PreviewbtnChangePhoto"
-            android:paddingLeft="10dp"
-            android:layout_above="@+id/btnchangePreviewText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="5dp" />
+            android:paddingLeft="10dp" />
 
         <Button
             android:id="@+id/btnchangePreviewText"
             style="@style/button_transparant"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2sp"
             android:layout_weight="1"
             android:drawableLeft="@drawable/text_new"
             android:text="@string/PreviewbtnChangeTxt"
-            android:paddingLeft="10dp"
-            android:layout_above="@+id/btnSubmitmsgtxt"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="5dp" />
+            android:paddingLeft="10dp" />
 
         <Button
             android:id="@+id/btnSubmitmsgtxt"
             style="@style/button_simple"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="108sp"
             android:layout_weight="1"
             android:drawableLeft="@drawable/happy"
             android:text="@string/Continue"
             android:textColor="@android:color/white"
 
-            android:paddingLeft="10dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="10dp" />
+            android:paddingLeft="10dp" />
     </RelativeLayout>
 
 </LinearLayout>

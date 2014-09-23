@@ -173,8 +173,7 @@
             android:layout_gravity="bottom"
             android:layout_marginBottom="20dp"
             android:text="@string/ConfirmBtn"
-            android:textColor="@android:color/white"
-            android:clickable="true" />
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -99,12 +99,12 @@
 
     <style name="buttonArrowGrey" parent="buttonStd">
         <item name="android:background">@drawable/button</item>
-        <item name="android:drawableRight">@drawable/arrow_down_float</item>
+        <item name="android:drawableRight">@drawable/arrow</item>
     </style>
 
     <style name="buttonArrowGreen" parent="buttonStd">
         <item name="android:background">@drawable/button_green</item>
-        <item name="android:drawableRight">@drawable/arrow_down_float</item>
+        <item name="android:drawableRight">@drawable/arrow</item>
     </style>
 
     <style name="DialogAnimation">

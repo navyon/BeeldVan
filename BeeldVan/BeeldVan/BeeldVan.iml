@@ -2,9 +2,7 @@
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android" name="Android">
-      <configuration>
-        <option name="UPDATE_PROPERTY_FILES" value="true" />
-      </configuration>
+      <configuration />
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
@@ -15,12 +13,8 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 18 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="libs" level="project" />
     <orderEntry type="library" name="gson" level="project" />
-    <orderEntry type="library" name="slidingmenu" level="project" />
-    <orderEntry type="module" module-name="slidingmenu" />
-    <orderEntry type="library" name="crop-image" level="project" />
-    <orderEntry type="module" module-name="simple-crop-image-lib" />
+    <orderEntry type="library" name="libs" level="project" />
   </component>
 </module>
 

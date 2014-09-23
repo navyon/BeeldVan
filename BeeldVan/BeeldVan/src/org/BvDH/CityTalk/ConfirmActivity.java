@@ -42,7 +42,7 @@ import android.widget.TimePicker;
 import android.widget.TimePicker.OnTimeChangedListener;
 import android.widget.Toast;
 
-public class ConfirmActivity extends BaseActivity
+public class ConfirmActivity extends Activity
 {
 
 	JSONParser jsonParser = new JSONParser();
@@ -198,7 +198,7 @@ public class ConfirmActivity extends BaseActivity
 						pDialog.setMessage(getString(R.string.UploadDialog));
 						pDialog.setIndeterminate(false);
 						pDialog.setCancelable(true);
-//						pDialog.show();
+						pDialog.show();
 					}
 				catch (Exception e)
 					{

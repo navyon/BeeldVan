@@ -18,6 +18,8 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +32,7 @@ import android.widget.Toast;
 import org.BvDH.CityTalk.utilities.Utilities;
 
 // The Message Activity
-public class MessageActivity extends BaseActivity
+public class MessageActivity extends Activity
 	{
 		Intent intent;
 		private EditText txtView_msg;
@@ -45,18 +47,12 @@ public class MessageActivity extends BaseActivity
 		String imagePath;
 		Bundle extras;
 		Bitmap photo;
-<<<<<<< HEAD
-
         Animation slideUpIn;
         Animation slideDownIn;
-        boolean hasPhoto;
-
-=======
->>>>>>> parent of 8c7c4a0... message layout update (will fix anim later)
 
 		@SuppressWarnings("deprecation")
 		@Override
-		public void onCreate(Bundle savedInstanceState)
+		protected void onCreate(Bundle savedInstanceState)
 			{
 				super.onCreate(savedInstanceState);
 				setContentView(R.layout.message_layout);
@@ -69,13 +65,10 @@ public class MessageActivity extends BaseActivity
 					{
 						extras = getIntent().getExtras();
 						photo = extras.getParcelable("data");
-                        hasPhoto = getIntent().getBooleanExtra("hasPhoto", false);
-						if (hasPhoto)
+						if (photo != null)
 							{
 								imagePath = getIntent().getStringExtra("imagePath");
-
-							    System.out.println("imagePath = "+imagePath);
-                            }
+							}
 
 					}
 				txtView_msg = (EditText) findViewById(R.id.txtView_msg);
@@ -84,6 +77,10 @@ public class MessageActivity extends BaseActivity
 				aspectv = (ImageView) findViewById(R.id.aspectv);
                 progress2 = (ImageView) findViewById(R.id.progress_2Img);
 				setTextSizes(txtView_msg);
+
+                slideUpIn = AnimationUtils.loadAnimation(this, R.anim.slide_up_dialog);
+                slideDownIn = AnimationUtils.loadAnimation(this, R.anim.slide_out_down);
+
 				builder.setMessage("Er passen maximaal 4 regels op het scherm!").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener()
 					{
 						public void onClick(DialogInterface dialog, int id)
@@ -128,8 +125,6 @@ public class MessageActivity extends BaseActivity
 											extras = getIntent().getExtras();
 										extras.putString("msg", msg);
 										extras.putString("imagePath", imagePath);
-                                        if(hasPhoto) intent.putExtra("hasPhoto", true);
-                                        System.out.println("msg = "+msg+" imagePath = "+imagePath);
 										intent.putExtras(extras);
 										startActivity(intent);
 									}
@@ -175,8 +170,11 @@ public class MessageActivity extends BaseActivity
 								InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 								inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                                 txtView_msg.clearFocus();
+                                btnPrev.startAnimation(slideUpIn);
+                                txtView_continue.startAnimation(slideUpIn);
                                 btnPrev.setVisibility(View.VISIBLE);
                                 txtView_continue.setVisibility(View.VISIBLE);
+                                progress2.startAnimation(slideDownIn);
                                 progress2.setVisibility(View.VISIBLE);
 
 							}
@@ -211,27 +209,28 @@ public class MessageActivity extends BaseActivity
 		// function to mimic text size in relation with the Haagse Toren
 		void setTextSizes(EditText txt)
 			{
-
-                Display display = getWindowManager().getDefaultDisplay();
-                Point size = new Point();
-                display.getSize(size);
-
-                Resources r = getResources();
-
-
-                float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
-                float width = size.x - marginpx; // substract the margins (2x 5dp) from the width in px
-
-                // force aspect ratio for txtView
+				// force aspect ratio for txtView
 				Bitmap.Config conf = Bitmap.Config.ALPHA_8;
-				Bitmap bmp = Bitmap.createBitmap(BaseActivity.mAspectRatioWidth, Utilities.getPreviewHeight(width), conf);// create transparent bitmap
+                //TODO change to createBitmap(lid.width, lid.height) to use location aspect
+				Bitmap bmp = Bitmap.createBitmap(1024, 776, conf);// create transparent bitmap
 				aspectv.setImageBitmap(bmp);
 				// get display size
-				//TODO call utility for setting font size and margin (also on preview activity)
-                textsize = Utilities.getFontSize(width);
+				Display display = getWindowManager().getDefaultDisplay();
+				Point size = new Point();
+				display.getSize(size);
 
-                int margin = Utilities.getMarginSize(width);
+				Resources r = getResources();
 
+
+				float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
+				float width = size.x - marginpx; // substract the margins (2x 5dp) from the width in px
+                //TODO call utility for setting font size and margin (also on preview activity)
+                //textsize = Utilities.getFontSize(width);
+                // int margin = Utilities.getMarginSize(width);
+
+				// ->this can be deleted convert width to textsize (120 at 1024 -> = 1024*0.117
+				textsize = (float) (width * 0.1171875); //old hardcoded
+				int margin = (int) (width * 0.062); //old hardcoded
 				// set sizes
 				txt.setTextSize(TypedValue.COMPLEX_UNIT_PX, textsize);
 				txt.setPadding(margin, margin, margin, margin);

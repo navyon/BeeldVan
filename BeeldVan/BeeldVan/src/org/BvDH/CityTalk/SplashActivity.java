@@ -8,19 +8,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-public class SplashActivity extends BaseActivity
+public class SplashActivity extends Activity
 {
-	long splashTimeInSeconds = 4000; // 3 seconds
+	long splashTimeInSeconds = 3 * 1000; // 3 seconds
 	Utilities utils;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState)
+	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash_new);
 		utils = new Utilities(this);
 		new Handler().postAtTime(runnable, splashTimeInSeconds);
 	}
+
 	Runnable runnable = new Runnable()
 	{
 

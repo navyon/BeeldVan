@@ -8,11 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Handler;
-
-public class FacebookLikeActivity extends BaseActivity
+public class FacebookLikeActivity extends Activity
 {
 
 	TextView thankyou;
@@ -26,14 +22,6 @@ public class FacebookLikeActivity extends BaseActivity
 
 		thankyou = (TextView) findViewById(R.id.thanks);
 		finalTip = (TextView) findViewById(R.id.FinalTip);
-
-        //TIMER to open slidingmenu ->notworking!
-//        new Timer().schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                toggle();
-//            }
-//        }, 3000);
 
 		findViewById(R.id.btnlike).setOnClickListener(new View.OnClickListener()
 		{
@@ -80,6 +68,4 @@ public class FacebookLikeActivity extends BaseActivity
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(i);
 	}
-
-
 }
