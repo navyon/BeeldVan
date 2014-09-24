@@ -6,7 +6,6 @@
      <include
         android:id="@+id/main_include_layout"
         layout="@layout/main_include_layout"
-
              />
 
     <!-- Framelayout to display Fragments -->
@@ -18,18 +17,6 @@
 
     <!-- Listview to display slider menu -->
 
-    <ExpandableListView
-        android:id="@+id/list_slidermenu"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/list_background"
-        android:choiceMode="singleChoice"
-        android:divider="@color/list_divider"
-        android:dividerHeight="1dp"
-        android:listSelector="@drawable/list_selector"
-        android:cacheColorHint="#00000000"
-            />
 
 
 
