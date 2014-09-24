@@ -95,7 +95,8 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		Location mLocation;
 		LocationManager mLocationManager;
         public static ArrayList<LocationData> mList;
-
+        FragmentManager fm1 = MainActivity.this.getFragmentManager();
+        Fragment fragment = null;
         public static int sgroupPosition;
 
 		@Override
@@ -379,7 +380,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		private void displayView(int childposition,int groupPosition)
 			{
 				// update the main content by replacing fragments
-				Fragment fragment = null;
+
 				switch (childposition)
 					{
 					case 0:
@@ -405,7 +406,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 						fragment = new CommunityFragment();
 						break;
 					case 4:
-						fragment = new PagesFragment();
+						fragment = new MessageFragment();
 						break;
 					case 5:
 						fragment = new WhatsHotFragment();
@@ -589,10 +590,18 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 										try
 											{
 
-												Intent intent = new Intent(MainActivity.this, MessageActivity.class);
+												/*Intent intent = new Intent(MainActivity.this, MessageActivity.class);
 												intent.putExtras(extras);
 												intent.putExtra("imagePath", imagePath);
-												startActivity(intent);
+												startActivity(intent);*/
+
+
+                                                FragmentTransaction ft1 = fm1.beginTransaction();
+                                                fragment = new MessageFragment();
+
+
+                                                ft1.replace(R.id.frame_container, fragment);
+                                                ft1.commit();
 
 											}
 										catch (Exception e)
@@ -765,8 +774,14 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 						try
 							{
 
-								Intent intent = new Intent(MainActivity.this, MessageActivity.class);
-								startActivity(intent);
+								/*Intent intent = new Intent(MainActivity.this, MessageActivity.class);
+								startActivity(intent);*/
+                                FragmentTransaction ft1 = fm1.beginTransaction();
+                                fragment = new MessageFragment();
+                                ft1.addToBackStack(null);
+
+                                ft1.replace(R.id.frame_container, fragment);
+                                ft1.commit();
 
 							}
 						catch (Exception e)
