@@ -199,29 +199,46 @@ public class Utilities
         //get screen width in pixels (minus the 10dp margin) and calculate correct font size
         public static float getFontSize(float w){
 
-
+            float width = w;
             //get font size from selected screen
-            int font = new Locations().getFontSize();
+            float font = (float) 110;//MainActivity.mFontSize;
             //get width from selected screen
-            int lWidth = new Locations().getAspectRatioWidth();
+            float lWidth = (float) 1024;//MainActivity.mAspectRatioWidth;
 
             //calculate ratio value
             float r = font/lWidth;
 
             //set fontsize (screenpixels * ratio)
-            float fontSize = w * r;
-
+            float fontSize = (width * r);
+            System.out.println("fontsize = " + fontSize);
             return fontSize;
         }
 
-        public static int getMargin(float w){
+        public static int getMarginSize(float w){
 
-            int lWidth = new Locations().getAspectRatioWidth();
-            int lMargin = new Locations().getHorizontalTextInset();
+            float width = w;
+            System.out.println("width = " + width);
+
+            float lWidth = (float) 1024;//MainActivity.mAspectRatioWidth;
+            float lMargin = (float) 63;//MainActivity.mMargin;
 
             float r = lMargin/lWidth;
-            int margin = (int)(w * r);
+            int margin = (int)(width * r);
+            System.out.println("margin = " + margin);
             return margin;
+        }
+
+        public static int getPreviewHeight(float w){
+
+            float width = w;
+            float height;
+            //todo add LID width etc.
+            float lWidth = (float) 1024; //MainActivity.mAspectRatioWidth;
+            float lHeight = (float) 768;//MainActivity.mAspectRatioHeight;
+
+            height = (width/lWidth)*lHeight;
+
+            return (int)height;
         }
 
 

@@ -11,16 +11,18 @@ import java.util.*;
 import android.app.*;
 import android.content.*;
 import android.widget.*;
-import org.BvDH.CityTalk.adapter.CropOptionAdapter;
+
 import org.BvDH.CityTalk.adapter.NavDrawerListAdapter;
 import org.BvDH.CityTalk.adapter.UserImagesAdapter;
 import org.BvDH.CityTalk.asynctasks.GetImagesAsyncTask;
 import org.BvDH.CityTalk.asynctasks.Sync2Manager;
+import org.BvDH.CityTalk.crop.CropImage;
 import org.BvDH.CityTalk.fragments.*;
 import org.BvDH.CityTalk.fragments.InfoFragment;
 import org.BvDH.CityTalk.interfaces.ImageLoadInterface;
 import org.BvDH.CityTalk.interfaces.ListItemClickedInterface;
 import org.BvDH.CityTalk.model.*;
+import org.BvDH.CityTalk.utilities.InternalStorageContentProvider;
 import org.BvDH.CityTalk.utilities.RESTClient;
 import org.BvDH.CityTalk.utilities.SportanStringUtil;
 import org.BvDH.CityTalk.utilities.Utilities;
@@ -98,6 +100,18 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
         public static int sgroupPosition;
 
+        // implementation of crop
+        public static final String TAG = "MainActivity";
+        public static String TEMP_PHOTO_FILE_NAME;
+        public static String FOLDER_NAME;
+
+        public static final int REQUEST_CODE_GALLERY      = 0x1;
+        public static final int REQUEST_CODE_TAKE_PICTURE = 0x2;
+        public static final int REQUEST_CODE_CROP_IMAGE   = 0x3;
+
+        private ImageView mImageView;
+        private File      mFileTemp;
+
 		@Override
 		public void onCreate(Bundle savedInstanceState)
 			{
@@ -116,10 +130,24 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 				doneTV.setOnClickListener(this);
 				loadLocale();
 
+                FOLDER_NAME = checkDir();
+
+                TEMP_PHOTO_FILE_NAME = getRandomFileName();
+                // set folder name, create one if none exist.
+
+
 				camaerIconImg = (ImageView) findViewById(R.id.camaerIconImg);
 
 				camaerIconImg.setOnClickListener(this);
 
+                //cropoption
+                String state = Environment.getExternalStorageState();
+                if (Environment.MEDIA_MOUNTED.equals(state)) {
+                    mFileTemp = new File(Environment.getExternalStorageDirectory(), TEMP_PHOTO_FILE_NAME);
+                }
+                else {
+                    mFileTemp = new File(getFilesDir(), TEMP_PHOTO_FILE_NAME);
+                }
 
 
 				// Slider Menu methods
@@ -470,9 +498,10 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 			}
 
 		// check if directory exists. if not, create.
-		void checkDir()
+		private String checkDir()
 			{
-				File dir = new File(Environment.getExternalStorageDirectory() + "/bvdh");
+                String dirname = "BeeldVan";
+				File dir = new File(Environment.getExternalStorageDirectory() + "/" + dirname);
 				if (!dir.exists())
 					{
 						boolean result = dir.mkdir();
@@ -481,64 +510,93 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 								System.out.println("created a DIR");
 							}
 					}
+                return dirname;
 			}
 
-		private void showPhotoOptionsDialog()
-			{
-				final String[] items = new String[] {getString(R.string.CapturePhoto), getString(R.string.ChoosefromGallery), getString(R.string.cancel)};
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, items);
-				AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogSlideAnim);
-				builder.setInverseBackgroundForced(true);
+        private void showPhotoOptionsDialog()
+        {
+            final String[] items = new String[] {getString(R.string.CapturePhoto), getString(R.string.ChoosefromGallery), getString(R.string.cancel)};
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, items);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogSlideAnim);
+            builder.setInverseBackgroundForced(true);
 
-				builder.setTitle(getString(R.string.ChooseaTask));
-				builder.setAdapter(adapter, new DialogInterface.OnClickListener()
-					{
-						public void onClick(DialogInterface dialog, int item)
-							{ // pick from
-								// camera
-								if (item == 0)
-									{
-										Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-										String fileName = getRandomFileName();
-										mImageCaptureUri = Uri.fromFile(new File(fileName));
+            builder.setTitle(getString(R.string.ChooseaTask));
+            builder.setAdapter(adapter, new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int item)
+                { // pick from
+                    // camera
+                    if (item == 0)
+                    {
+                        takePicture();
+                    }
+                    else if (item == 1)
+                    {
+                        openGallery();
+                    }
+                    else if (item == 2)
+                    {
+                        dialog.cancel();
+                        dialog.dismiss();
+                    }
+                }
 
-										intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
-										try
-											{
-												intent.putExtra("return-data", true);
-												startActivityForResult(intent, PICK_FROM_CAMERA);
-											}
-										catch (ActivityNotFoundException e)
-											{
-												e.printStackTrace();
-											}
-									}
-								else if (item == 1)
-									{
-										// pick from gallery
-										Intent pickImageIntent = new Intent();
-										pickImageIntent.setType("image/*");
-										pickImageIntent.setAction(Intent.ACTION_GET_CONTENT);
-										startActivityForResult(Intent.createChooser(pickImageIntent, getString(R.string.ChooseApp)), PICK_FROM_FILE);
+            });
+            builder.show();
+        }
 
-									}
-								else if (item == 2)
-									{
-										dialog.cancel();
-										dialog.dismiss();
-									}
-							}
 
-					});
-				builder.show();
-			}
+
+        //cropimage lib
+        private void takePicture() {
+
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            try {
+
+                String state = Environment.getExternalStorageState();
+                if (Environment.MEDIA_MOUNTED.equals(state)) {
+                    mImageCaptureUri = Uri.fromFile(mFileTemp);
+                }
+                else {
+
+                    mImageCaptureUri = InternalStorageContentProvider.CONTENT_URI;
+                }
+                intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
+                intent.putExtra("return-data", true);
+                startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
+            } catch (ActivityNotFoundException e) {
+
+                Log.d(TAG, "cannot take picture", e);
+            }
+        }
+        //cropimage lib
+        private void openGallery() {
+
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, REQUEST_CODE_GALLERY);
+        }
+
+        //cropimage lib
+        private void startCropImage() {
+
+            Intent intent = new Intent(MainActivity.this, CropImage.class);
+            intent.putExtra(CropImage.IMAGE_PATH, mFileTemp.getPath());
+            intent.putExtra(CropImage.SCALE, true);
+            //TODO add dynamic resolution here!
+            intent.putExtra(CropImage.ASPECT_X, 1024);
+            intent.putExtra(CropImage.ASPECT_Y, 768);
+
+            startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
+        }
+
 
 		private String getRandomFileName()
 			{
 				Random generator = new Random();
 				int n = 10000;
 				n = generator.nextInt(n);
-				String fileName = Environment.getExternalStorageDirectory() + File.separator + String.valueOf(n) + "_beelvan.jpg";
+				String fileName = FOLDER_NAME +"/"+ String.valueOf(n) + "_beeldvan.jpg";
 				return fileName;
 			}
 
@@ -549,189 +607,63 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 				super.onPause();
 			}
 
-		@Override
-		protected void onActivityResult(int requestCode, int resultCode, Intent data)
-			{
-				// if (resultCode != RESULT_OK)
-				// return;
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data)
+        {
+            switch (requestCode)
+            {
+                case REQUEST_CODE_GALLERY:
+                    try
+                    {
+                        InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                        FileOutputStream fileOutputStream = new FileOutputStream(mFileTemp);
+                        Utilities.CopyStream(inputStream, fileOutputStream);
+                        fileOutputStream.close();
+                        inputStream.close();
 
-				switch (requestCode)
-					{
-					case PICK_FROM_CAMERA:
-						try
-							{
-								doCrop();
-							}
-						catch (NullPointerException e)
-							{
-								// TODO: handle exception
-							}
-						break;
+                        startCropImage();
+                    }
+                    catch (Exception e)
+                    {
+                        Log.e(TAG, "Error while creating temp file", e);
+                        // TODO: handle exception
+                    }
+                    break;
 
-					case PICK_FROM_FILE:
-						if (data != null)
-							{
-								mImageCaptureUri = data.getData();
+                case REQUEST_CODE_TAKE_PICTURE:
+                    startCropImage();
+                    break;
 
-								doCrop();
-							}
-						break;
+                case REQUEST_CODE_CROP_IMAGE:
+                    imagePath = data.getStringExtra(CropImage.IMAGE_PATH);
+                    if (imagePath != null)
+                    {
+                        final Bundle extras = data.getExtras();
+                        imageLocation = imagePath;
 
-					case CROP_FROM_CAMERA:
-						if (data != null)
-							{
-								imagePath = mImageCaptureUri.getPath();
-								final Bundle extras = data.getExtras();
-								Bitmap picture = (Bitmap) data.getExtras().get("data");
-								imageLocation = writeBitmap(picture);
-								if (extras != null)
-									{
-										try
-											{
+                        if (extras != null)
+                        {
+                            try
+                            {
+                                System.out.println("image cropped and added "+imagePath);
+                                Intent intent = new Intent(MainActivity.this, MessageActivity.class);
+                                intent.putExtras(extras);
+                                intent.putExtra("imagePath", imagePath);
+                                intent.putExtra("hasPhoto", true);
+                                startActivity(intent);
 
-												Intent intent = new Intent(MainActivity.this, MessageActivity.class);
-												intent.putExtras(extras);
-												intent.putExtra("imagePath", imagePath);
-												startActivity(intent);
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    break;
+            }
 
-											}
-										catch (Exception e)
-											{
-												e.printStackTrace();
-											}
-									}
-							}
-						break;
-					}
-			}
+        }
 
-		String writeBitmap(Bitmap bmp)
-			{
-				String imgPath = getRandomFileName();
-				File f = new File(imgPath);
-				if (f.exists())
-					f.delete();
-				FileOutputStream out = null;
-				try
-					{
-						f.createNewFile();
-						out = new FileOutputStream(f);
-						bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-					}
-				catch (Exception e)
-					{
-						Toast.makeText(MainActivity.this, "Exception saving image", Toast.LENGTH_LONG).show();
-						e.printStackTrace();
-					}
-				finally
-					{
-						try
-							{
-								if (out != null)
-									{
-										out.close();
-									}
-							}
-						catch (IOException e)
-							{
-								e.printStackTrace();
-							}
-					}
-				return imgPath;
-			}
-
-		// This is Crop Method.
-
-		/**
-		 * Method for apply Crop .
-		 */
-		private void doCrop()
-			{
-				try
-					{
-
-						final ArrayList<CropOption> cropOptions = new ArrayList<CropOption>();
-						Intent intent = new Intent("com.android.camera.action.CROP");
-						intent.setType("image/*");
-						List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, 0);
-
-						int size = list.size();
-						if (size == 0)
-							{
-								Toast.makeText(this, "Can not find image crop app", Toast.LENGTH_SHORT).show();
-								return;
-							}
-						else
-							{
-								intent.setData(mImageCaptureUri);
-								intent.putExtra("outputX", 300);
-								intent.putExtra("outputY", 300);
-								intent.putExtra("aspectX", 1);
-								intent.putExtra("aspectY", 1);
-								intent.putExtra("scale", true);
-								intent.putExtra("return-data", true);
-								imagePath = mImageCaptureUri.getPath();
-								if (size == 1)
-									{
-										Intent i = new Intent(intent);
-										ResolveInfo res = list.get(0);
-										i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-										startActivityForResult(i, CROP_FROM_CAMERA);
-									}
-
-								else
-									{
-										for (ResolveInfo res : list)
-											{
-												final CropOption co = new CropOption();
-												co.title = getPackageManager().getApplicationLabel(res.activityInfo.applicationInfo);
-												co.icon = getPackageManager().getApplicationIcon(res.activityInfo.applicationInfo);
-												co.appIntent = new Intent(intent);
-												co.appIntent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-												cropOptions.add(co);
-											}
-
-										CropOptionAdapter adapter = new CropOptionAdapter(getApplicationContext(), cropOptions);
-										AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogSlideAnim);
-										builder.setTitle("Choose Crop App");
-										builder.setAdapter(adapter, new DialogInterface.OnClickListener()
-											{
-												public void onClick(DialogInterface dialog, int item)
-													{
-														startActivityForResult(cropOptions.get(item).appIntent, CROP_FROM_CAMERA);
-													}
-											});
-
-										builder.setOnCancelListener(new DialogInterface.OnCancelListener()
-											{
-												public void onCancel(DialogInterface dialog)
-													{
-														if (mImageCaptureUri != null)
-															{
-
-																try
-																	{
-																		getContentResolver().delete(mImageCaptureUri, null, null);
-																	}
-																catch (Exception e)
-																	{
-																		utils.printStactTrace(e);
-																	}
-																mImageCaptureUri = null;
-															}
-													}
-											});
-										AlertDialog alert = builder.create();
-										alert.show();
-									}
-							}
-					}
-				catch (Exception ex)
-					{
-						ex.printStackTrace();
-					}
-
-			}
 
 		public void loadLocale()
 			{
