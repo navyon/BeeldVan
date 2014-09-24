@@ -36,7 +36,7 @@ import java.util.GregorianCalendar;
 /**
  * Created by admin on 9/19/2014.
  */
-public class TwitterListActivity extends Activity {
+public class TwitterListActivity extends BaseActivity {
 
     private ListActivity activity;
     final static String ScreenName = "beeldvan";

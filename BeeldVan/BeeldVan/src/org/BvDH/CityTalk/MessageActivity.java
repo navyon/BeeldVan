@@ -32,7 +32,7 @@ import android.widget.Toast;
 import org.BvDH.CityTalk.utilities.Utilities;
 
 // The Message Activity
-public class MessageActivity extends Activity
+public class MessageActivity extends BaseActivity
 	{
 		Intent intent;
 		private EditText txtView_msg;
@@ -52,7 +52,7 @@ public class MessageActivity extends Activity
 
 		@SuppressWarnings("deprecation")
 		@Override
-		protected void onCreate(Bundle savedInstanceState)
+		public void onCreate(Bundle savedInstanceState)
 			{
 				super.onCreate(savedInstanceState);
 				setContentView(R.layout.message_layout);

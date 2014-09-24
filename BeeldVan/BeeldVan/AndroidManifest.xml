@@ -83,6 +83,8 @@
                 android:screenOrientation="portrait"
                 android:windowSoftInputMode="stateHidden" >
         </activity>
+
+        <activity android:name=".BaseActivity"></activity>
     </application>
 
 </manifest>

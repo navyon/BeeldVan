@@ -22,6 +22,7 @@ import org.BvDH.CityTalk.fragments.InfoFragment;
 import org.BvDH.CityTalk.interfaces.ImageLoadInterface;
 import org.BvDH.CityTalk.interfaces.ListItemClickedInterface;
 import org.BvDH.CityTalk.model.*;
+import org.BvDH.CityTalk.slide.app.SlidingActivity;
 import org.BvDH.CityTalk.utilities.InternalStorageContentProvider;
 import org.BvDH.CityTalk.utilities.RESTClient;
 import org.BvDH.CityTalk.utilities.SportanStringUtil;
@@ -55,7 +56,7 @@ import com.google.myjson.Gson;
 import com.google.myjson.GsonBuilder;
 import com.google.myjson.reflect.TypeToken;
 
-public class MainActivity extends Activity implements OnClickListener,ImageLoadInterface, ListItemClickedInterface, LocationListener
+public class MainActivity extends BaseActivity implements OnClickListener,ImageLoadInterface, ListItemClickedInterface, LocationListener
 	{
 		private static Uri mImageCaptureUri;
 		// Sliding menu objects
@@ -482,7 +483,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		 */
 
 		@Override
-		protected void onPostCreate(Bundle savedInstanceState)
+		public void onPostCreate(Bundle savedInstanceState)
 			{
 				super.onPostCreate(savedInstanceState);
 				// Sync the toggle state after onRestoreInstanceState has occurred.

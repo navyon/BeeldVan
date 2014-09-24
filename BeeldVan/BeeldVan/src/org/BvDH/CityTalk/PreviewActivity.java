@@ -43,7 +43,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PreviewActivity extends Activity implements Animation.AnimationListener
+public class PreviewActivity extends BaseActivity implements Animation.AnimationListener
 {
 	private Uri mImageCaptureUri;
 	private TextView txtview;

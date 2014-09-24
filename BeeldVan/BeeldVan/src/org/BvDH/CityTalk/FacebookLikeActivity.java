@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class FacebookLikeActivity extends Activity
+public class FacebookLikeActivity extends BaseActivity
 {
 
 	TextView thankyou;
