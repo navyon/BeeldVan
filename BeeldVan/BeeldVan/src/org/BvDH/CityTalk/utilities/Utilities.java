@@ -33,196 +33,214 @@ import android.util.TypedValue;
 import android.widget.Toast;
 
 public class Utilities
-	{
-		Context context;
+{
+    Context context;
 
-		public Utilities( Context context )
-			{
-				this.context = context;
-			}
+    public Utilities( Context context )
+    {
+        this.context = context;
+    }
 
-		public boolean isNetWorkConnected()
-			{
-				ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public boolean isNetWorkConnected()
+    {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-				NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-				boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-				return isConnected;
-			}
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        return isConnected;
+    }
 
-		public void setAllLocations(String response)
-			{
-				SharedPreferences sp = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-				SharedPreferences.Editor editor = sp.edit();
-				editor.putString("allLocations", response);
-				editor.commit();
+    public void setAllLocations(String response)
+    {
+        SharedPreferences sp = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("allLocations", response);
+        editor.commit();
 
-			}
+    }
 
-		public String getAllLocations()
-			{
-				SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-				String language = prefs.getString("allLocations", "");
-				return language;
-			}
+    public String getAllLocations()
+    {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        String language = prefs.getString("allLocations", "");
+        return language;
+    }
 
-		public ArrayList<LocationData> getAllLocationList()
-			{
+    public ArrayList<LocationData> getAllLocationList()
+    {
 
-				String callbackJson = getAllLocations();
+        String callbackJson = getAllLocations();
 
-				Gson gson = new GsonBuilder().serializeNulls().create();
-				Type collectionType = new TypeToken<List<LocationData>>()
-					{
-					}.getType();
-				ArrayList<LocationData> locationDatas = gson.fromJson(callbackJson, collectionType);
-				System.out.println();
-				return locationDatas;
-			}
-
-		public void saveValueToSharedPrefs(String key, String value)
-			{
-				SharedPreferences sp = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-				SharedPreferences.Editor editor = sp.edit();
-				editor.putString(key, value);
-				editor.commit();
-
-			}
-
-		public String getSharedPrefValue(String key)
-			{
-				SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-				String language = prefs.getString(key, "");
-				return language;
-			}
-
-		public Typeface loadTypeFace(int WHICH_TYPE_FACE)
-			{
-				Typeface typeFace;
-				switch (WHICH_TYPE_FACE)
-					{
-					case 0:// font regular
-						typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
-						break;
-					case 1: // font light
-						typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Light.ttf");
-						break;
-					default:
-						typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
-
-						break;
-
-					}
-				return typeFace;
-			}
-
-		public void startNewActivity(Class<?> activityName)
-			{
-				context.startActivity(new Intent(context, activityName));
-			}
-
-		public void printStactTrace(Exception e)
-			{
-				e.printStackTrace();
-
-			}
-
-		public void printLog(String TAG, String msg)
-			{
-				Log.e(TAG, msg);
-			}
-
-		public List<NavImagesInfo> convertJSONToNavImagesInfoList(JSONArray jsonArray)
-			{
-
-				List<NavImagesInfo> imagesInfoList = new ArrayList<NavImagesInfo>();
-				try
-					{
-						for (int i = 0; i < jsonArray.length(); i++)
-							{
-								JSONObject json = jsonArray.getJSONObject(i);
-
-								NavImagesInfo info = new NavImagesInfo();
-								info.setImageUrl(json.optString("imageurl"));
-								info.setOnline(json.optBoolean("isOnline"));
-								imagesInfoList.add(info);
-							}
-					}
-				catch (Exception e)
-					{
-						printStactTrace(e);
-					}
-
-				return imagesInfoList;
-			}
-
-		public void showToastMessage(String message, Context context)
-			{
-				Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-			}
-
-		public ArrayList<Locations> setDistnace(ArrayList<Locations> locationList, Location crntLocation)
-			{
-				for (int i = 0; i < locationList.size(); i++)
-					{
-						double lat = locationList.get(i).getLatitude();
-						double lng = locationList.get(i).getLongitude();
-
-						Location loc = new Location("");
-						loc.setLatitude(lat);
-						loc.setLongitude(lng);
-
-						locationList.get(i).setDistance(loc.distanceTo(crntLocation));
-					}
-				Collections.sort(locationList, new CompareToSort());
-				return locationList;
-			}
-
-        public static void CopyStream(InputStream is, OutputStream os)
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        Type collectionType = new TypeToken<List<LocationData>>()
         {
-            final int buffer_size=1024;
-            try
+        }.getType();
+        ArrayList<LocationData> locationDatas = gson.fromJson(callbackJson, collectionType);
+        System.out.println();
+        return locationDatas;
+    }
+
+    public void saveValueToSharedPrefs(String key, String value)
+    {
+        SharedPreferences sp = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(key, value);
+        editor.commit();
+
+    }
+
+    public String getSharedPrefValue(String key)
+    {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        String language = prefs.getString(key, "");
+        return language;
+    }
+
+    public Typeface loadTypeFace(int WHICH_TYPE_FACE)
+    {
+        Typeface typeFace;
+        switch (WHICH_TYPE_FACE)
+        {
+            case 0:// font regular
+                typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
+                break;
+            case 1: // font light
+                typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Light.ttf");
+                break;
+            default:
+                typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
+
+                break;
+
+        }
+        return typeFace;
+    }
+
+    public void startNewActivity(Class<?> activityName)
+    {
+        context.startActivity(new Intent(context, activityName));
+    }
+
+    public void printStactTrace(Exception e)
+    {
+        e.printStackTrace();
+
+    }
+
+    public void printLog(String TAG, String msg)
+    {
+        Log.e(TAG, msg);
+    }
+
+    public List<NavImagesInfo> convertJSONToNavImagesInfoList(JSONArray jsonArray)
+    {
+
+        List<NavImagesInfo> imagesInfoList = new ArrayList<NavImagesInfo>();
+        try
+        {
+            for (int i = 0; i < jsonArray.length(); i++)
             {
-                byte[] bytes=new byte[buffer_size];
-                for(;;)
-                {
-                    int count=is.read(bytes, 0, buffer_size);
-                    if(count==-1)
-                        break;
-                    os.write(bytes, 0, count);
-                }
+                JSONObject json = jsonArray.getJSONObject(i);
+
+                NavImagesInfo info = new NavImagesInfo();
+                info.setImageUrl(json.optString("imageurl"));
+                info.setOnline(json.optBoolean("isOnline"));
+                imagesInfoList.add(info);
             }
-            catch(Exception ex){}
+        }
+        catch (Exception e)
+        {
+            printStactTrace(e);
         }
 
+        return imagesInfoList;
+    }
 
-        //get screen width in pixels (minus the 10dp margin) and calculate correct font size
-        public static float getFontSize(float w){
+    public void showToastMessage(String message, Context context)
+    {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
 
+    public List<Locations> setDistances(List<Locations> locationList, Location crntLocation)
+    {
+        for (int i = 0; i < locationList.size(); i++)
+        {
+            double lat = locationList.get(i).getLatitude();
+            double lng = locationList.get(i).getLongitude();
+            System.out.println(locationList.get(i).getName()+"lat = "+lat);
+            System.out.println(locationList.get(i).getName()+"lng = "+lng);
+            Location loc = new Location("");
+            loc.setLatitude(lat);
+            loc.setLongitude(lng);
 
-            //get font size from selected screen
-            int font = new Locations().getFontSize();
-            //get width from selected screen
-            int lWidth = new Locations().getAspectRatioWidth();
-
-            //calculate ratio value
-            float r = font/lWidth;
-
-            //set fontsize (screenpixels * ratio)
-            float fontSize = w * r;
-
-            return fontSize;
+            locationList.get(i).setDistance(loc.distanceTo(crntLocation));
         }
+        Collections.sort(locationList, new CompareToSort());
+        return locationList;
+    }
 
-        public static int getMargin(float w){
-
-            int lWidth = new Locations().getAspectRatioWidth();
-            int lMargin = new Locations().getHorizontalTextInset();
-
-            float r = lMargin/lWidth;
-            int margin = (int)(w * r);
-            return margin;
+    public static void CopyStream(InputStream is, OutputStream os)
+    {
+        final int buffer_size=1024;
+        try
+        {
+            byte[] bytes=new byte[buffer_size];
+            for(;;)
+            {
+                int count=is.read(bytes, 0, buffer_size);
+                if(count==-1)
+                    break;
+                os.write(bytes, 0, count);
+            }
         }
+        catch(Exception ex){}
+    }
 
 
-	}
+    //get screen width in pixels (minus the 10dp margin) and calculate correct font size
+    public static float getFontSize(float w){
+
+        float width = w;
+        //get font size from selected screen
+        float font = (float) 110;//MainActivity.mFontSize;
+        //get width from selected screen
+        float lWidth = (float) 1024;//MainActivity.mAspectRatioWidth;
+
+        //calculate ratio value
+        float r = font/lWidth;
+
+        //set fontsize (screenpixels * ratio)
+        float fontSize = (width * r);
+        System.out.println("fontsize = " + fontSize);
+        return fontSize;
+    }
+
+    public static int getMarginSize(float w){
+
+        float width = w;
+        System.out.println("width = " + width);
+
+        float lWidth = (float) 1024;//MainActivity.mAspectRatioWidth;
+        float lMargin = (float) 63;//MainActivity.mMargin;
+
+        float r = lMargin/lWidth;
+        int margin = (int)(width * r);
+        System.out.println("margin = " + margin);
+        return margin;
+    }
+
+    public static int getPreviewHeight(float w){
+
+        float width = w;
+        float height;
+        //todo add LID width etc.
+        float lWidth = (float) 1024; //MainActivity.mAspectRatioWidth;
+        float lHeight = (float) 768;//MainActivity.mAspectRatioHeight;
+
+        height = (width/lWidth)*lHeight;
+
+        return (int)height;
+    }
+
+
+}

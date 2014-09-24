@@ -315,11 +315,11 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                 for (int i = 0; i < mList.size(); i++) {
                     List<Locations> l = mList.get(i).getLocations();
                     if (mList.get(i).getLocations().size() > 0) {
-                        for (int j = 0; j < mList.get(j).getLocations().size(); j++) {
+                        for (int j = 0; j < mList.get(i).getLocations().size(); j++) {
 
                             listDataHeader.add(mList.get(i).getName() + " " + l.get(j).getName());
 
-                            System.out.println(mList.get(i));
+//                            System.out.println(mList.get(i));
 
                         }
                     }
