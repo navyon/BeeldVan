@@ -161,13 +161,14 @@ public class Utilities
 				Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 			}
 
-		public ArrayList<Locations> setDistnace(ArrayList<Locations> locationList, Location crntLocation)
+		public List<Locations> setDistances(List<Locations> locationList, Location crntLocation)
 			{
 				for (int i = 0; i < locationList.size(); i++)
 					{
 						double lat = locationList.get(i).getLatitude();
 						double lng = locationList.get(i).getLongitude();
-
+                        System.out.println(locationList.get(i).getName()+"lat = "+lat);
+                        System.out.println(locationList.get(i).getName()+"lng = "+lng);
 						Location loc = new Location("");
 						loc.setLatitude(lat);
 						loc.setLongitude(lng);
