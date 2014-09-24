@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -31,7 +32,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import org.BvDH.CityTalk.adapter.CropOptionAdapter;
+import org.BvDH.CityTalk.crop.CropImage;
 import org.BvDH.CityTalk.model.CropOption;
+import org.BvDH.CityTalk.utilities.InternalStorageContentProvider;
+import org.BvDH.CityTalk.utilities.Utilities;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -43,7 +47,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +78,17 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     ArrayAdapter<String> adapter;
 
     float textsize;
+
+    // implementation of crop
+    public static final String TAG = "MainActivity";
+    public static final String TEMP_PHOTO_FILE_NAME = "temp_photo.jpg";
+
+    public static final int REQUEST_CODE_GALLERY      = 0x1;
+    public static final int REQUEST_CODE_TAKE_PICTURE = 0x2;
+    public static final int REQUEST_CODE_CROP_IMAGE   = 0x3;
+
+    private File      mFileTemp;
+
 
     // Animation
     Animation wipeIn, wipeOut, slideIn, slideOut, fadeIn, fadeOut, fadeInImg, fadeOutImg;
@@ -124,9 +141,17 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         fadeInImg.setAnimationListener(this);
         // These Methods check whether photos or a message was added
 
+        //cropoption
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            mFileTemp = new File(Environment.getExternalStorageDirectory(), TEMP_PHOTO_FILE_NAME);
+        }
+        else {
+            mFileTemp = new File(TEMP_PHOTO_FILE_NAME);
+        }
         // load message and image, check if image exists
         LoadMsgImg();
-        CheckPhotoExist();
+//        CheckPhotoExist();
 
         // final String [] items = new String [] {getString(R.string.CapturePhoto),
         // getString(R.string.ChoosefromGallery),getString(R.string.deletephoto)};
@@ -144,87 +169,87 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
             StartTextAnimation();
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setTitle(R.string.ChooseaTask);
-        builder.setAdapter(adapter, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int item)
-            { // pick from camera
-
-                if (item == 0)
-                {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                    mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), String.valueOf(System.currentTimeMillis()) + "_app_upload.jpg"));
-
-                    intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
-                    try
-                    {
-                        intent.putExtra("return-data", true);
-                        startActivityForResult(intent, PICK_FROM_CAMERA);
-                    }
-                    catch (ActivityNotFoundException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-
-                else if (item == 1)
-                { // pick from file
-                    Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(Intent.createChooser(intent, getString(R.string.ChooseApp)), PICK_FROM_FILE);
-
-                    ChangeButtons();
-                }
-
-                else if (item == 2)
-                {
-                    dialog.dismiss();
-                    dialog.cancel();
-                    try
-                    {
-                        // Deletes the stored file from the sd
-                        if (MainActivity.imageLocation != null)
-                        {
-                            File file = new File(MainActivity.imageLocation);
-                            if (file.exists())
-                                file.delete();
-                        }
-                        imagev.setImageBitmap(null);
-                        imagev.destroyDrawingCache();
-                        hasphoto = false;
-                        tempURI = null;
-                        ChangeButtons();
-
-                    }
-                    catch (Exception e)
-                    {
-                        Toast.makeText(getActivity().getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }
-
-            }
-
-        });
-
-        // Cancels the Image Capture
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener()
-        {
-            @Override
-            public void onCancel(DialogInterface dialog)
-            {
-
-                CheckPhotoExist();
-                CheckDelete();
-            }
-        });
-
-        final AlertDialog dialog = builder.create();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//
+//        builder.setTitle(R.string.ChooseaTask);
+//        builder.setAdapter(adapter, new DialogInterface.OnClickListener()
+//        {
+//            public void onClick(DialogInterface dialog, int item)
+//            { // pick from camera
+//
+//                if (item == 0)
+//                {
+//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//
+//                    mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), String.valueOf(System.currentTimeMillis()) + "_app_upload.jpg"));
+//
+//                    intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
+//                    try
+//                    {
+//                        intent.putExtra("return-data", true);
+//                        startActivityForResult(intent, PICK_FROM_CAMERA);
+//                    }
+//                    catch (ActivityNotFoundException e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                else if (item == 1)
+//                { // pick from file
+//                    Intent intent = new Intent();
+//                    intent.setType("image/*");
+//                    intent.setAction(Intent.ACTION_GET_CONTENT);
+//                    startActivityForResult(Intent.createChooser(intent, getString(R.string.ChooseApp)), PICK_FROM_FILE);
+//
+//                    ChangeButtons();
+//                }
+//
+//                else if (item == 2)
+//                {
+//                    dialog.dismiss();
+//                    dialog.cancel();
+//                    try
+//                    {
+//                        // Deletes the stored file from the sd
+//                        if (MainActivity.imageLocation != null)
+//                        {
+//                            File file = new File(MainActivity.imageLocation);
+//                            if (file.exists())
+//                                file.delete();
+//                        }
+//                        imagev.setImageBitmap(null);
+//                        imagev.destroyDrawingCache();
+//                        hasphoto = false;
+//                        tempURI = null;
+//                        ChangeButtons();
+//
+//                    }
+//                    catch (Exception e)
+//                    {
+//                        Toast.makeText(getActivity().getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+//
+//                    }
+//
+//                }
+//
+//            }
+//
+//        });
+//
+//        // Cancels the Image Capture
+//        builder.setOnCancelListener(new DialogInterface.OnCancelListener()
+//        {
+//            @Override
+//            public void onCancel(DialogInterface dialog)
+//            {
+//
+//                CheckPhotoExist();
+//                CheckDelete();
+//            }
+//        });
+//
+//        final AlertDialog dialog = builder.create();
 
         rootView.findViewById(R.id.btnSubmitmsgtxt).setOnClickListener(new View.OnClickListener()
         {
@@ -239,6 +264,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                 if (extras != null) {
                     extras.putString("msg", msg);
                     extras.putString("imagePath", imagePath);
+                    extras.putBoolean("hasPhoto", hasphoto);
                     fragment.setArguments(extras);
                 }
 
@@ -252,8 +278,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         {
             public void onClick(View v)
             {
-                CheckDelete();
-                dialog.show();
+                showPhotoOptionsDialog();
                 ChangeButtons();
             }
         });
@@ -272,16 +297,14 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                 ft1.replace(R.id.frame_container, fragment);
 
                 // Intent i = new Intent(PreviewActivity.this, MessageActivity.class);
-                if (hasphoto)
-                {
-                   if (tempURI != null)
-                    {
-                        extras.putString("imagePath", tempURI.getPath());
-                    }
-
-
+                if (hasphoto) {
+                    extras.putString("imagePath", imagePath);
+                } else {
+                    extras.putString("imagePath", extras.getString("imagePath"));
                 }
+
                 extras.putString("msg", msg);
+                extras.putBoolean("hasPhoto", hasphoto);
                 fragment.setArguments(extras);
 
                 ft1.commit();
@@ -302,22 +325,26 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
 
     void setTextSizes(TextView txt)
     {
-        // force aspect ratio for txtView
-        Bitmap.Config conf = Bitmap.Config.ALPHA_8;
-        Bitmap bmp = Bitmap.createBitmap(1024, 776, conf);// create transparent bitmap
-        aspectv.setImageBitmap(bmp);
+
         // get display size
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
 
         Resources r = getResources();
-        float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());
-        float width = size.x - marginpx; // substract the margins (2x 5dp) from the width in px
 
-        // convert width to textsize (120 at 1024 -> = 1024*0.117
-        textsize = (float) (width * 0.1171875);
-        int margin = (int) (width * 0.062);
+
+        float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
+        float width = size.x - marginpx; // substract the margins (2x 5dp) from the width in px
+        Bitmap.Config conf = Bitmap.Config.ALPHA_8;
+        //TODO change to createBitmap(lid.width, lid.height) to use location aspect
+        Bitmap bmp = Bitmap.createBitmap(1024, Utilities.getPreviewHeight(width), conf);// create transparent bitmap
+        aspectv.setImageBitmap(bmp);
+
+        //TODO call utility for setting font size and margin (also on preview activity)
+        textsize = Utilities.getFontSize(width);
+        int margin = Utilities.getMarginSize(width);
+
         // set sizes
         txt.setTextSize(TypedValue.COMPLEX_UNIT_PX, textsize);
         txt.setPadding(margin, margin, margin, margin);
@@ -330,13 +357,9 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         File imgFile =null;
         Bundle extras = this.getArguments();
         imagePath = extras.getString("imagePath");
-        if(imagePath!=null) {
-            imgFile = new File(imagePath);
-        }
-        //final Bitmap photo = extras.getParcelable("data");
-        if (imgFile!=null) {
-            hasphoto = true;
-            Bitmap photo = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        hasphoto = extras.getBoolean("hasPhoto", false);
+        final Bitmap photo = BitmapFactory.decodeFile(imagePath);
+        if(photo!=null) {
             imagev.setImageBitmap(photo);
             imagev.setVisibility(View.INVISIBLE);
         }
@@ -463,21 +486,34 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
 
         switch (requestCode)
         {
-            case PICK_FROM_CAMERA:
-                // CheckPhotoExist();
-                doCrop();
+            case REQUEST_CODE_GALLERY:
+                try
+                {
+                    InputStream inputStream = getActivity().getContentResolver().openInputStream(data.getData());
+                    FileOutputStream fileOutputStream = new FileOutputStream(mFileTemp);
+                    Utilities.CopyStream(inputStream, fileOutputStream);
+                    fileOutputStream.close();
+                    inputStream.close();
+
+                    startCropImage();
+                }
+                catch (Exception e)
+                {
+                    Log.e(TAG, "Error while creating temp file", e);
+                    // TODO: handle exception
+                }
                 break;
 
-            case PICK_FROM_FILE:
-                mImageCaptureUri = data.getData();
-                // CheckPhotoExist();
-                doCrop();
+            case REQUEST_CODE_TAKE_PICTURE:
+                startCropImage();
                 break;
-            case CROP_FROM_CAMERA:
-                if(data != null)
+            case REQUEST_CODE_CROP_IMAGE:
+                imagePath = data.getStringExtra(CropImage.IMAGE_PATH);
+                if (imagePath != null)
                 {
-                    imagePath = mImageCaptureUri.getPath();
-                    final Bundle extras = this.getArguments();
+                    final Bundle extras = data.getExtras();
+                    MainActivity.imageLocation = imagePath;
+
                     if (extras != null)
                     {
                         try
@@ -579,7 +615,105 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
             }
         }
     }
+    private void showPhotoOptionsDialog() {
+        final String[] items;
+        if(hasphoto) {
+            items = new String[]{getString(R.string.CapturePhoto), getString(R.string.ChoosefromGallery),getString(R.string.deletephoto), getString(R.string.cancel)};
+        } else {
+            items = new String[]{getString(R.string.CapturePhoto), getString(R.string.ChoosefromGallery), getString(R.string.cancel)};
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, items);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogSlideAnim);
+        builder.setInverseBackgroundForced(true);
 
+
+        builder.setTitle(getString(R.string.ChooseaTask));
+        builder.setAdapter(adapter, new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int item) { // pick from
+                if (item == 0) {
+                    System.out.println("option 0");
+                    takePicture();
+                } else if (item == 1) {
+                    System.out.println("option 1");
+                    openGallery();
+                } else if (item == 2) {
+                    System.out.println("option 2");
+                    if (hasphoto) {
+                        try {
+                            // Deletes the stored file from the sd
+                            if (MainActivity.imageLocation != null) {
+                                File file = new File(MainActivity.imageLocation);
+                                if (file.exists())
+                                    file.delete();
+                            }
+                            imagev.setImageBitmap(null);
+                            imagev.destroyDrawingCache();
+                            hasphoto = false;
+                            tempURI = null;
+                            ChangeButtons();
+
+                        } catch (Exception e) {
+//                            Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    } else {
+                        dialog.cancel();
+                        dialog.dismiss();
+                    }
+                } else if (hasphoto && item == 3) {
+                    System.out.println("option 3");
+                    dialog.cancel();
+                    dialog.dismiss();
+                }
+            }
+
+        });
+        builder.show();
+    }
+    //cropimage lib
+    private void takePicture() {
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//            String fileName = getRandomFileName();
+        try {
+
+            String state = Environment.getExternalStorageState();
+            if (Environment.MEDIA_MOUNTED.equals(state)) {
+                mImageCaptureUri = Uri.fromFile(mFileTemp);
+            }
+            else {
+
+                mImageCaptureUri = InternalStorageContentProvider.CONTENT_URI;
+            }
+            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
+            intent.putExtra("return-data", true);
+            startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
+        } catch (ActivityNotFoundException e) {
+
+            Log.d(TAG, "cannot take picture", e);
+        }
+    }
+    //cropimage lib
+    private void openGallery() {
+
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, REQUEST_CODE_GALLERY);
+    }
+
+    //cropimage lib
+    private void startCropImage() {
+
+        Intent intent = new Intent(getActivity(), CropImage.class);
+        intent.putExtra(CropImage.MSG, msg);
+        intent.putExtra(CropImage.IMAGE_PATH, mFileTemp.getPath());
+        intent.putExtra(CropImage.SCALE, true);
+        intent.putExtra(CropImage.ASPECT_X, 1024);
+        intent.putExtra(CropImage.ASPECT_Y, 768);
+
+        startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
+    }
 
 }
 

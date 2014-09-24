@@ -16,11 +16,13 @@ import org.BvDH.CityTalk.adapter.NavDrawerListAdapter;
 import org.BvDH.CityTalk.adapter.UserImagesAdapter;
 import org.BvDH.CityTalk.asynctasks.GetImagesAsyncTask;
 import org.BvDH.CityTalk.asynctasks.Sync2Manager;
+import org.BvDH.CityTalk.crop.CropImage;
 import org.BvDH.CityTalk.fragments.*;
 import org.BvDH.CityTalk.fragments.InfoFragment;
 import org.BvDH.CityTalk.interfaces.ImageLoadInterface;
 import org.BvDH.CityTalk.interfaces.ListItemClickedInterface;
 import org.BvDH.CityTalk.model.*;
+import org.BvDH.CityTalk.utilities.InternalStorageContentProvider;
 import org.BvDH.CityTalk.utilities.RESTClient;
 import org.BvDH.CityTalk.utilities.SportanStringUtil;
 import org.BvDH.CityTalk.utilities.Utilities;
@@ -81,6 +83,15 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		private static final int PICK_FROM_CAMERA = 1;
 		private static final int CROP_FROM_CAMERA = 2;
 		private static final int PICK_FROM_FILE = 3;
+//this replaces ^^
+        public static final int REQUEST_CODE_GALLERY      = 0x1;
+        public static final int REQUEST_CODE_TAKE_PICTURE = 0x2;
+        public static final int REQUEST_CODE_CROP_IMAGE   = 0x3;
+        public static final String TAG = "MainActivity";
+        public static String TEMP_PHOTO_FILE_NAME;
+        public static String FOLDER_NAME;
+
+        private File      mFileTemp;
 
 		Utilities utils;
 		ImageView camaerIconImg;
@@ -105,7 +116,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 				super.onCreate(savedInstanceState);
                 setContentView(R.layout.main_new);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-				mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//				mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 				// setContentView(R.layout.main);
 
 				utils = new Utilities(this);
@@ -116,7 +127,22 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
 				TextView doneTV = (TextView) findViewById(R.id.doneTV);
 				doneTV.setOnClickListener(this);
-				loadLocale();
+//				loadLocale();
+
+
+                //crop option implementation
+                FOLDER_NAME = checkDir();
+
+                TEMP_PHOTO_FILE_NAME = getRandomFileName();
+
+                String state = Environment.getExternalStorageState();
+                if (Environment.MEDIA_MOUNTED.equals(state)) {
+                    mFileTemp = new File(Environment.getExternalStorageDirectory(), TEMP_PHOTO_FILE_NAME);
+                }
+                else {
+                    mFileTemp = new File(getFilesDir(), TEMP_PHOTO_FILE_NAME);
+                }
+
 
 				camaerIconImg = (ImageView) findViewById(R.id.camaerIconImg);
 
@@ -275,19 +301,19 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 				// TODO Auto-generated method stub
 				super.onResume();
 				// Sync2Manager.getSync2Manager().getAllLocations();
-				new MyTask().execute();
-				if (mLocationManager == null)
-					mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, this, Looper.getMainLooper());
-				mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 1, this, Looper.getMainLooper());
+//				new MyTask().execute();
+//				if (mLocationManager == null)
+//					mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//				mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 1, this, Looper.getMainLooper());
+//				mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 1, this, Looper.getMainLooper());
 
             }
 
 		@Override
 		protected void onStop()
 			{
-				if (mLocationManager != null)
-					mLocationManager.removeUpdates(this);
+//				if (mLocationManager != null)
+//					mLocationManager.removeUpdates(this);
 				super.onStop();
 			}
 
@@ -471,75 +497,104 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 			}
 
 		// check if directory exists. if not, create.
-		void checkDir()
+		private String checkDir()
 			{
-				File dir = new File(Environment.getExternalStorageDirectory() + "/bvdh");
-				if (!dir.exists())
-					{
-						boolean result = dir.mkdir();
-						if (result)
-							{
-								System.out.println("created a DIR");
-							}
-					}
+                String dirname = "BeeldVan";
+                File dir = new File(Environment.getExternalStorageDirectory() + "/" + dirname);
+                if (!dir.exists())
+                {
+                    boolean result = dir.mkdir();
+                    if (result)
+                    {
+                        System.out.println("created a DIR");
+                    }
+                }
+                return dirname;
 			}
 
-		private void showPhotoOptionsDialog()
-			{
-				final String[] items = new String[] {getString(R.string.CapturePhoto), getString(R.string.ChoosefromGallery), getString(R.string.cancel)};
-				ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, items);
-				AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogSlideAnim);
-				builder.setInverseBackgroundForced(true);
+        private void showPhotoOptionsDialog()
+        {
+            final String[] items = new String[] {getString(R.string.CapturePhoto), getString(R.string.ChoosefromGallery), getString(R.string.cancel)};
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, items);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogSlideAnim);
+            builder.setInverseBackgroundForced(true);
 
-				builder.setTitle(getString(R.string.ChooseaTask));
-				builder.setAdapter(adapter, new DialogInterface.OnClickListener()
-					{
-						public void onClick(DialogInterface dialog, int item)
-							{ // pick from
-								// camera
-								if (item == 0)
-									{
-										Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-										String fileName = getRandomFileName();
-										mImageCaptureUri = Uri.fromFile(new File(fileName));
+            builder.setTitle(getString(R.string.ChooseaTask));
+            builder.setAdapter(adapter, new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int item)
+                { // pick from
+                    // camera
+                    if (item == 0)
+                    {
+                        takePicture();
+                    }
+                    else if (item == 1)
+                    {
+                        openGallery();
+                    }
+                    else if (item == 2)
+                    {
+                        dialog.cancel();
+                        dialog.dismiss();
+                    }
+                }
 
-										intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
-										try
-											{
-												intent.putExtra("return-data", true);
-												startActivityForResult(intent, PICK_FROM_CAMERA);
-											}
-										catch (ActivityNotFoundException e)
-											{
-												e.printStackTrace();
-											}
-									}
-								else if (item == 1)
-									{
-										// pick from gallery
-										Intent pickImageIntent = new Intent();
-										pickImageIntent.setType("image/*");
-										pickImageIntent.setAction(Intent.ACTION_GET_CONTENT);
-										startActivityForResult(Intent.createChooser(pickImageIntent, getString(R.string.ChooseApp)), PICK_FROM_FILE);
+            });
+            builder.show();
+        }
 
-									}
-								else if (item == 2)
-									{
-										dialog.cancel();
-										dialog.dismiss();
-									}
-							}
 
-					});
-				builder.show();
-			}
+
+        //cropimage lib
+        private void takePicture() {
+
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            try {
+
+                String state = Environment.getExternalStorageState();
+                if (Environment.MEDIA_MOUNTED.equals(state)) {
+                    mImageCaptureUri = Uri.fromFile(mFileTemp);
+                }
+                else {
+
+                    mImageCaptureUri = InternalStorageContentProvider.CONTENT_URI;
+                }
+                intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
+                intent.putExtra("return-data", true);
+                startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
+            } catch (ActivityNotFoundException e) {
+
+                Log.d(TAG, "cannot take picture", e);
+            }
+        }
+        //cropimage lib
+        private void openGallery() {
+
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, REQUEST_CODE_GALLERY);
+        }
+
+        //cropimage lib
+        private void startCropImage() {
+
+            Intent intent = new Intent(MainActivity.this, CropImage.class);
+            intent.putExtra(CropImage.IMAGE_PATH, mFileTemp.getPath());
+            intent.putExtra(CropImage.SCALE, true);
+            //TODO add dynamic resolution here!
+            intent.putExtra(CropImage.ASPECT_X, 1024);
+            intent.putExtra(CropImage.ASPECT_Y, 768);
+
+            startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
+        }
 
 		private String getRandomFileName()
 			{
 				Random generator = new Random();
 				int n = 10000;
 				n = generator.nextInt(n);
-				String fileName = Environment.getExternalStorageDirectory() + File.separator + String.valueOf(n) + "_beelvan.jpg";
+				String fileName = FOLDER_NAME + File.separator + String.valueOf(n) + "_beeldvan.jpg";
 				return fileName;
 			}
 
@@ -558,48 +613,51 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
 				switch (requestCode)
 					{
-					case PICK_FROM_CAMERA:
-						try
-							{
-								doCrop();
-							}
-						catch (NullPointerException e)
-							{
-								// TODO: handle exception
-							}
-						break;
+                        case REQUEST_CODE_GALLERY:
+                            try
+                            {
+                                InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                                FileOutputStream fileOutputStream = new FileOutputStream(mFileTemp);
+                                Utilities.CopyStream(inputStream, fileOutputStream);
+                                fileOutputStream.close();
+                                inputStream.close();
 
-					case PICK_FROM_FILE:
-						if (data != null)
-							{
-								mImageCaptureUri = data.getData();
+                                startCropImage();
+                            }
+                            catch (Exception e)
+                            {
+                                Log.e(TAG, "Error while creating temp file", e);
+                                // TODO: handle exception
+                            }
+                            break;
 
-								doCrop();
-							}
-						break;
+                        case REQUEST_CODE_TAKE_PICTURE:
+                            startCropImage();
+                            break;
 
-					case CROP_FROM_CAMERA:
-						if (data != null)
-							{
-								imagePath = mImageCaptureUri.getPath();
-								final Bundle extras = data.getExtras();
-								Bitmap picture = (Bitmap) data.getExtras().get("data");
-								imageLocation = writeBitmap(picture);
-								if (extras != null)
-									{
-										try
-											{
+                        case REQUEST_CODE_CROP_IMAGE:
+                            imagePath = data.getStringExtra(CropImage.IMAGE_PATH);
+                            if (imagePath != null)
+                            {
+                                final Bundle extras = data.getExtras();
+                                imageLocation = imagePath;
+
+                                if (extras != null)
+                                {
+                                    try
+                                    {
 
 												/*Intent intent = new Intent(MainActivity.this, MessageActivity.class);
 												intent.putExtras(extras);
 												intent.putExtra("imagePath", imagePath);
 												startActivity(intent);*/
-
+                                        System.out.println("image cropped and added "+imagePath);
 
                                                 FragmentTransaction ft1 = fm1.beginTransaction();
                                                 fragment = new MessageFragment();
 
                                                 extras.putString("imagePath", imagePath);
+                                                extras.putBoolean("hasPhoto", true);
                                                 ft1.replace(R.id.frame_container, fragment);
                                                 fragment.setArguments(extras);
                                                 ft1.commit();

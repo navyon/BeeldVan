@@ -72,6 +72,14 @@
             android:windowSoftInputMode="adjustResize" >
         </activity>
         <activity
+            android:name=".crop.CropImage"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+
+        <activity
                 android:name="TwitterListActivity"
                 android:configChanges="orientation|keyboardHidden"
                 android:label="@string/app_name"
