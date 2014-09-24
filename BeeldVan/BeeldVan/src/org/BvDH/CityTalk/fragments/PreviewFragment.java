@@ -1,6 +1,7 @@
 package org.BvDH.CityTalk.fragments;
 
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -64,9 +66,9 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     Button btnChangePreviewPhoto;
     Button btnChangePreviewMessage;
     ImageButton btnRestartAnim;
-    PreviewFragment mfa = PreviewFragment.this;
-    String imagePath = null;
 
+    String imagePath = null;
+    Fragment fragment;
     ArrayAdapter<String> adapter;
 
     float textsize;
@@ -229,13 +231,18 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
             public void onClick(View v)
             {
 
-               /* Intent intent = new Intent(PreviewActivity.this, ConfirmActivity.class);
+                FragmentTransaction ft1 = getFragmentManager().beginTransaction();
+                fragment = new ConfirmFragment();
+                ft1.addToBackStack(null);
+                ft1.replace(R.id.frame_container, fragment);
+                Bundle extras = getArguments();
+                if (extras != null) {
+                    extras.putString("msg", msg);
+                    extras.putString("imagePath", imagePath);
+                    fragment.setArguments(extras);
+                }
 
-                if (hasphoto)
-                    intent.putExtra("imagePath", getIntent().getStringExtra("imagePath"));
-                intent.putExtra("msg", msg);
-                intent.putExtra("hasphoto", hasphoto);
-                PreviewActivity.this.startActivity(intent);*/
+                ft1.commit();
 
             }
         });
@@ -258,20 +265,27 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
 
 
                   // Call    Back stack here !!!!!!!!!!!!!!!!!!!!!!!
+                FragmentTransaction ft1 = getFragmentManager().beginTransaction();
+                fragment = new MessageFragment();
+                Bundle extras = new Bundle();
+                ft1.addToBackStack(null);
+                ft1.replace(R.id.frame_container, fragment);
 
-               // Intent i = new Intent(PreviewActivity.this, MessageActivity.class);
+                // Intent i = new Intent(PreviewActivity.this, MessageActivity.class);
                 if (hasphoto)
                 {
-                   /* if (tempURI != null)
+                   if (tempURI != null)
                     {
-                        i.putExtra("imagePath", tempURI.getPath());
+                        extras.putString("imagePath", tempURI.getPath());
                     }
-                    else
-                        i.putExtra("imagePath", getIntent().getStringExtra("imagePath"));
-                    i.putExtra("msg", msg);
-                    startActivity(i);*/
+
+
                 }
-               // finish();
+                extras.putString("msg", msg);
+                fragment.setArguments(extras);
+
+                ft1.commit();
+
 
             }
         });
@@ -313,10 +327,16 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     void LoadMsgImg()
     {
         ///////
-        Bundle extras = getActivity().getIntent().getExtras();
-        final Bitmap photo = extras.getParcelable("data");
-        if (photo != null) {
+        File imgFile =null;
+        Bundle extras = this.getArguments();
+        imagePath = extras.getString("imagePath");
+        if(imagePath!=null) {
+            imgFile = new File(imagePath);
+        }
+        //final Bitmap photo = extras.getParcelable("data");
+        if (imgFile!=null) {
             hasphoto = true;
+            Bitmap photo = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             imagev.setImageBitmap(photo);
             imagev.setVisibility(View.INVISIBLE);
         }
@@ -349,18 +369,54 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         imagev.startAnimation(fadeInImg);
     }
     @Override
+    public void onAnimationEnd(Animation animation)
+    {
+        // Take any action after completing the animation
+
+        // check for zoom in animation
+        if (animation == fadeIn && hasphoto)
+        { // only start image animation if there is one
+            // animView.setVisibility(View.INVISIBLE);
+            txtview.setVisibility(View.INVISIBLE);
+            StartImageAnimation();
+        }
+
+        // else if (animation == fadeIn && !hasphoto){
+
+        // }
+        else if (animation == fadeIn && !hasphoto)
+        {
+
+            txtview.setVisibility(View.INVISIBLE);
+            btnRestartAnim.setVisibility(View.VISIBLE); // else show restart button
+
+        }
+
+        else if (animation == fadeInImg)
+        {
+            imagev.setVisibility(View.INVISIBLE);
+            btnRestartAnim.setVisibility(View.VISIBLE);
+            // animView.setVisibility(View.VISIBLE);
+            // animView.startAnimation(wipeOut);
+        }
+        else
+        {
+            imagev.setVisibility(View.INVISIBLE);
+            btnRestartAnim.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    @Override
     public void onAnimationRepeat(Animation animation)
-    {}
-    // This Method checks if a photo was added
+    {
+
+    }
+
     @Override
     public void onAnimationStart(Animation animation)
-    {}
+    {
 
-    @Override
-    public void onAnimationEnd(Animation animation) {
-       /* if (animation == move) {
-
-        }*/
     }
     void CheckDelete()
     {
@@ -421,17 +477,18 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                 if(data != null)
                 {
                     imagePath = mImageCaptureUri.getPath();
-                    final Bundle extras = data.getExtras();
+                    final Bundle extras = this.getArguments();
                     if (extras != null)
                     {
                         try
                         {
+                            FragmentTransaction ft1 = getFragmentManager().beginTransaction();
+                            fragment = new ConfirmFragment();
 
-                            /*Intent intent = new Intent(PreviewActivity.this, ConfirmActivity.class);
-
-                            intent.putExtras(extras);
-                            intent.putExtra("imagePath", imagePath);
-                            startActivity(intent);*/
+                            ft1.addToBackStack(null);
+                            ft1.replace(R.id.frame_container, fragment);
+                            fragment.setArguments(extras);
+                            ft1.commit();
 
                         }
                         catch (Exception e)

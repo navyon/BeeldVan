@@ -59,14 +59,10 @@ public class MessageFragment extends Fragment
         // build alert dialog for max line check
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Er passen maar 4 regels tekst op het scherm");
-        if (getActivity().getIntent().getExtras() != null)
+        Bundle bundle = this.getArguments();
+        if (bundle!= null)
         {
-            extras = getActivity().getIntent().getExtras();
-            photo = extras.getParcelable("data");
-            if (photo != null)
-            {
-                imagePath = getActivity().getIntent().getStringExtra("imagePath");
-            }
+               imagePath = bundle.getString("imagePath");
 
         }
         txtView_msg = (EditText) rootView.findViewById(R.id.txtView_msg);
@@ -99,10 +95,10 @@ public class MessageFragment extends Fragment
         btnPrev.setTypeface(fontLight);
         final Button btnhidekeyb = (Button) rootView.findViewById(R.id.btnhidekey);
         final RelativeLayout layhidekeyb = (RelativeLayout) rootView.findViewById(R.id.layouthidekey);
-
-        if (getActivity().getIntent().hasExtra("msg"))
+        bundle = this.getArguments();
+        if (bundle!=null)
         {
-            msg = getActivity().getIntent().getStringExtra("msg");
+            msg = bundle.getString("msg");
             txtView_msg.setText(msg);
         }
         btnPrev.setOnClickListener(new View.OnClickListener()
@@ -122,7 +118,7 @@ public class MessageFragment extends Fragment
                     if (photo == null)
                         extras = new Bundle();
                     else
-                        extras = getActivity().getIntent().getExtras();
+                        extras = getArguments();
                     extras.putString("msg", msg);
                     extras.putString("imagePath", imagePath);
                     fragment.setArguments(extras);

@@ -103,10 +103,11 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		public void onCreate(Bundle savedInstanceState)
 			{
 				super.onCreate(savedInstanceState);
+                setContentView(R.layout.main_new);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 				// setContentView(R.layout.main);
-				setContentView(R.layout.main_new);
+
 				utils = new Utilities(this);
 				main_include_layout = (View) findViewById(R.id.main_include_layout);
 				postedImgsGridView = (GridView) findViewById(R.id.postedImgsGridView);
@@ -403,13 +404,13 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                         startActivity(intent);
 						break;
 					case 3:
-						fragment = new CommunityFragment();
+						fragment = new FacebookFragment();
 						break;
 					case 4:
 						fragment = new MessageFragment();
 						break;
 					case 5:
-						fragment = new WhatsHotFragment();
+						fragment = new ConfirmFragment();
 						break;
 
 					default:
@@ -599,8 +600,9 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                                                 FragmentTransaction ft1 = fm1.beginTransaction();
                                                 fragment = new MessageFragment();
 
-
+                                                extras.putString("imagePath", imagePath);
                                                 ft1.replace(R.id.frame_container, fragment);
+                                                fragment.setArguments(extras);
                                                 ft1.commit();
 
 											}

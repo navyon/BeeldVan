@@ -76,12 +76,12 @@ public class ConfirmActivity extends Activity
 	TextView dateTimeTv;
 	public final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+");
 
-	@Override
-	protected void onPause()
-		{
-			overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-			super.onPause();
-		}
+    @Override
+    protected void onPause()
+    {
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        super.onPause();
+    }
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)

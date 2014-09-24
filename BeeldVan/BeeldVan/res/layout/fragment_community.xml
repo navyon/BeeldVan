@@ -1,23 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <TextView
-        android:id="@+id/txtLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/communities_view"
-        android:textSize="16sp" />
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/backrepeat"
+                android:orientation="vertical" >
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtLabel"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_communities" />
+            android:id="@+id/imageView"
+            android:layout_width="600dp"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="30dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/smiley" />
+
+    <TextView
+            android:id="@+id/thanks"
+            style="@style/textCapsCentre"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal|bottom"
+            android:background="@color/transparent"
+            android:gravity="center_horizontal|bottom"
+            android:padding="10dp"
+            android:text="@string/FinalThnx" />
+
+    <TextView
+            android:id="@+id/FinalTip"
+            style="@style/textCentre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btnlike"
+            android:layout_below="@+id/thanks"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="@color/transparent"
+            android:gravity="center_horizontal|top"
+            android:maxWidth="300dp"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            android:text="@string/FinalTip" />
+
+    <Button
+            android:id="@+id/btnlike"
+            style="@style/textCentre"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="30dp"
+            android:background="#0069b4"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="@string/like_ons_op_facebook_"
+            android:textSize="15sp" />
 
 </RelativeLayout>
