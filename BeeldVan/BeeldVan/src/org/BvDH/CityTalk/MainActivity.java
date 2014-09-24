@@ -400,8 +400,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
 						break;
 					case 2:
-						Intent intent = new Intent(MainActivity.this, TwitterListActivity.class);
-                        startActivity(intent);
+                        fragment = new TwitterFragment();
 						break;
 					case 3:
 						fragment = new FacebookFragment();
