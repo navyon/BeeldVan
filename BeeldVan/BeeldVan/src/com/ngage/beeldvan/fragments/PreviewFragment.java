@@ -32,6 +32,7 @@ import android.view.ViewGroup;
 import com.ngage.beeldvan.adapter.CropOptionAdapter;
 import com.ngage.beeldvan.crop.CropImage;
 import com.ngage.beeldvan.model.CropOption;
+import com.ngage.beeldvan.model.Locations;
 import com.ngage.beeldvan.utilities.InternalStorageContentProvider;
 import com.ngage.beeldvan.utilities.Utilities;
 
@@ -76,7 +77,8 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     public static final int REQUEST_CODE_CROP_IMAGE   = 0x3;
 
     private File      mFileTemp;
-
+    Utilities utils;
+    Locations screen;
 
     // Animation
     Animation wipeIn, wipeOut, slideIn, slideOut, fadeIn, fadeOut, fadeInImg, fadeOutImg;
@@ -129,6 +131,9 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         fadeInImg.setAnimationListener(this);
         // These Methods check whether photos or a message was added
 
+        utils = new Utilities(getActivity());
+        screen = utils.getSelectedLocation(getActivity());
+
         //cropoption
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -157,87 +162,6 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
             StartTextAnimation();
         }
 
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//
-//        builder.setTitle(R.string.ChooseaTask);
-//        builder.setAdapter(adapter, new DialogInterface.OnClickListener()
-//        {
-//            public void onClick(DialogInterface dialog, int item)
-//            { // pick from camera
-//
-//                if (item == 0)
-//                {
-//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//
-//                    mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), String.valueOf(System.currentTimeMillis()) + "_app_upload.jpg"));
-//
-//                    intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
-//                    try
-//                    {
-//                        intent.putExtra("return-data", true);
-//                        startActivityForResult(intent, PICK_FROM_CAMERA);
-//                    }
-//                    catch (ActivityNotFoundException e)
-//                    {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                else if (item == 1)
-//                { // pick from file
-//                    Intent intent = new Intent();
-//                    intent.setType("image/*");
-//                    intent.setAction(Intent.ACTION_GET_CONTENT);
-//                    startActivityForResult(Intent.createChooser(intent, getString(R.string.ChooseApp)), PICK_FROM_FILE);
-//
-//                    ChangeButtons();
-//                }
-//
-//                else if (item == 2)
-//                {
-//                    dialog.dismiss();
-//                    dialog.cancel();
-//                    try
-//                    {
-//                        // Deletes the stored file from the sd
-//                        if (MainActivity.imageLocation != null)
-//                        {
-//                            File file = new File(MainActivity.imageLocation);
-//                            if (file.exists())
-//                                file.delete();
-//                        }
-//                        imagev.setImageBitmap(null);
-//                        imagev.destroyDrawingCache();
-//                        hasphoto = false;
-//                        tempURI = null;
-//                        ChangeButtons();
-//
-//                    }
-//                    catch (Exception e)
-//                    {
-//                        Toast.makeText(getActivity().getBaseContext(), e.toString(), Toast.LENGTH_SHORT).show();
-//
-//                    }
-//
-//                }
-//
-//            }
-//
-//        });
-//
-//        // Cancels the Image Capture
-//        builder.setOnCancelListener(new DialogInterface.OnCancelListener()
-//        {
-//            @Override
-//            public void onCancel(DialogInterface dialog)
-//            {
-//
-//                CheckPhotoExist();
-//                CheckDelete();
-//            }
-//        });
-//
-//        final AlertDialog dialog = builder.create();
 
         rootView.findViewById(R.id.btnSubmitmsgtxt).setOnClickListener(new View.OnClickListener()
         {
@@ -314,28 +238,21 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     void setTextSizes(TextView txt)
     {
 
-        // get display size
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
+        float width = utils.getScreenWidth(getActivity());
+        System.out.println("width = "+width);
 
-        Resources r = getResources();
-
-
-        float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
-        float width = size.x - marginpx; // substract the margins (2x 5dp) from the width in px
+        int height = utils.getPreviewHeight(width,screen);
         Bitmap.Config conf = Bitmap.Config.ALPHA_8;
-        //TODO change to createBitmap(lid.width, lid.height) to use location aspect
-        Bitmap bmp = Bitmap.createBitmap(1024, Utilities.getPreviewHeight(width), conf);// create transparent bitmap
+        Bitmap bmp = Bitmap.createBitmap((int)width, height, conf);
         aspectv.setImageBitmap(bmp);
 
-        //TODO call utility for setting font size and margin (also on preview activity)
-        textsize = Utilities.getFontSize(width);
-        int margin = Utilities.getMarginSize(width);
+        textsize = utils.getFontSize(width,screen);
+        int margin = utils.getMarginSize(width, screen);
 
         // set sizes
         txt.setTextSize(TypedValue.COMPLEX_UNIT_PX, textsize);
         txt.setPadding(margin, margin, margin, margin);
+
     }
 
     @SuppressWarnings("deprecation")
@@ -507,10 +424,13 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                         try
                         {
                             FragmentTransaction ft1 = getFragmentManager().beginTransaction();
-                            fragment = new ConfirmFragment();
+                            fragment = new PreviewFragment();
 
                             ft1.addToBackStack(null);
                             ft1.replace(R.id.frame_container, fragment);
+                            extras.putString("msg", msg);
+                            extras.putString("imagePath", imagePath);
+                            extras.putBoolean("hasPhoto", true);
                             fragment.setArguments(extras);
                             ft1.commit();
 
@@ -697,8 +617,10 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         intent.putExtra(CropImage.MSG, msg);
         intent.putExtra(CropImage.IMAGE_PATH, mFileTemp.getPath());
         intent.putExtra(CropImage.SCALE, true);
-        intent.putExtra(CropImage.ASPECT_X, 1024);
-        intent.putExtra(CropImage.ASPECT_Y, 768);
+        intent.putExtra(CropImage.ASPECT_X, screen.getAspectRatioWidth());
+        intent.putExtra(CropImage.ASPECT_Y, screen.getAspectRatioHeight());
+        intent.putExtra(CropImage.OUTPUT_X, screen.getAspectRatioWidth());
+        intent.putExtra(CropImage.OUTPUT_Y, screen.getAspectRatioHeight());
 
         startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
     }

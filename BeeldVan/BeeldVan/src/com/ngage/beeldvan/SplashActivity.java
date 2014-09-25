@@ -50,9 +50,7 @@ public class SplashActivity extends Activity implements LocationListener
         setContentView(R.layout.splash_new);
         utils = new Utilities(this);
         mLocationList = new ArrayList<Locations>();
-        final myApplication globalVariable = (myApplication) getApplication();
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        globalVariable.setSelectedLocation(0);
     }
 
     @Override
@@ -158,12 +156,8 @@ public class SplashActivity extends Activity implements LocationListener
             System.out.println("#"+i+" = "+ mLocationList.get(i).getName());
         }
 
-        int selTemp = mLocationList.get(0).getLid();
-        System.out.println(selTemp);
+        utils.setSelectedLocation(this, mLocationList.get(0));
         System.out.println(mLocationList.get(0).getName());
-//        System.out.println(mLocationList.get(1).getName());
-        final myApplication globalVariable = (myApplication) getApplication();
-        globalVariable.setSelectedLocation(selTemp);
 
         startActivity(new Intent(SplashActivity.this, MainActivity.class));
         finish();

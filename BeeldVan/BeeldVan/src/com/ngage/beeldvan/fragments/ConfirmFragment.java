@@ -17,8 +17,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.ngage.beeldvan.model.Locations;
 import com.ngage.beeldvan.model.Message;
 import com.ngage.beeldvan.utilities.JSONParser;
+import com.ngage.beeldvan.utilities.Utilities;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -55,6 +59,8 @@ public class ConfirmFragment extends Fragment
     // "http://beeldvandenhaag.daankrn.nl/android_api/UploadToServer.php";
     private static String upLoadServerUri = "http://beeldvandenhaag.nu/android/upload_pictures.php";
 
+    Utilities utils;
+    Locations screen;
     int uploadFinished = 0;
     String ip_address = "";
     EditText edittx_email;
@@ -95,6 +101,8 @@ public class ConfirmFragment extends Fragment
 
 
         }
+
+
         dateTimeTv = (TextView) rootView.findViewById(R.id.dateTimeTv);
         timePicker1 = (TimePicker) rootView.findViewById(R.id.timePicker1);
         datePicker1 = (DatePicker) rootView.findViewById(R.id.datePicker1);
@@ -130,6 +138,8 @@ public class ConfirmFragment extends Fragment
         edittx_email.setTypeface(fontLight);
         submitbox.setTypeface(fontLight);
 
+        utils = new Utilities(getActivity());
+        screen = utils.getSelectedLocation(getActivity());
         chkbox = (CheckBox) rootView.findViewById(R.id.checkBox);
         chkbox.setTypeface(fontRegular);
         if (!hasphoto)
@@ -237,7 +247,7 @@ public class ConfirmFragment extends Fragment
                 StringBody message = new StringBody(msg.getMsg(), ContentType.TEXT_PLAIN);
                 StringBody ip = new StringBody(msg.getIp_address(), ContentType.TEXT_PLAIN);
                 StringBody source = new StringBody("Android", ContentType.TEXT_PLAIN);
-                StringBody location = new StringBody("2", ContentType.TEXT_PLAIN);
+                StringBody location = new StringBody(Integer.toString(screen.getLid()), ContentType.TEXT_PLAIN);
 
                 entityBuilder.addPart("message", message);
                 entityBuilder.addPart("email", email);

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.ngage.beeldvan.SplashActivity;
 import com.ngage.beeldvan.model.LocationData;
 import com.ngage.beeldvan.model.Locations;
 import com.ngage.beeldvan.model.NavImagesInfo;
@@ -17,16 +18,21 @@ import org.json.JSONObject;
 import com.google.myjson.Gson;
 import com.google.myjson.GsonBuilder;
 import com.google.myjson.reflect.TypeToken;
+import com.ngage.beeldvan.myApplication;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
 import android.widget.Toast;
 
 public class Utilities
@@ -59,8 +65,8 @@ public class Utilities
     public String getAllLocations()
     {
         SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-        String language = prefs.getString("allLocations", "");
-        return language;
+        String savedLocations = prefs.getString("allLocations", "");
+        return savedLocations;
     }
 
     public ArrayList<LocationData> getAllLocationList()
@@ -176,6 +182,50 @@ public class Utilities
         return locationList;
     }
 
+    // returns groupposition from an Location
+    public int getPositionFromLoc(Locations loc) {
+        int position = 0;
+        int n = 0;
+
+        if (SplashActivity.mList != null) {
+            for (int i = 0; i < SplashActivity.mList.size(); i++) {
+                List<Locations> l = SplashActivity.mList.get(i).getLocations();
+                if (SplashActivity.mList.get(i).getLocations().size() > 0) {
+                    for (int j = 0; j < SplashActivity.mList.get(i).getLocations().size(); j++) {
+                        n++; // count number of screens
+                        if (l.get(j).getLid() == loc.getLid()) {
+                            System.out.println("lid " + loc.getLid()+ " = " + l.get(j).getName());
+
+                            position = n;
+                        }
+                    }
+                }
+            }
+
+        } return position;
+    }
+
+    public Locations getLocFromPosition(int position) {
+        Locations loc = null;
+        int n = 0;
+
+        if (SplashActivity.mList != null) {
+            for (int i = 0; i < SplashActivity.mList.size(); i++) {
+                List<Locations> l = SplashActivity.mList.get(i).getLocations();
+                if (SplashActivity.mList.get(i).getLocations().size() > 0) {
+                    for (int j = 0; j < SplashActivity.mList.get(i).getLocations().size(); j++) {
+                        n++; // count number of screens
+                        if (n == position) {
+                            System.out.println("position" + n + " = " + l.get(j).getName());
+                            loc = l.get(j);
+                        }
+                    }
+                }
+            }
+
+        } return loc;
+    }
+
     public static void CopyStream(InputStream is, OutputStream os)
     {
         final int buffer_size=1024;
@@ -195,13 +245,14 @@ public class Utilities
 
 
     //get screen width in pixels (minus the 10dp margin) and calculate correct font size
-    public static float getFontSize(float w){
+    public static float getFontSize(float w, Locations l){
+
 
         float width = w;
         //get font size from selected screen
-        float font = (float) 110;//MainActivity.mFontSize;
+        float font = (float) l.getFontSize();
         //get width from selected screen
-        float lWidth = (float) 1024;//MainActivity.mAspectRatioWidth;
+        float lWidth = (float) l.getAspectRatioWidth();
 
         //calculate ratio value
         float r = font/lWidth;
@@ -212,13 +263,12 @@ public class Utilities
         return fontSize;
     }
 
-    public static int getMarginSize(float w){
+    public static int getMarginSize(float w, Locations l){
 
         float width = w;
-        System.out.println("width = " + width);
 
-        float lWidth = (float) 1024;//MainActivity.mAspectRatioWidth;
-        float lMargin = (float) 63;//MainActivity.mMargin;
+        float lWidth = (float) l.getAspectRatioWidth();
+        float lMargin = (float) l.getHorizontalTextInset();
 
         float r = lMargin/lWidth;
         int margin = (int)(width * r);
@@ -226,18 +276,44 @@ public class Utilities
         return margin;
     }
 
-    public static int getPreviewHeight(float w){
+    public static int getPreviewHeight(float w, Locations l){
 
         float width = w;
         float height;
         //todo add LID width etc.
-        float lWidth = (float) 1024; //MainActivity.mAspectRatioWidth;
-        float lHeight = (float) 768;//MainActivity.mAspectRatioHeight;
+        float lWidth = (float) l.getAspectRatioWidth();
+        float lHeight = (float) l.getAspectRatioHeight();
 
         height = (width/lWidth)*lHeight;
 
         return (int)height;
     }
 
+    public float getScreenWidth(Activity activityContext){
+        float width;
+
+        Display display = activityContext.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        Resources r = activityContext.getResources();
+
+
+        float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
+        width = size.x - marginpx;
+
+        return width;
+    }
+
+    //get current selected location
+    public Locations getSelectedLocation(Activity activityContext){
+        final myApplication globalVariable = (myApplication)  activityContext.getApplication();
+        return globalVariable.getSelectedLocation();
+    }
+    //save current selected location
+    public void setSelectedLocation(Activity activityContext, Locations loc){
+        final myApplication globalVariable = (myApplication)  activityContext.getApplication();
+        globalVariable.setSelectedLocation(loc);
+    }
 
 }

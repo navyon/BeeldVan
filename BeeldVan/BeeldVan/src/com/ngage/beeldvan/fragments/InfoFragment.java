@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.ngage.beeldvan.SplashActivity;
 import com.ngage.beeldvan.model.ImageLoader;
 import com.ngage.beeldvan.model.Locations;
 
@@ -39,8 +41,8 @@ public class InfoFragment extends Fragment
         cityTitle =(TextView) rootView.findViewById(R.id.txtcityTitle);
 
 
-        List<Locations> l = MainActivity.mList.get(groupPosition).getLocations();
-        String cityName = MainActivity.mList.get(groupPosition).getName();
+        List<Locations> l = SplashActivity.mList.get(groupPosition).getLocations();
+        String cityName = SplashActivity.mList.get(groupPosition).getName();
 
         if(l!=null) {
             String info = l.get(0).getText();

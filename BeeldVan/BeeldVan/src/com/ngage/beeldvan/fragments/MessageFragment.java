@@ -25,6 +25,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ngage.beeldvan.model.Locations;
+import com.ngage.beeldvan.utilities.Utilities;
+
 public class MessageFragment extends Fragment
 {
     Intent intent;
@@ -43,6 +46,10 @@ public class MessageFragment extends Fragment
     Animation slideUpIn;
     Animation slideDownIn;
     Fragment fragment = null;
+    Utilities utils;
+
+    Locations screen;
+
 	public MessageFragment()
 	{
 	}
@@ -59,6 +66,11 @@ public class MessageFragment extends Fragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Er passen maar 4 regels tekst op het scherm");
         Bundle bundle = this.getArguments();
+        utils = new Utilities(getActivity());
+
+        //get selected screen
+        screen = utils.getSelectedLocation(getActivity());
+
         if (bundle!= null)
         {
                imagePath = bundle.getString("imagePath");
@@ -202,31 +214,20 @@ public class MessageFragment extends Fragment
         return rootView;
     }
 
-    // function to mimic text size in relation with the Haagse Toren
     void setTextSizes(EditText txt)
     {
+
+        float width = utils.getScreenWidth(getActivity());
+        System.out.println("width = "+width);
         // force aspect ratio for txtView
+        int height = utils.getPreviewHeight(width,screen);
         Bitmap.Config conf = Bitmap.Config.ALPHA_8;
-        //TODO change to createBitmap(lid.width, lid.height) to use location aspect
-        Bitmap bmp = Bitmap.createBitmap(1024, 776, conf);// create transparent bitmap
+        Bitmap bmp = Bitmap.createBitmap((int)width, height, conf);// create transparent bitmap
         aspectv.setImageBitmap(bmp);
-        // get display size
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
 
-        Resources r = getResources();
+        textsize = utils.getFontSize(width,screen);
+        int margin = utils.getMarginSize(width, screen);
 
-
-        float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
-        float width = size.x - marginpx; // substract the margins (2x 5dp) from the width in px
-        //TODO call utility for setting font size and margin (also on preview activity)
-        //textsize = Utilities.getFontSize(width);
-        // int margin = Utilities.getMarginSize(width);
-
-        // ->this can be deleted convert width to textsize (120 at 1024 -> = 1024*0.117
-        textsize = (float) (width * 0.1171875); //old hardcoded
-        int margin = (int) (width * 0.062); //old hardcoded
         // set sizes
         txt.setTextSize(TypedValue.COMPLEX_UNIT_PX, textsize);
         txt.setPadding(margin, margin, margin, margin);
