@@ -61,6 +61,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     Button btnChangePreviewPhoto;
     Button btnChangePreviewMessage;
     ImageButton btnRestartAnim;
+    RelativeLayout layBtns;
 
     String imagePath = null;
     Fragment fragment;
@@ -82,6 +83,10 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
 
     // Animation
     Animation wipeIn, wipeOut, slideIn, slideOut, fadeIn, fadeOut, fadeInImg, fadeOutImg;
+    Animation slideUpIn;
+    Animation slideDownIn;
+    Animation slideUpOut;
+    Animation slideDownOut;
 	public PreviewFragment()
 	{
 	}
@@ -103,6 +108,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         btnChangePreviewPhoto = (Button) rootView.findViewById(R.id.btnChangePreviewPhoto);
         btnChangePreviewMessage = (Button) rootView.findViewById(R.id.btnchangePreviewText);
         btnRestartAnim = (ImageButton) rootView.findViewById(R.id.btnRestartAnim);
+        layBtns = (RelativeLayout) rootView.findViewById(R.id.previewTxtOptionsLL);
 
         // set fonts
         txtview.setTypeface(fontHelv);
@@ -118,6 +124,11 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         fadeOut = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_out);
         fadeInImg = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
         fadeOutImg = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_out);
+
+        slideUpIn = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_in_bottom);
+        slideDownIn = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_in_top);
+        slideUpOut = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_out_top);
+        slideDownOut = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_out_bottom);
 
         // set animation listener
         wipeIn.setAnimationListener(this);
@@ -284,6 +295,8 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     void StartTextAnimation()
     {
         btnRestartAnim.setVisibility(View.INVISIBLE);
+        layBtns.startAnimation(slideDownOut);
+        layBtns.setVisibility(View.GONE);
         // animView.setVisibility(View.VISIBLE);
         txtview.setVisibility(View.VISIBLE);
         txtview.startAnimation(fadeIn);
@@ -317,18 +330,23 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
 
             txtview.setVisibility(View.INVISIBLE);
             btnRestartAnim.setVisibility(View.VISIBLE); // else show restart button
-
+            layBtns.setVisibility(View.VISIBLE);
+            layBtns.startAnimation(slideUpIn);
         }
 
         else if (animation == fadeInImg)
         {
             imagev.setVisibility(View.INVISIBLE);
             btnRestartAnim.setVisibility(View.VISIBLE);
+            layBtns.setVisibility(View.VISIBLE);
+            layBtns.startAnimation(slideUpIn);
             // animView.setVisibility(View.VISIBLE);
             // animView.startAnimation(wipeOut);
         }
         else
         {
+            layBtns.setVisibility(View.VISIBLE);
+            layBtns.startAnimation(slideUpIn);
             imagev.setVisibility(View.INVISIBLE);
             btnRestartAnim.setVisibility(View.VISIBLE);
         }

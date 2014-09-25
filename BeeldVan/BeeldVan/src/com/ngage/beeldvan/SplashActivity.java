@@ -82,13 +82,14 @@ public class SplashActivity extends Activity implements LocationListener
             mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-//        String bestProvider = mLocationManager.getBestProvider(criteria,false);
-        //mLocation = mLocationManager.getLastKnownLocation(bestProvider);
+        String bestProvider = mLocationManager.getBestProvider(criteria,false);
+        mLocation = mLocationManager.getLastKnownLocation(bestProvider);
 //        mLocationManager.requestLocationUpdates(bestProvider, 400, 1, this, Looper.getMainLooper());
         System.out.println("getting location");
 //        mLocationManager.requestSingleUpdate(bestProvider,this,Looper.getMainLooper());
-        mLocationManager.requestSingleUpdate(criteria,this,Looper.getMainLooper());
-        //  mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 1, this, Looper.getMainLooper());
+//        mLocationManager.requestSingleUpdate(criteria,this,Looper.getMainLooper());
+        mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, this,Looper.getMainLooper());
+//          mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 1, this, Looper.getMainLooper());
     }
 
     private ArrayList<LocationData> locationDatas;
@@ -118,7 +119,7 @@ public class SplashActivity extends Activity implements LocationListener
                     {
                     }.getType();
                     locationDatas = gson.fromJson(callbackJson, collectionType);
-                    System.out.println(locationDatas);
+//                    System.out.println(locationDatas);
                     new Utilities(SplashActivity.this).setAllLocations(callbackJson);
 
                 }
