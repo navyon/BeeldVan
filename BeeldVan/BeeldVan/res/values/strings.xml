@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BvDH</string>
+    <string name="app_name">BeeldVan</string>
     <string name="btnAddPhoto">Foto toevoegen</string>
     <string name="btnAddTxt">Overslaan</string>
     <string name="PreviewbtnChangeTxt">Wijzig Tekst</string>
@@ -15,16 +15,8 @@
     <string name="PreviewbtnAddTxt">Tekst toevoegen</string>
     <string name="CropOption">Pas formaat aan</string>
     <string name="PhotoOption">Selecteer afbeelding</string>
-    <string name="SplashTextWelcome">Welkom bij Beeld van Den Haag</string>
-    <string name="SplashTextCheck">Toon niet meer</string>
-    <string name="SplashTextInfoBtn">Meer informatie</string>
-    <string name="SplashTextInfo">Welkom bij de app van Beeld van Den Haag.\n\nIn deze app kunt u altijd en overal gemakkelijk een bericht met of zonder foto naar het mega scherm op de Haagse Toren sturen. Hier zijn geen kosten aan verbonden (excl. de eventuele kosten voor het gebruik van mobiel internet). Na uw inzending krijgt u email als uw bericht is goedgekeurd. Hierna verschijnt het uw inzending in het blok “Beeld van Den Haag” op de Haagse Toren.\n
-Beeld van Den Haag is een initiatief van Ngage Media. Alle inzendingen moeten worden goedgekeurd door een van onze moderators. Ngage Media behoudt het recht om inzendingen zonder melding af te keuren. Voor commerciële doeleinden kunt u contact opnemen met (email van sales/ info@bvdh).</string>
-    <string name="SplashTextIntro">Hier kunt u uw bericht naar het grote scherm op de Haagse Toren sturen.</string>
-    <string name="StartQuestion">Wat wilt u plaatsen op de haagse toren?</string>
     <string name="MsgHint">Voer hier direct jouw bericht in.</string>
     <string name="MsgMaxLines">Houd er rekening mee dat er maximaal 4 regels op kunnen.</string>
-    <string name="MsgTip">De tekst komt er precies hetzelfde uit te zien op het Beeld van Den Haag.\n\nTevreden? Bekijk dan je preview!</string>
     <string name="MsgCont">Tevreden? Bekijk dan je preview!</string>
     <string name="MsgBtnPrev">Preview</string>
     <string name="ConfirmCheckbox">Bij deze bevestig ik dat ik alle rechten heb voor het gebruiken
@@ -43,24 +35,14 @@ van de door mij toegevoegde afbeelding</string>
     <string name="drawer_close">Slider Menu Closed</string>
 	  <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
-        <item >BvDH</item>
+        <item >BeeldVan</item>
         <item >Info</item>
         <item >Nieuws</item>
-        <item >Communities</item>
-        <item >Pages</item>
-        <item >What\'s Hot</item>
     </string-array>
     
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
-    <array name="nav_drawer_icons">
-        <item>@drawable/ic_home</item>
-        <item>@drawable/ic_people</item>
-        <item>@drawable/ic_photos</item>
-        <item>@drawable/ic_communities</item>
-        <item>@drawable/ic_pages</item>
-        <item>@drawable/ic_whats_hot</item>
-    </array>
+
     
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
