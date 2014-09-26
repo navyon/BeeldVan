@@ -1,22 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/backrepeat"
     android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical" >
+    android:focusableInTouchMode="true" >
     <ImageView
         android:id="@+id/progress_3Img"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/progress_3"/>
+        android:src="@drawable/progress_3" />
+
+    <RelativeLayout
+        android:id="@+id/previewTxtOptionsLL"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/btnChangePreviewPhoto"
+            style="@style/button_transparant"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/camera_new"
+            android:text="@string/PreviewbtnChangePhoto"
+            android:paddingLeft="10dp"
+            android:layout_above="@+id/btnchangePreviewText"
+            android:layout_marginBottom="5dp" />
+
+        <Button
+            android:id="@+id/btnchangePreviewText"
+            style="@style/button_transparant"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/text_new"
+            android:text="@string/PreviewbtnChangeTxt"
+            android:paddingLeft="10dp"
+            android:layout_above="@+id/btnSubmitmsgtxt"
+            android:layout_marginBottom="5dp" />
+
+        <Button
+            android:id="@+id/btnSubmitmsgtxt"
+            style="@style/button_simple"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/happy"
+            android:text="@string/Continue"
+            android:textColor="@android:color/white"
+
+            android:paddingLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        >
+        android:layout_above="@+id/previewTxtOptionsLL"
+        android:id="@+id/previewLL"
+        android:layout_below="@+id/progress_3Img">
 
         <ImageView
             android:id="@+id/animView"
@@ -97,54 +147,4 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/previewTxtOptionsLL"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/btnChangePreviewPhoto"
-            style="@style/button_transparant"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/camera_new"
-            android:text="@string/PreviewbtnChangePhoto"
-            android:paddingLeft="10dp"
-            android:layout_above="@+id/btnchangePreviewText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="5dp" />
-
-        <Button
-            android:id="@+id/btnchangePreviewText"
-            style="@style/button_transparant"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/text_new"
-            android:text="@string/PreviewbtnChangeTxt"
-            android:paddingLeft="10dp"
-            android:layout_above="@+id/btnSubmitmsgtxt"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="5dp" />
-
-        <Button
-            android:id="@+id/btnSubmitmsgtxt"
-            style="@style/button_simple"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/happy"
-            android:text="@string/Continue"
-            android:textColor="@android:color/white"
-
-            android:paddingLeft="10dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="10dp" />
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

@@ -25,11 +25,9 @@ import com.ngage.beeldvan.utilities.InternalStorageContentProvider;
 import com.ngage.beeldvan.utilities.Utilities;
 import org.json.JSONObject;
 
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -99,7 +97,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 utils = new Utilities(this);
                 screen = utils.getSelectedLocation(this);
-                sgroupPosition =  utils.getPositionFromLoc(utils.getSelectedLocation(this));
+                sgroupPosition =  utils.getPositionFromLoc(screen);
                 System.out.println("group is "+ sgroupPosition);
 
 
@@ -202,7 +200,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                         sgroupPosition = groupPosition;
                         utils.setSelectedLocation(MainActivity.this, utils.getLocFromPosition(sgroupPosition));
                         screen = utils.getSelectedLocation(MainActivity.this);
-                        displayView(childPosition,groupPosition);
+                        displayView(childPosition, groupPosition);
 
 
 
@@ -238,7 +236,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 							{
 								getActionBar().setTitle(mDrawerTitle);
 								// calling onPrepareOptionsMenu() to hide action bar icons
-								Sync2Manager.getSync2Manager().getCurrentVersion();
+//								Sync2Manager.getSync2Manager().getCurrentVersion();
 								invalidateOptionsMenu();
 							}
 					};
@@ -287,14 +285,13 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
             listDataHeader = new ArrayList<String>();
             listDataChild = new HashMap<String, List<String>>();
 
-
-//             mList = new Utilities(this).getAllLocationList();
-            if(SplashActivity.mList!=null){
-                for (int i = 0; i < SplashActivity.mList.size(); i++) {
-                    List<Locations> l = SplashActivity.mList.get(i).getLocations();
-                    if (SplashActivity.mList.get(i).getLocations().size() > 0) {
-                        for (int j = 0; j < SplashActivity.mList.get(i).getLocations().size(); j++) {
-                            listDataHeader.add(SplashActivity.mList.get(i).getName() + " " + l.get(j).getName());
+            ArrayList<CityData> cities = utils.getAllCitiesList();
+            if(cities !=null){
+                for (int i = 0; i < cities.size(); i++) {
+                    List<Locations> l = cities.get(i).getLocations();
+                    if (l.size() > 0) {
+                        for (int j = 0; j < l.size(); j++) {
+                            listDataHeader.add(cities.get(i).getName() + " " + l.get(j).getName());
                         }
                     }
                 }
@@ -586,6 +583,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                             {
                                 final Bundle extras = data.getExtras();
                                 imageLocation = imagePath;
+                                boolean hasphoto = true;
 
                                 if (extras != null)
                                 {
@@ -598,7 +596,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                                                 fragment = new MessageFragment();
 
                                                 extras.putString("imagePath", imagePath);
-                                                extras.putBoolean("hasPhoto", true);
+                                                extras.putBoolean("hasphoto", hasphoto);
                                                 ft1.replace(R.id.frame_container, fragment);
                                                 fragment.setArguments(extras);
                                                 ft1.commit();

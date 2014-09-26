@@ -2,13 +2,13 @@ package com.ngage.beeldvan.model;
 
 import java.util.List;
 
-public class LocationData {
+public class CityData {
 	private String name;
 	private int singular ;
 	private int cid;
 	private List<Locations> locations;
 	
-	public LocationData() {
+	public CityData() {
 		// TODO Auto-generated constructor stub
 	}
 	

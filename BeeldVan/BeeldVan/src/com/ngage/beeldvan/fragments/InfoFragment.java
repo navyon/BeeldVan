@@ -41,8 +41,8 @@ public class InfoFragment extends Fragment
         cityTitle =(TextView) rootView.findViewById(R.id.txtcityTitle);
 
 
-        List<Locations> l = SplashActivity.mList.get(groupPosition).getLocations();
-        String cityName = SplashActivity.mList.get(groupPosition).getName();
+        List<Locations> l = SplashActivity.mCityList.get(groupPosition).getLocations();
+        String cityName = SplashActivity.mCityList.get(groupPosition).getName();
 
         if(l!=null) {
             String info = l.get(0).getText();

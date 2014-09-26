@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.ngage.beeldvan.SplashActivity;
-import com.ngage.beeldvan.model.LocationData;
+import com.ngage.beeldvan.model.CityData;
 import com.ngage.beeldvan.model.Locations;
 import com.ngage.beeldvan.model.NavImagesInfo;
 
@@ -53,6 +53,21 @@ public class Utilities
         return isConnected;
     }
 
+    public String getCurrentVersion()
+    {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        String savedversion = prefs.getString("currentVersion", "");
+        return savedversion;
+    }
+    public void saveCurrentVersion(String response)
+    {
+        SharedPreferences sp = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("currentVersion", response);
+        editor.commit();
+
+    }
+
     public void setAllLocations(String response)
     {
         SharedPreferences sp = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
@@ -69,18 +84,18 @@ public class Utilities
         return savedLocations;
     }
 
-    public ArrayList<LocationData> getAllLocationList()
+    public ArrayList<CityData> getAllCitiesList()
     {
 
         String callbackJson = getAllLocations();
 
         Gson gson = new GsonBuilder().serializeNulls().create();
-        Type collectionType = new TypeToken<List<LocationData>>()
+        Type collectionType = new TypeToken<List<CityData>>()
         {
         }.getType();
-        ArrayList<LocationData> locationDatas = gson.fromJson(callbackJson, collectionType);
+        ArrayList<CityData> cityDatas = gson.fromJson(callbackJson, collectionType);
         System.out.println();
-        return locationDatas;
+        return cityDatas;
     }
 
     public void saveValueToSharedPrefs(String key, String value)
@@ -187,17 +202,17 @@ public class Utilities
         int position = 0;
         int n = 0;
 
-        if (SplashActivity.mList != null) {
-            for (int i = 0; i < SplashActivity.mList.size(); i++) {
-                List<Locations> l = SplashActivity.mList.get(i).getLocations();
-                if (SplashActivity.mList.get(i).getLocations().size() > 0) {
-                    for (int j = 0; j < SplashActivity.mList.get(i).getLocations().size(); j++) {
-                        n++; // count number of screens
+        ArrayList<CityData> cities = getAllCitiesList();
+        if(cities !=null){
+            for (int i = 0; i < cities.size(); i++) {
+                List<Locations> l = cities.get(i).getLocations();
+                if (l.size() > 0) {
+                    for (int j = 0; j < l.size(); j++) {
                         if (l.get(j).getLid() == loc.getLid()) {
                             System.out.println("lid " + loc.getLid()+ " = " + l.get(j).getName());
-
                             position = n;
                         }
+                        n++; // count number of screens
                     }
                 }
             }
@@ -209,16 +224,17 @@ public class Utilities
         Locations loc = null;
         int n = 0;
 
-        if (SplashActivity.mList != null) {
-            for (int i = 0; i < SplashActivity.mList.size(); i++) {
-                List<Locations> l = SplashActivity.mList.get(i).getLocations();
-                if (SplashActivity.mList.get(i).getLocations().size() > 0) {
-                    for (int j = 0; j < SplashActivity.mList.get(i).getLocations().size(); j++) {
-                        n++; // count number of screens
+        ArrayList<CityData> cities = getAllCitiesList();
+        if(cities !=null){
+            for (int i = 0; i < cities.size(); i++) {
+                List<Locations> l = cities.get(i).getLocations();
+                if (l.size() > 0) {
+                    for (int j = 0; j < l.size(); j++) {
                         if (n == position) {
                             System.out.println("position" + n + " = " + l.get(j).getName());
                             loc = l.get(j);
                         }
+                        n++; // count number of screens
                     }
                 }
             }

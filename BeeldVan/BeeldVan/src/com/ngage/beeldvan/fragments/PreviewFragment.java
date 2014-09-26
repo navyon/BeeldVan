@@ -3,21 +3,16 @@ package com.ngage.beeldvan.fragments;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
@@ -29,9 +24,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.ngage.beeldvan.adapter.CropOptionAdapter;
 import com.ngage.beeldvan.crop.CropImage;
-import com.ngage.beeldvan.model.CropOption;
 import com.ngage.beeldvan.model.Locations;
 import com.ngage.beeldvan.utilities.InternalStorageContentProvider;
 import com.ngage.beeldvan.utilities.Utilities;
@@ -39,21 +32,16 @@ import com.ngage.beeldvan.utilities.Utilities;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
 public class PreviewFragment extends Fragment implements Animation.AnimationListener
 {
     private Uri mImageCaptureUri;
     private TextView txtview;
-    private Uri tempURI;
     public ImageView imagev;
     public ImageView aspectv;
     public ImageView animView;
 
-    private static final int PICK_FROM_CAMERA = 1;
-    private static final int CROP_FROM_CAMERA = 2;
-    private static final int PICK_FROM_FILE = 3;
     boolean hasphoto = false;
     boolean hasmessage = false;
 
@@ -70,8 +58,9 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     float textsize;
 
     // implementation of crop
-    public static final String TAG = "MainActivity";
-    public static final String TEMP_PHOTO_FILE_NAME = "temp_photo.jpg";
+    public static final String TAG = "PreviewFragment";
+    private static String FOLDER_NAME;
+    private static String TEMP_PHOTO_FILE_NAME;
 
     public static final int REQUEST_CODE_GALLERY      = 0x1;
     public static final int REQUEST_CODE_TAKE_PICTURE = 0x2;
@@ -82,11 +71,8 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     Locations screen;
 
     // Animation
-    Animation wipeIn, wipeOut, slideIn, slideOut, fadeIn, fadeOut, fadeInImg, fadeOutImg;
-    Animation slideUpIn;
-    Animation slideDownIn;
-    Animation slideUpOut;
-    Animation slideDownOut;
+    Animation animFadeTxt, animFadeImg;
+    Animation slideUpIn, slideDownIn, slideUpOut, slideDownOut;
 	public PreviewFragment()
 	{
 	}
@@ -116,14 +102,8 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         btnChangePreviewMessage.setTypeface(fontLight);
 
         // load the animation
-        wipeIn = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.wipe_in);
-        wipeOut = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.wipe_out);
-        slideIn = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.slide_in);
-        slideOut = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.slide_out);
-        fadeIn = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
-        fadeOut = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_out);
-        fadeInImg = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
-        fadeOutImg = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_out);
+        animFadeTxt = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
+        animFadeImg = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
 
         slideUpIn = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_in_bottom);
         slideDownIn = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_in_top);
@@ -131,19 +111,17 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         slideDownOut = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_out_bottom);
 
         // set animation listener
-        wipeIn.setAnimationListener(this);
-        wipeOut.setAnimationListener(this);
-        slideIn.setAnimationListener(this);
-        slideOut.setAnimationListener(this);
-        fadeOut.setAnimationListener(this);
-        fadeIn.setAnimationListener(PreviewFragment.this);
 
-        fadeOutImg.setAnimationListener(this);
-        fadeInImg.setAnimationListener(this);
+        animFadeTxt.setAnimationListener(this);
+        animFadeImg.setAnimationListener(this);
         // These Methods check whether photos or a message was added
 
         utils = new Utilities(getActivity());
         screen = utils.getSelectedLocation(getActivity());
+
+        FOLDER_NAME = checkDir();
+
+        TEMP_PHOTO_FILE_NAME = getRandomFileName();
 
         //cropoption
         String state = Environment.getExternalStorageState();
@@ -153,25 +131,26 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         else {
             mFileTemp = new File(TEMP_PHOTO_FILE_NAME);
         }
+
         // load message and image, check if image exists
         LoadMsgImg();
-//        CheckPhotoExist();
 
-        // final String [] items = new String [] {getString(R.string.CapturePhoto),
-        // getString(R.string.ChoosefromGallery),getString(R.string.deletephoto)};
         adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item);
         adapter.add(getString(R.string.CapturePhoto));
         adapter.add(getString(R.string.ChoosefromGallery));
         adapter.add(getString(R.string.cancel));
+
         if (hasphoto)
             adapter.add(getString(R.string.deletephoto));
 
-        if (hasmessage)
-        {
-            txtview.setText(msg);
 
-            StartTextAnimation();
-        }
+        txtview.setText(msg);
+
+//            StartTextAnimation();
+
+        //Animation start
+        startAnimation();
+
 
 
         rootView.findViewById(R.id.btnSubmitmsgtxt).setOnClickListener(new View.OnClickListener()
@@ -240,7 +219,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         {
             public void onClick(View v)
             {
-                StartTextAnimation();
+                startAnimation();
             }
         });
         return rootView;
@@ -269,86 +248,63 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     @SuppressWarnings("deprecation")
     void LoadMsgImg()
     {
-        ///////
-        File imgFile =null;
         Bundle extras = this.getArguments();
         imagePath = extras.getString("imagePath");
-        hasphoto = extras.getBoolean("hasPhoto", false);
-        final Bitmap photo = BitmapFactory.decodeFile(imagePath);
-        if(photo!=null) {
-            imagev.setImageBitmap(photo);
-            imagev.setVisibility(View.INVISIBLE);
+        hasphoto = extras.getBoolean("hasphoto", false);
+        if(hasphoto) {
+            final Bitmap photo = BitmapFactory.decodeFile(imagePath);
+            if (photo != null) {
+                imagev.setImageBitmap(photo);
+                imagev.setVisibility(View.INVISIBLE);
+            }
         }
-        else
+        else {
             ChangeButtons();
-        //////
+        }
+
         if (extras.getString("msg")!=null)
         {
             msg = extras.getString("msg");
-            hasmessage = true;
             setTextSizes(txtview);
         }
 
 
     }
 
-    void StartTextAnimation()
+    void animateImage()
     {
-        btnRestartAnim.setVisibility(View.INVISIBLE);
+        btnRestartAnim.setVisibility(View.GONE);
         layBtns.startAnimation(slideDownOut);
-        layBtns.setVisibility(View.GONE);
-        // animView.setVisibility(View.VISIBLE);
-        txtview.setVisibility(View.VISIBLE);
-        txtview.startAnimation(fadeIn);
-        // animView.startAnimation(wipeIn);
-
+        imagev.startAnimation(animFadeImg);
     }
 
-    void StartImageAnimation()
+    void animateText()
     {
-        imagev.setVisibility(View.VISIBLE);
-        imagev.startAnimation(fadeInImg);
+        txtview.setVisibility(View.VISIBLE);
+        txtview.startAnimation(animFadeTxt);
     }
     @Override
     public void onAnimationEnd(Animation animation)
     {
         // Take any action after completing the animation
 
-        // check for zoom in animation
-        if (animation == fadeIn && hasphoto)
-        { // only start image animation if there is one
-            // animView.setVisibility(View.INVISIBLE);
-            txtview.setVisibility(View.INVISIBLE);
-            StartImageAnimation();
+        if (animation == animFadeImg)
+        {
+            imagev.setVisibility(View.INVISIBLE);
+
+            animateText();
         }
 
-        // else if (animation == fadeIn && !hasphoto){
-
-        // }
-        else if (animation == fadeIn && !hasphoto)
+        else if (animation == animFadeTxt)
         {
-
             txtview.setVisibility(View.INVISIBLE);
             btnRestartAnim.setVisibility(View.VISIBLE); // else show restart button
             layBtns.setVisibility(View.VISIBLE);
             layBtns.startAnimation(slideUpIn);
         }
 
-        else if (animation == fadeInImg)
-        {
-            imagev.setVisibility(View.INVISIBLE);
-            btnRestartAnim.setVisibility(View.VISIBLE);
-            layBtns.setVisibility(View.VISIBLE);
-            layBtns.startAnimation(slideUpIn);
-            // animView.setVisibility(View.VISIBLE);
-            // animView.startAnimation(wipeOut);
-        }
-        else
-        {
-            layBtns.setVisibility(View.VISIBLE);
-            layBtns.startAnimation(slideUpIn);
-            imagev.setVisibility(View.INVISIBLE);
-            btnRestartAnim.setVisibility(View.VISIBLE);
+        else if(animation == slideDownOut){
+            layBtns.setVisibility(View.GONE);
         }
 
     }
@@ -364,24 +320,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     {
 
     }
-    void CheckDelete()
-    {
-        if (adapter.getCount() == 2 && hasphoto)
-            adapter.add(getString(R.string.deletephoto));
-        else if (adapter.getCount() == 3 && !hasphoto)
-            adapter.remove(getString(R.string.deletephoto));
-    }
 
-    void CheckPhotoExist()
-    {
-        if (imagev.getDrawable() != null)
-        {
-            hasphoto = true;
-        }
-        else
-            hasphoto = false;
-
-    }
 
     // this method changes the buttons text according to context
     void ChangeButtons()
@@ -465,82 +404,6 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     }
 
 
-
-    private void doCrop()
-    {
-        final ArrayList<CropOption> cropOptions = new ArrayList<CropOption>();
-
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setType("image/*");
-
-        List<ResolveInfo> list = getActivity().getPackageManager().queryIntentActivities(intent, 0);
-
-        int size = list.size();
-
-        if (size == 0)
-        {
-            Toast.makeText(getActivity(), "Geen app beschikbaar voor formaat aanpassen", Toast.LENGTH_SHORT).show();
-
-            return;
-        }
-        else
-        {
-            // cropped picture is saved at tempURI location
-            tempURI = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "bvdh/" + String.valueOf(System.currentTimeMillis()) + "_app_upload.jpg"));
-
-            intent.setData(mImageCaptureUri);
-            intent.putExtra("outputX", 1024);
-            intent.putExtra("outputY", 776);
-            intent.putExtra("aspectX", 1024);
-            intent.putExtra("aspectY", 776);
-            intent.putExtra("crop", true);
-            intent.putExtra("scale", true);
-            intent.putExtra("return-data", false); // don't send data back to prevent transactionTooLarge
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, tempURI); // save to file!
-            Log.d("Path", tempURI.getPath());
-            // hasphoto =true;
-            if (size == 1)
-            {
-                Intent i = new Intent(intent);
-                ResolveInfo res = list.get(0);
-
-                i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-
-                startActivityForResult(i, CROP_FROM_CAMERA);
-            }
-            else
-            {
-                for (ResolveInfo res : list)
-                {
-                    final CropOption co = new CropOption();
-
-                    co.title = getActivity().getPackageManager().getApplicationLabel(res.activityInfo.applicationInfo);
-                    co.icon = getActivity().getPackageManager().getApplicationIcon(res.activityInfo.applicationInfo);
-                    co.appIntent = new Intent(intent);
-
-                    co.appIntent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-
-                    cropOptions.add(co);
-                }
-
-                CropOptionAdapter adapter = new CropOptionAdapter(getActivity().getApplicationContext(), cropOptions);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Pas formaat aan");
-                builder.setAdapter(adapter, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int item)
-                    {
-                        startActivityForResult(cropOptions.get(item).appIntent, CROP_FROM_CAMERA);
-                    }
-                });
-
-                AlertDialog alert = builder.create();
-
-                alert.show();
-            }
-        }
-    }
     private void showPhotoOptionsDialog() {
         final String[] items;
         if(hasphoto) {
@@ -576,7 +439,6 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                             imagev.setImageBitmap(null);
                             imagev.destroyDrawingCache();
                             hasphoto = false;
-                            tempURI = null;
                             ChangeButtons();
 
                         } catch (Exception e) {
@@ -641,6 +503,40 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         intent.putExtra(CropImage.OUTPUT_Y, screen.getAspectRatioHeight());
 
         startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
+    }
+
+    private String getRandomFileName()
+    {
+        Random generator = new Random();
+        int n = 10000;
+        n = generator.nextInt(n);
+        String fileName = FOLDER_NAME + File.separator + String.valueOf(n) + "_beeldvan.jpg";
+        return fileName;
+    }
+
+    private String checkDir()
+    {
+        String dirname = "BeeldVan";
+        File dir = new File(Environment.getExternalStorageDirectory() + "/" + dirname);
+        if (!dir.exists())
+        {
+            boolean result = dir.mkdir();
+            if (result)
+            {
+                System.out.println("created a DIR");
+            }
+        }
+        return dirname;
+    }
+
+    private void startAnimation(){
+        if(hasphoto){
+            System.out.println("I should show an Image now");
+            animateImage();
+        } else {
+            System.out.println("Mehhh just text. boring");
+            animateText();
+        }
     }
 
 }

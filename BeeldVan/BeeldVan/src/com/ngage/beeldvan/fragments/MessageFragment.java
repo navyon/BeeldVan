@@ -14,7 +14,9 @@ import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
@@ -28,7 +30,7 @@ import android.view.ViewGroup;
 import com.ngage.beeldvan.model.Locations;
 import com.ngage.beeldvan.utilities.Utilities;
 
-public class MessageFragment extends Fragment
+public class MessageFragment extends Fragment implements Animation.AnimationListener
 {
     Intent intent;
     private EditText txtView_msg;
@@ -37,6 +39,7 @@ public class MessageFragment extends Fragment
     private TextView txtView_continue;
     private ImageView aspectv;
     private ImageView progress2;
+    private RelativeLayout continueRL;
     String msg = null;
     float textsize;
     RelativeLayout msgRL;
@@ -45,8 +48,12 @@ public class MessageFragment extends Fragment
     Bitmap photo;
     Animation slideUpIn;
     Animation slideDownIn;
+    Animation slideUpOut;
+    Animation slideDownOut;
+    Animation slideToTop;
     Fragment fragment = null;
     Utilities utils;
+    private boolean hasPhoto;
 
     Locations screen;
 
@@ -61,7 +68,7 @@ public class MessageFragment extends Fragment
 		View rootView = inflater.inflate(R.layout.fragment_message, container, false);
 
         msgRL = (RelativeLayout) rootView.findViewById(R.id.msgRL);
-
+        continueRL = (RelativeLayout) rootView.findViewById(R.id.msgContRL);
         // build alert dialog for max line check
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Er passen maar 4 regels tekst op het scherm");
@@ -77,14 +84,19 @@ public class MessageFragment extends Fragment
 
         }
         txtView_msg = (EditText) rootView.findViewById(R.id.txtView_msg);
-//				txtView_maxLines = (TextView) findViewById(R.id.txtView_maxLine);
-//				txtView_msgTip = (TextView) findViewById(R.id.txtView_msgTip);
         aspectv = (ImageView) rootView.findViewById(R.id.aspectv);
         progress2 = (ImageView) rootView.findViewById(R.id.progress_2Img);
         setTextSizes(txtView_msg);
 
-        slideUpIn = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up_dialog);
-        slideDownIn = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_down);
+        slideUpIn = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_in_bottom);
+        slideDownIn = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_in_top);
+        slideUpOut = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_out_top);
+        slideDownOut = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_out_bottom);
+
+        slideUpIn.setAnimationListener(this);
+        slideUpOut.setAnimationListener(this);
+        slideDownIn.setAnimationListener(this);
+        slideDownOut.setAnimationListener(this);
 
         builder.setMessage("Er passen maximaal 4 regels op het scherm!").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener()
         {
@@ -111,6 +123,11 @@ public class MessageFragment extends Fragment
         {
             msg = bundle.getString("msg");
             txtView_msg.setText(msg);
+            imagePath = bundle.getString("imagePath");
+            hasPhoto = bundle.getBoolean("hasPhoto", false);
+            System.out.println("at Message hasPhoto = "+hasPhoto);
+        }else {
+            System.out.println("bundle is somehow NULL");
         }
         btnPrev.setOnClickListener(new View.OnClickListener()
         {
@@ -178,13 +195,10 @@ public class MessageFragment extends Fragment
                 InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 txtView_msg.clearFocus();
-                btnPrev.startAnimation(slideUpIn);
-                txtView_continue.startAnimation(slideUpIn);
-                btnPrev.setVisibility(View.VISIBLE);
-                txtView_continue.setVisibility(View.VISIBLE);
+                continueRL.startAnimation(slideUpIn);
+                continueRL.setVisibility(View.VISIBLE);
                 progress2.startAnimation(slideDownIn);
                 progress2.setVisibility(View.VISIBLE);
-
             }
         });
 
@@ -197,17 +211,11 @@ public class MessageFragment extends Fragment
                 if (hasFocus)
                 {
                     layhidekeyb.setVisibility(View.VISIBLE);
-                    btnPrev.setVisibility(View.GONE);
-                    txtView_continue.setVisibility(View.GONE);
-                    progress2.setVisibility(View.GONE);
-
-
-
+                    continueRL.startAnimation(slideDownOut);
+                    progress2.startAnimation(slideUpOut);
                 }
                 else
                     layhidekeyb.setVisibility(View.GONE);
-//                                    btnPrev.setVisibility(View.VISIBLE);
-//                                    txtView_continue.setVisibility(View.VISIBLE);
 
             }
         });
@@ -235,5 +243,35 @@ public class MessageFragment extends Fragment
     }
 
 
+    @Override
+    public void onAnimationStart(Animation animation) {
+        if(animation == slideDownIn){
+            continueRL.setVisibility(View.VISIBLE);
+        }
+        if(animation == slideUpIn){
+            progress2.setVisibility(View.VISIBLE);
+        }
+    }
 
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        if(animation == slideDownOut){
+            continueRL.setVisibility(View.GONE);
+        }
+        if(animation == slideUpOut){
+            progress2.setVisibility(View.GONE);
+        }
+
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+        if(animation == slideDownIn){
+            continueRL.setVisibility(View.VISIBLE);
+        }
+        if(animation == slideUpIn){
+            progress2.setVisibility(View.VISIBLE);
+        }
+    }
 }

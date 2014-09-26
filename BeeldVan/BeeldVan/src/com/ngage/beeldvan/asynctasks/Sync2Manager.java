@@ -1,23 +1,63 @@
 package com.ngage.beeldvan.asynctasks;
 
+import android.content.Context;
+import android.os.AsyncTask;
+import android.text.TextUtils;
+import com.google.myjson.*;
+import com.google.myjson.internal.LinkedTreeMap;
+import com.google.myjson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.ngage.beeldvan.MainActivity;
+import com.ngage.beeldvan.SplashActivity;
+import com.ngage.beeldvan.model.CityData;
+import com.ngage.beeldvan.model.Locations;
+import com.ngage.beeldvan.utilities.RESTClient;
+import com.ngage.beeldvan.utilities.SportanStringUtil;
+import com.ngage.beeldvan.utilities.Utilities;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.io.Console;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Sync2Manager
 	{
 		private static Sync2Manager sync2Manager;
-
+        public static JSONObject cVersion;
+        public boolean isUpdated =false;
 		// public static String BASEURL = "";
+        private Context context;
+        Utilities utils;
+        ArrayList<CityData> mCityList;
 
-		public static Sync2Manager getSync2Manager()
+        private static final String TAG_nameValuePair = "nameValuePairs";
+        public Sync2Manager(Context context){
+            this.context=context;
+            utils = new Utilities(this.context);
+        }
+
+        public Sync2Manager getSync2Manager()
 			{
 				if (sync2Manager == null)
 					{
-						sync2Manager = new Sync2Manager();
+						sync2Manager = new Sync2Manager(context);
 					}
 				return sync2Manager;
+
 			}
 
 		public void getCurrentVersion()
@@ -30,13 +70,112 @@ public class Sync2Manager
 						public void onSuccess(int arg0, JSONObject arg1)
 							{
 								// TODO Auto-generated method stub
-								super.onSuccess(arg0, arg1);
+                                // Get the current version from shared pre if Exist
+                                String  currentVersion =  utils.getCurrentVersion();
+                                // save the latest version from the API
+                                Map<String, Object> lmap = new HashMap<String, Object>();
+                                Gson cvgson = new Gson();
+                                String lastestVersion = cvgson.toJson(arg1);
+                                lmap = (Map<String, Object>) cvgson.fromJson(lastestVersion, lmap.getClass());
+                                LinkedTreeMap<String, Double> updateMap1 = (LinkedTreeMap<String, Double>) lmap.get(TAG_nameValuePair);
+                                Double latestversion = updateMap1.get("lastUpdate");
+                                // if no current version is saved, store it in shared pref
+                                if(TextUtils.isEmpty(currentVersion)) {
+                                    Gson cv1gson = new Gson();
+                                    String json = cv1gson.toJson(arg1);
+                                    utils.saveCurrentVersion(json);
+                                    new MyTask().execute();
+                                }else {
+                                    // get the current version value
+                                    Map<String, Object> cmap = new HashMap<String, Object>();
+                                    Gson gson = new GsonBuilder().serializeNulls().create();
+                                    cmap = (Map<String, Object>) gson.fromJson(currentVersion, cmap.getClass());
+                                    LinkedTreeMap<String, Double> updateMap = (LinkedTreeMap<String, Double>) cmap.get(TAG_nameValuePair);
+                                    Double currentversion = updateMap.get("lastUpdate");
+                                    // check current version against the latest version
+                                    // if newer save to Shared Pref
+                                    if(currentversion < latestversion) {
+                                        System.out.println("new version found");
+                                        utils.saveCurrentVersion(lastestVersion);
+                                        new MyTask().execute();
+                                    } else System.out.println("old version found");
+
+
+
+                                }
+                                super.onSuccess(arg0, arg1);
+
 							}
 					});
 
 			}
+        private ArrayList<CityData> locationDatas;
 
-		public void getAllLocations()
+        private class MyTask extends AsyncTask<Void, Void, Void>
+        {
+
+            @Override
+            protected Void doInBackground(Void... params)
+            {
+                URI uri;
+
+                try
+                {
+                    uri = new URI("http://api.beeldvan.nu/1.0/locations/all.json");
+                    HttpResponse response = new RESTClient(RESTClient.MAX_KEEP_ALIVE).GETRequest(uri);
+                    if (response != null)
+                    {
+
+                        HttpEntity entity = response.getEntity();
+                        String callbackJson;
+                        InputStream is = entity.getContent();
+                        callbackJson = SportanStringUtil.ConvertStreamToString(is);
+                        callbackJson = SportanStringUtil.StripJSONPCallback(callbackJson);
+
+                        Gson gson = new GsonBuilder().serializeNulls().create();
+                        Type collectionType = new TypeToken<List<CityData>>()
+                        {
+                        }.getType();
+                        locationDatas = gson.fromJson(callbackJson, collectionType);
+//                    System.out.println(locationDatas);
+                        utils.setAllLocations(callbackJson);
+
+                    }
+                }
+                catch (URISyntaxException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                catch (IOException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                // TODO Auto-generated method stub
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void params) {
+                mCityList = new Utilities(context).getAllCitiesList();
+                if(mCityList !=null) {
+                    for (int i = 0; i < mCityList.size(); i++) { //loop through cities
+                        List<Locations> l = mCityList.get(i).getLocations();
+                        if (mCityList.get(i).getLocations().size() > 0) {//if city has location
+                            for (int j = 0; j < mCityList.get(i).getLocations().size(); j++) {//loop through lid's
+                                if(l.get(j) != null) {
+                                    SplashActivity.mLocationList.add(l.get(j));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+            public void getAllLocations()
 			{
 				AsyncHttpClient asyncClient = new AsyncHttpClient();
 				RequestParams params = new RequestParams();
@@ -73,6 +212,7 @@ public class Sync2Manager
 							}
 
 					});
+
 			}
 
 	}
