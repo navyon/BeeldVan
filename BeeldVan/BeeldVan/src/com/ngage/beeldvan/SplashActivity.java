@@ -1,8 +1,9 @@
 package com.ngage.beeldvan;
 
+import com.ngage.beeldvan.model.CityData;
 import org.BvDH.CityTalk.R;
 
-import com.ngage.beeldvan.model.LocationData;
+
 import com.ngage.beeldvan.model.Locations;
 import com.ngage.beeldvan.utilities.RESTClient;
 import com.ngage.beeldvan.utilities.SportanStringUtil;
@@ -41,7 +42,7 @@ public class SplashActivity extends Activity implements LocationListener
     LocationManager mLocationManager;
     List<Locations> mLocationList;
 
-    public static ArrayList<LocationData> mList;
+    public static ArrayList<CityData> mList;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -59,7 +60,7 @@ public class SplashActivity extends Activity implements LocationListener
         new MyTask().execute();
 
         //fill location list
-        mList = new Utilities(this).getAllLocationList();
+        mList = new Utilities(SplashActivity.this).getAllCitiesList();
         if(mList!=null) {
             for (int i = 0; i < mList.size(); i++) { //loop through cities
                 List<Locations> l = mList.get(i).getLocations();
@@ -92,7 +93,7 @@ public class SplashActivity extends Activity implements LocationListener
 //          mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 1, this, Looper.getMainLooper());
     }
 
-    private ArrayList<LocationData> locationDatas;
+    private ArrayList<CityData> locationDatas;
 
     private class MyTask extends AsyncTask<Void, Void, Void>
     {
@@ -115,7 +116,7 @@ public class SplashActivity extends Activity implements LocationListener
                     callbackJson = SportanStringUtil.StripJSONPCallback(callbackJson);
 
                     Gson gson = new GsonBuilder().serializeNulls().create();
-                    Type collectionType = new TypeToken<List<LocationData>>()
+                    Type collectionType = new TypeToken<List<CityData>>()
                     {
                     }.getType();
                     locationDatas = gson.fromJson(callbackJson, collectionType);
