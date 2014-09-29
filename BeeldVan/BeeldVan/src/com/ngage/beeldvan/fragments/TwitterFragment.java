@@ -40,6 +40,7 @@ public class TwitterFragment extends Fragment
     private CardArrayAdapter cardArrayAdapter;
     private ListView listView;
     private ProgressBar spinner;
+    Locations screen;
 
     public TwitterFragment()
 	{

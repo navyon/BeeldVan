@@ -14,7 +14,6 @@ import org.BvDH.CityTalk.R;
 import com.ngage.beeldvan.adapter.NavDrawerListAdapter;
 import com.ngage.beeldvan.adapter.UserImagesAdapter;
 import com.ngage.beeldvan.asynctasks.GetImagesAsyncTask;
-import com.ngage.beeldvan.asynctasks.Sync2Manager;
 import com.ngage.beeldvan.crop.CropImage;
 import com.ngage.beeldvan.fragments.*;
 import com.ngage.beeldvan.fragments.InfoFragment;
@@ -50,6 +49,8 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
         ExpandableListAdapter listAdapter;
         ExpandableListView expListView;
+        List<Integer> listDataLid;
+        List<Integer> listDataCid;
         List<String> listDataHeader;
         HashMap<String, List<String>> listDataChild;
 		// nav drawer title
@@ -94,11 +95,11 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 			{
 				super.onCreate(savedInstanceState);
                 setContentView(R.layout.main_new);
-				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//				overridePendingTransition(R.anim.fade_in_and_out, R.anim.fade_in);
                 utils = new Utilities(this);
                 screen = utils.getSelectedLocation(this);
-                sgroupPosition =  utils.getPositionFromLoc(screen);
-                System.out.println("group is "+ sgroupPosition);
+//                sgroupPosition =  utils.getPositionFromLoc(screen);
+//                System.out.println("group is "+ sgroupPosition);
 
 
 
@@ -141,6 +142,8 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
 				mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 				mDrawerList = (ExpandableListView) findViewById(R.id.list_slidermenu);
+
+
                 // preparing list data
                 prepareListData();
 
@@ -198,7 +201,8 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                     public boolean onChildClick(ExpandableListView parent, View v,
                                                 int groupPosition, int childPosition, long id) {
                         sgroupPosition = groupPosition;
-                        utils.setSelectedLocation(MainActivity.this, utils.getLocFromPosition(sgroupPosition));
+                        //save selected screen
+                        utils.setSelectedLocation(MainActivity.this, utils.getLocFromLid(listDataLid.get(sgroupPosition)));
                         screen = utils.getSelectedLocation(MainActivity.this);
                         displayView(childPosition, groupPosition);
 
@@ -283,6 +287,8 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
             childItems.add("Nieuws");
 
             listDataHeader = new ArrayList<String>();
+            listDataLid = new ArrayList<Integer>();
+            listDataCid = new ArrayList<Integer>();
             listDataChild = new HashMap<String, List<String>>();
 
             ArrayList<CityData> cities = utils.getAllCitiesList();
@@ -292,11 +298,15 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                     if (l.size() > 0) {
                         for (int j = 0; j < l.size(); j++) {
                             listDataHeader.add(cities.get(i).getName() + " " + l.get(j).getName());
+                            listDataLid.add(l.get(j).getLid());
                         }
                     }
                 }
-                for (int c = 0; c < 3; c++) {
-                    listDataChild.put(listDataHeader.get(c), childItems);
+
+                for(int i = 0; i < listDataHeader.size(); i++) {
+//                    for (int c = 0; c < 3; c++) {
+                        listDataChild.put(listDataHeader.get(i),childItems);
+//                    }
                 }
             }
 
@@ -356,10 +366,12 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 						fragment = new HomeFragment();
 						break;
 					case 1:
+
+
                         FragmentManager fm = getFragmentManager();
                         FragmentTransaction ft = fm.beginTransaction();
 
-                        fragment = new InfoFragment(childposition,groupPosition);
+                        fragment = new InfoFragment(utils.getCityFromLid(screen.getLid()).getName(),screen);
                         ft.addToBackStack(null);
                         ft.commit();
 
@@ -368,13 +380,13 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                         fragment = new TwitterFragment();
 						break;
 					case 3:
-						fragment = new FacebookFragment();
+//						fragment = new FacebookFragment();
 						break;
 					case 4:
-						fragment = new MessageFragment();
+//						fragment = new MessageFragment();
 						break;
 					case 5:
-						fragment = new ConfirmFragment();
+//						fragment = new ConfirmFragment();
 						break;
 
 					default:
@@ -526,16 +538,13 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
             intent.putExtra(CropImage.ASPECT_Y, screen.getAspectRatioHeight());
             intent.putExtra(CropImage.OUTPUT_X, screen.getAspectRatioWidth());
             intent.putExtra(CropImage.OUTPUT_Y, screen.getAspectRatioHeight());
-            System.out.println("aspect = " +screen.getAspectRatioHeight()+" "+screen.getAspectRatioWidth());
 
             startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
         }
 
 		private String getRandomFileName()
 			{
-				Random generator = new Random();
-				int n = 10000;
-				n = generator.nextInt(n);
+				long n = System.currentTimeMillis();
 				String fileName = FOLDER_NAME + File.separator + String.valueOf(n) + "_beeldvan.jpg";
 				return fileName;
 			}
@@ -607,6 +616,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 												e.printStackTrace();
 											}
 									}
+                                else System.out.println("extra's null");
 							}
 						break;
 					}

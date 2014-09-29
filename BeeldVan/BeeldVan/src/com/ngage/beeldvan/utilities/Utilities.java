@@ -220,9 +220,30 @@ public class Utilities
         } return position;
     }
 
-    public Locations getLocFromPosition(int position) {
+    public CityData getCityFromLid(int lid){
+
+
+        ArrayList<CityData> cities = getAllCitiesList();
+        CityData city = cities.get(0);
+        if(cities !=null){
+            for (int i = 0; i < cities.size(); i++) {
+                List<Locations> l = cities.get(i).getLocations();
+                if (l.size() > 0) {
+                    for (int j = 0; j < l.size(); j++) {
+                        if (l.get(j).getLid() == lid) {
+                            city = cities.get(i);
+                        }
+                    }
+                }
+            }
+
+        } return city;
+
+    }
+
+    public Locations getLocFromLid(int lid) {
         Locations loc = null;
-        int n = 0;
+//        int n = 0;
 
         ArrayList<CityData> cities = getAllCitiesList();
         if(cities !=null){
@@ -230,11 +251,10 @@ public class Utilities
                 List<Locations> l = cities.get(i).getLocations();
                 if (l.size() > 0) {
                     for (int j = 0; j < l.size(); j++) {
-                        if (n == position) {
-                            System.out.println("position" + n + " = " + l.get(j).getName());
+                        if (l.get(j).getLid() == lid) {
+                            System.out.println("position = " + l.get(j).getName());
                             loc = l.get(j);
                         }
-                        n++; // count number of screens
                     }
                 }
             }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ngage.beeldvan.SplashActivity;
+import com.ngage.beeldvan.model.CityData;
 import com.ngage.beeldvan.model.ImageLoader;
 import com.ngage.beeldvan.model.Locations;
 
@@ -19,16 +20,17 @@ import java.util.List;
 
 public class InfoFragment extends Fragment
 {
-    int childPosition = 0;
-    int groupPosition = 0;
+    Locations screen;
     ImageView cityImage;
     TextView cityInfo;
     TextView cityTitle;
     String baseUrl = "http://beeldvan.nu/";
-	public InfoFragment(int childposition, int groupposition)
+    String cityName;
+    public InfoFragment(String cName, Locations loc)
 	{
-        childPosition =  childposition;
-        groupPosition = groupposition;
+        screen = loc;
+        cityName = cName;
+
     }
 
 	@Override
@@ -41,12 +43,9 @@ public class InfoFragment extends Fragment
         cityTitle =(TextView) rootView.findViewById(R.id.txtcityTitle);
 
 
-        List<Locations> l = SplashActivity.mCityList.get(groupPosition).getLocations();
-        String cityName = SplashActivity.mCityList.get(groupPosition).getName();
-
-        if(l!=null) {
-            String info = l.get(0).getText();
-            String infoImage =  l.get(0).getInfoImageLocation();
+        if(screen!=null) {
+            String info = screen.getText();
+            String infoImage =  screen.getInfoImageLocation();
             String image_url = baseUrl+infoImage;
             // ImageLoader class instance
 
@@ -55,7 +54,7 @@ public class InfoFragment extends Fragment
             imgLoader.DisplayImage(image_url, loader, cityImage);
             if(info!=null)
             cityInfo.setText(Html.fromHtml(info));
-            cityTitle.setText(cityName+" "+l.get(0).getName());
+            cityTitle.setText(cityName+" "+screen.getName());
             MainActivity.main_include_layout.setVisibility(View.GONE);
             MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
         }
