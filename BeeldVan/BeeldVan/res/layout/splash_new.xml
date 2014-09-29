@@ -6,6 +6,15 @@
     android:background="@drawable/backrepeat">
 
     <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/SplashImage"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop"
+        android:visibility="invisible" />
+
+    <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,23 +28,27 @@
         android:layout_height="wrap_content"
         android:text="van Jou"
         android:id="@+id/SplashCityName"
-        android:textSize="40sp"
+        android:textSize="36sp"
         android:textColor="@android:color/black"
-        android:textStyle="bold"
         android:layout_alignBottom="@+id/logo"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignRight="@+id/logo"
+        android:layout_alignLeft="@+id/logo"
+        android:gravity="center"
+        android:layout_marginBottom="6dp"
+        android:visibility="invisible" />
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="30dp"
         android:text="Screen Name"
-        android:id="@+id/splashScreenName"
+        android:id="@+id/SplashScreenName"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textStyle="normal"
         android:textSize="20sp"
         android:textColor="@android:color/black"
         android:gravity="center"
-        android:background="@drawable/white_transparant_background" />
+        android:background="@drawable/white_transparant_background"
+        android:visibility="invisible" />
 
 </RelativeLayout>

@@ -11,8 +11,8 @@ public final class R {
     public static final class anim {
         public static final int card_flip_left_in=0x7f040000;
         public static final int card_flip_left_out=0x7f040001;
-        public static final int fade_in=0x7f040002;
-        public static final int fade_out=0x7f040003;
+        public static final int fade_in_and_out =0x7f040002;
+        public static final int fade_in =0x7f040003;
         public static final int slide_in=0x7f040004;
         public static final int slide_out=0x7f040005;
         public static final int slide_out_down=0x7f040006;
@@ -165,7 +165,7 @@ public final class R {
         public static final int emptyLL=0x7f0b001d;
         public static final int frame_container=0x7f0b0027;
         public static final int icon=0x7f0b000f;
-        public static final int imageView=0x7f0b0014;
+        public static final int SplashImage =0x7f0b0014;
         public static final int imageView2=0x7f0b0013;
         public static final int iv_icon=0x7f0b000d;
         public static final int lineSeparator=0x7f0b0004;

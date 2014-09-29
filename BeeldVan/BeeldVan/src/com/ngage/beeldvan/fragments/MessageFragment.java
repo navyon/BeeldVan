@@ -78,11 +78,7 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
         //get selected screen
         screen = utils.getSelectedLocation(getActivity());
 
-        if (bundle!= null)
-        {
-               imagePath = bundle.getString("imagePath");
 
-        }
         txtView_msg = (EditText) rootView.findViewById(R.id.txtView_msg);
         aspectv = (ImageView) rootView.findViewById(R.id.aspectv);
         progress2 = (ImageView) rootView.findViewById(R.id.progress_2Img);
@@ -112,23 +108,22 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
         txtView_msg.setTypeface(fontHelv);
 //				txtView_maxLines.setTypeface(fontRegular);
 //				txtView_msgTip.setTypeface(fontLight);
-
-        txtView_continue = (TextView) rootView.findViewById(R.id.txtpreview); //text above button
-        final Button btnPrev = (Button) rootView.findViewById(R.id.btnpreview);
-        btnPrev.setTypeface(fontLight);
-        final Button btnhidekeyb = (Button) rootView.findViewById(R.id.btnhidekey);
-        final RelativeLayout layhidekeyb = (RelativeLayout) rootView.findViewById(R.id.layouthidekey);
         bundle = this.getArguments();
         if (bundle!=null)
         {
             msg = bundle.getString("msg");
             txtView_msg.setText(msg);
             imagePath = bundle.getString("imagePath");
-            hasPhoto = bundle.getBoolean("hasPhoto", false);
+            hasPhoto = bundle.getBoolean("hasphoto", false);
             System.out.println("at Message hasPhoto = "+hasPhoto);
-        }else {
-            System.out.println("bundle is somehow NULL");
         }
+
+        txtView_continue = (TextView) rootView.findViewById(R.id.txtpreview); //text above button
+        final Button btnPrev = (Button) rootView.findViewById(R.id.btnpreview);
+        btnPrev.setTypeface(fontLight);
+        final Button btnhidekeyb = (Button) rootView.findViewById(R.id.btnhidekey);
+        final RelativeLayout layhidekeyb = (RelativeLayout) rootView.findViewById(R.id.layouthidekey);
+
         btnPrev.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -149,6 +144,7 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
                         extras = getArguments();
                     extras.putString("msg", msg);
                     extras.putString("imagePath", imagePath);
+                    extras.putBoolean("hasphoto", hasPhoto);
                     fragment.setArguments(extras);
                     ft1.commit();
 

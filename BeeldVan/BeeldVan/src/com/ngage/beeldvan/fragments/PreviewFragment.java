@@ -32,7 +32,6 @@ import com.ngage.beeldvan.utilities.Utilities;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.Random;
 
 public class PreviewFragment extends Fragment implements Animation.AnimationListener
 {
@@ -102,8 +101,8 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         btnChangePreviewMessage.setTypeface(fontLight);
 
         // load the animation
-        animFadeTxt = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
-        animFadeImg = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
+        animFadeTxt = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in_and_out);
+        animFadeImg = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in_and_out);
 
         slideUpIn = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_in_bottom);
         slideDownIn = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_in_top);
@@ -166,7 +165,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                 if (extras != null) {
                     extras.putString("msg", msg);
                     extras.putString("imagePath", imagePath);
-                    extras.putBoolean("hasPhoto", hasphoto);
+                    extras.putBoolean("hasphoto", hasphoto);
                     fragment.setArguments(extras);
                 }
 
@@ -206,7 +205,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                 }
 
                 extras.putString("msg", msg);
-                extras.putBoolean("hasPhoto", hasphoto);
+                extras.putBoolean("hasphoto", hasphoto);
                 fragment.setArguments(extras);
 
                 ft1.commit();
@@ -387,7 +386,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                             ft1.replace(R.id.frame_container, fragment);
                             extras.putString("msg", msg);
                             extras.putString("imagePath", imagePath);
-                            extras.putBoolean("hasPhoto", true);
+                            extras.putBoolean("hasphoto", true);
                             fragment.setArguments(extras);
                             ft1.commit();
 
@@ -507,9 +506,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
 
     private String getRandomFileName()
     {
-        Random generator = new Random();
-        int n = 10000;
-        n = generator.nextInt(n);
+        long n = System.currentTimeMillis();
         String fileName = FOLDER_NAME + File.separator + String.valueOf(n) + "_beeldvan.jpg";
         return fileName;
     }
@@ -517,7 +514,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     private String checkDir()
     {
         String dirname = "BeeldVan";
-        File dir = new File(Environment.getExternalStorageDirectory() + "/" + dirname);
+        File dir = new File(Environment.getExternalStorageDirectory() + File.separator + dirname);
         if (!dir.exists())
         {
             boolean result = dir.mkdir();
