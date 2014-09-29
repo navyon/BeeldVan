@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/loc_loader"
+    android:oneshot="false">
+    <item android:drawable="@drawable/loc_load00" android:duration="400" />
+    <item android:drawable="@drawable/loc_load01" android:duration="400" />
+    <item android:drawable="@drawable/loc_load02" android:duration="400" />
+    <item android:drawable="@drawable/loc_load03" android:duration="400" />
+</animation-list>

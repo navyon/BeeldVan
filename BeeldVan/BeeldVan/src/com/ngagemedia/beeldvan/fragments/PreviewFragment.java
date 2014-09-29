@@ -40,7 +40,6 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     public ImageView imagev;
     public ImageView aspectv;
     public ImageView animView;
-
     boolean hasphoto = false;
     boolean hasmessage = false;
 
@@ -70,7 +69,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     Locations screen;
 
     // Animation
-    Animation animFadeTxt, animFadeImg;
+    Animation animFadeTxt, animFadeImg, fadeIn;
     Animation slideUpIn, slideDownIn, slideUpOut, slideDownOut;
 	public PreviewFragment()
 	{
@@ -94,7 +93,8 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         btnChangePreviewMessage = (Button) rootView.findViewById(R.id.btnchangePreviewText);
         btnRestartAnim = (ImageButton) rootView.findViewById(R.id.btnRestartAnim);
         layBtns = (RelativeLayout) rootView.findViewById(R.id.previewTxtOptionsLL);
-
+        utils = new Utilities(getActivity());
+        screen = utils.getSelectedLocation(getActivity());
         // set fonts
         txtview.setTypeface(fontHelv);
         btnChangePreviewPhoto.setTypeface(fontLight);
@@ -103,11 +103,12 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         // load the animation
         animFadeTxt = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in_and_out);
         animFadeImg = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in_and_out);
+        fadeIn = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
 
-        slideUpIn = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_in_bottom);
-        slideDownIn = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_in_top);
-        slideUpOut = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_out_top);
-        slideDownOut = AnimationUtils.loadAnimation(getActivity(), R.anim.button_slide_out_bottom);
+        slideUpIn = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.button_slide_in_bottom);
+        slideDownIn = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.button_slide_in_top);
+        slideUpOut = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.button_slide_out_top);
+        slideDownOut = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.button_slide_out_bottom);
 
         // set animation listener
 
@@ -115,8 +116,8 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         animFadeImg.setAnimationListener(this);
         // These Methods check whether photos or a message was added
 
-        utils = new Utilities(getActivity());
-        screen = utils.getSelectedLocation(getActivity());
+
+
 
         getActivity().setTitle("Preview");
 
@@ -177,22 +178,18 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         });
 
         // final AlertDialog dialog = builder.create();
-        rootView.findViewById(R.id.btnChangePreviewPhoto).setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
+        btnChangePreviewPhoto.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 showPhotoOptionsDialog();
                 ChangeButtons();
             }
         });
 
-        rootView.findViewById(R.id.btnchangePreviewText).setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
+        btnChangePreviewMessage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
 
-                  // Call    Back stack here !!!!!!!!!!!!!!!!!!!!!!!
+                // Call    Back stack here !!!!!!!!!!!!!!!!!!!!!!!
                 FragmentTransaction ft1 = getFragmentManager().beginTransaction();
                 fragment = new MessageFragment();
                 Bundle extras = new Bundle();
@@ -221,9 +218,19 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
             public void onClick(View v)
             {
                 startAnimation();
+                layBtns.startAnimation(slideDownOut);
             }
         });
         return rootView;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        screen = utils.getSelectedLocation(getActivity());
+        System.out.println("screen should be set");
+        System.out.println(screen.getName());
     }
 
     void setTextSizes(TextView txt)
@@ -275,7 +282,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     void animateImage()
     {
         btnRestartAnim.setVisibility(View.GONE);
-        layBtns.startAnimation(slideDownOut);
+
         imagev.startAnimation(animFadeImg);
     }
 
@@ -299,13 +306,15 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         else if (animation == animFadeTxt)
         {
             txtview.setVisibility(View.INVISIBLE);
+            btnRestartAnim.startAnimation(fadeIn);
             btnRestartAnim.setVisibility(View.VISIBLE); // else show restart button
             layBtns.setVisibility(View.VISIBLE);
             layBtns.startAnimation(slideUpIn);
         }
 
         else if(animation == slideDownOut){
-            layBtns.setVisibility(View.GONE);
+            layBtns.setVisibility(View.INVISIBLE);
+
         }
 
     }
@@ -509,8 +518,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     private String getRandomFileName()
     {
         long n = System.currentTimeMillis();
-        String fileName = FOLDER_NAME + File.separator + String.valueOf(n) + "_beeldvan.jpg";
-        return fileName;
+        return FOLDER_NAME + File.separator + String.valueOf(n) + "_beeldvan.jpg";
     }
 
     private String checkDir()
@@ -529,11 +537,10 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     }
 
     private void startAnimation(){
+        layBtns.setVisibility(View.INVISIBLE);
         if(hasphoto){
-            System.out.println("I should show an Image now");
             animateImage();
         } else {
-            System.out.println("Mehhh just text. boring");
             animateText();
         }
     }

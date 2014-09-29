@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.AnimationDrawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -42,6 +43,8 @@ public class SplashActivity extends Activity implements LocationListener, Animat
     TextView LocationTitleTv;
     TextView cityTitleTv;
     Animation fadeIn;
+    ImageView locLoading;
+    AnimationDrawable locLoadingAnim;
 
     public static ArrayList<CityData> mCityList;
 
@@ -57,7 +60,9 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         LocationTitleTv = (TextView) findViewById(R.id.SplashScreenName);
         fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         fadeIn.setAnimationListener(this);
-
+        locLoading = (ImageView) findViewById(R.id.locloader);
+        locLoadingAnim = (AnimationDrawable) locLoading.getDrawable();
+        locLoadingAnim.start();
 //        new MyTask().execute();
     }
 
@@ -146,6 +151,8 @@ public class SplashActivity extends Activity implements LocationListener, Animat
             @Override
             public void run() {
                 //start animation
+                locLoadingAnim.stop();
+                locLoading.setVisibility(View.GONE);
                 cityTitleTv.startAnimation(fadeIn);
                 cityTitleTv.setVisibility(View.VISIBLE);
                 LocationTitleTv.startAnimation(fadeIn);

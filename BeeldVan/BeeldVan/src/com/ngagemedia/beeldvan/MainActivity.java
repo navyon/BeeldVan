@@ -95,11 +95,8 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 			{
 				super.onCreate(savedInstanceState);
                 setContentView(R.layout.main_new);
-//				overridePendingTransition(R.anim.fade_in_and_out, R.anim.fade_in);
                 utils = new Utilities(this);
                 screen = utils.getSelectedLocation(this);
-//                sgroupPosition =  utils.getPositionFromLoc(screen);
-//                System.out.println("group is "+ sgroupPosition);
 
 
 
@@ -107,10 +104,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 				postedImgsGridView = (GridView) findViewById(R.id.postedImgsGridView);
 				TextView overslaanTV = (TextView) findViewById(R.id.overslaanTv);
 				overslaanTV.setOnClickListener(this);
-
-				TextView doneTV = (TextView) findViewById(R.id.doneTV);
-				doneTV.setOnClickListener(this);
-
 
                 //crop option implementation
                 FOLDER_NAME = checkDir();
@@ -351,7 +344,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 			{
 				// if nav drawer is opened, hide the action items
 				boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-				menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+				menu.findItem(R.id.action_settings).setVisible(false);
 				return super.onPrepareOptionsMenu(menu);
 			}
 
@@ -394,6 +387,8 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 					default:
 						break;
 					}
+
+
 
 				if (fragment != null)
 					{
@@ -561,8 +556,8 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		@Override
 		protected void onActivityResult(int requestCode, int resultCode, Intent data)
 			{
-				// if (resultCode != RESULT_OK)
-				// return;
+				if (resultCode != RESULT_OK)
+				return;
 
 				switch (requestCode)
 					{
@@ -589,7 +584,9 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                             break;
 
                         case REQUEST_CODE_CROP_IMAGE:
-                            imagePath = data.getStringExtra(CropImage.IMAGE_PATH);
+                            if(data != null) {
+                                imagePath = data.getStringExtra(CropImage.IMAGE_PATH);
+                            }
                             if (imagePath != null)
                             {
                                 final Bundle extras = data.getExtras();
@@ -624,41 +621,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 					}
 			}
 
-		String writeBitmap(Bitmap bmp)
-			{
-				String imgPath = getRandomFileName();
-				File f = new File(imgPath);
-				if (f.exists())
-					f.delete();
-				FileOutputStream out = null;
-				try
-					{
-						f.createNewFile();
-						out = new FileOutputStream(f);
-						bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-					}
-				catch (Exception e)
-					{
-						Toast.makeText(MainActivity.this, "Exception saving image", Toast.LENGTH_LONG).show();
-						e.printStackTrace();
-					}
-				finally
-					{
-						try
-							{
-								if (out != null)
-									{
-										out.close();
-									}
-							}
-						catch (IOException e)
-							{
-								e.printStackTrace();
-							}
-					}
-				return imgPath;
-			}
-
 
 		@Override
 		public void onClick(View v)
@@ -684,9 +646,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 							{
 								e.printStackTrace();
 							}
-						break;
-					case R.id.doneTV:
-
 						break;
 
 					default:
@@ -727,5 +686,9 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 				displayView(position,sgroupPosition);
 
 			}
+
+        public void openNavDrawer(){
+            mDrawerLayout.openDrawer(mDrawerList);
+        }
 
 	}

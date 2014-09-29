@@ -51,4 +51,15 @@
         android:background="@drawable/white_transparant_background"
         android:visibility="invisible" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/locloader"
+        android:layout_alignLeft="@+id/SplashCityName"
+        android:layout_alignRight="@+id/SplashCityName"
+        android:layout_alignBottom="@+id/SplashCityName"
+        android:layout_alignTop="@+id/SplashCityName"
+        android:src="@drawable/loc_loading"
+        android:scaleType="center" />
+
 </RelativeLayout>

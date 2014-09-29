@@ -46,7 +46,7 @@ public class LazyImageLaoder
 		executorService = Executors.newFixedThreadPool(5);
 	}
 
-	final int stub_id = R.drawable.ic_photos;
+	final int stub_id = R.drawable.smiley;
 
 	@SuppressWarnings("deprecation")
 	public void DisplayImage(String url, ImageView imageView, int width, int height)

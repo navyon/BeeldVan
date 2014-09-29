@@ -3,7 +3,10 @@ package com.ngagemedia.beeldvan.fragments;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.widget.TextView;
+
+import com.ngagemedia.beeldvan.MainActivity;
 import com.ngagemedia.beeldvan.R;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -48,7 +51,17 @@ public class FacebookFragment extends Fragment
                 }
             }
         });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //show sliding menu
+                MainActivity.mDrawerLayout.openDrawer(MainActivity.mDrawerList);
+            }
+        }, 5000);
+
 		return rootView;
+
 	}
     private boolean isAppInstalled(String packageName)
     {
@@ -66,13 +79,8 @@ public class FacebookFragment extends Fragment
         return installed;
     }
 
-    // call onStop() to start initial activity
    public void onStop()
     {
         super.onStop();
-
-//        Intent i = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(i);
     }
 }

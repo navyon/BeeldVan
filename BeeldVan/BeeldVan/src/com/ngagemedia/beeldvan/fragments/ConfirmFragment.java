@@ -142,8 +142,11 @@ public class ConfirmFragment extends Fragment
         screen = utils.getSelectedLocation(getActivity());
         chkbox = (CheckBox) rootView.findViewById(R.id.checkBox);
         chkbox.setTypeface(fontRegular);
-        if (!hasphoto)
-            chkbox.setVisibility(View.INVISIBLE);
+
+        String mail = utils.getSharedPrefValue("email");
+        if(mail != null) {
+            edittx_email.setText(mail);
+        }
 
         getActivity().setTitle("Verzenden");
 
@@ -155,22 +158,9 @@ public class ConfirmFragment extends Fragment
                 String email = edittx_email.getText().toString();
                 if (checkEmail(email))
                 {
-
-                    if (hasphoto&&chkbox.isChecked())
+                    utils.saveValueToSharedPrefs("email", email);
+                    if (chkbox.isChecked())
                     {
-
-                        // Call the php upload method which starts a new
-                        // thread
-                        //StartNewThreadUpload();
-                        // creating new message in background thread
-                        new CreateNewMessage().execute();
-
-                    }
-                    else if(!hasphoto&&!chkbox.isChecked())                       {
-
-                        // Call the php upload method which starts a new
-                        // thread
-                        //StartNewThreadUpload();
                         // creating new message in background thread
                         new CreateNewMessage().execute();
 

@@ -128,6 +128,7 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
 
                 if (!msg.isEmpty())
                 {
+                    utils.setSelectedLocation(getActivity(), screen);
                     FragmentTransaction ft1 = getFragmentManager().beginTransaction();
                     fragment = new PreviewFragment();
                     ft1.addToBackStack(null);

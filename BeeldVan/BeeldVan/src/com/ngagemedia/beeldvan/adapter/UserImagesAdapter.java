@@ -68,11 +68,9 @@ public class UserImagesAdapter extends BaseAdapter
 		
 		if(navImagesInfoList.get(position).isOnline())
 		{
-			holder.userImgIsOnline.setBackgroundResource(R.drawable.onlineimg);
 		}
 		else
 		{
-			holder.userImgIsOnline.setBackgroundResource(R.drawable.offlineimg);
 		}
 		
 		

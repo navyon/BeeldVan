@@ -20,7 +20,7 @@
         android:layout_alignParentEnd="false"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <Button
             android:id="@+id/btnChangePreviewPhoto"
@@ -120,7 +120,6 @@
             android:gravity="center_vertical|left"
             android:lineSpacingExtra="-4dp"
             android:maxLines="4"
-            android:background="@drawable/msgtxt_bg"
             android:singleLine="false"
             android:textColor="#f5f5f5"
             android:textStyle="bold"

@@ -19,6 +19,6 @@
         android:layout_alignParentRight="true"
         android:layout_margin="7dp"
         android:contentDescription="@string/app_name"
-        android:background="@drawable/onlineimg" />
+         />
 
 </RelativeLayout>
