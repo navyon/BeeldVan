@@ -40,7 +40,7 @@ public class SplashActivity extends Activity implements LocationListener
 
     Location mLocation;
     LocationManager mLocationManager;
-    List<Locations> mLocationList;
+    public static List<Locations> mLocationList;
 
     public static ArrayList<CityData> mList;
 
