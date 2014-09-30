@@ -342,6 +342,7 @@ public class Utilities
 
     //get current selected location
     public Locations getSelectedLocation(Activity activityContext){
+
         final myApplication globalVariable = (myApplication)  activityContext.getApplication();
         return globalVariable.getSelectedLocation();
     }

@@ -9,10 +9,7 @@ import android.app.*;
 import android.content.*;
 import android.widget.*;
 
-import com.ngagemedia.beeldvan.R;
-
 import com.ngagemedia.beeldvan.adapter.NavDrawerListAdapter;
-import com.ngagemedia.beeldvan.adapter.UserImagesAdapter;
 import com.ngagemedia.beeldvan.asynctasks.GetImagesAsyncTask;
 import com.ngagemedia.beeldvan.crop.CropImage;
 import com.ngagemedia.beeldvan.fragments.*;
@@ -25,7 +22,6 @@ import com.ngagemedia.beeldvan.utilities.Utilities;
 import org.json.JSONObject;
 
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -48,7 +44,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		private ActionBarDrawerToggle mDrawerToggle;
 
         ExpandableListAdapter listAdapter;
-        ExpandableListView expListView;
         List<Integer> listDataLid;
         List<Integer> listDataCid;
         List<String> listDataHeader;
@@ -62,9 +57,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		// slide menu items
 		private String[] navMenuTitles;
 
-		private ArrayList<NavDrawerItem> navDrawerItems;
-		private NavDrawerListAdapter adaptermenu;
-
         public static final int REQUEST_CODE_GALLERY      = 0x1;
         public static final int REQUEST_CODE_TAKE_PICTURE = 0x2;
         public static final int REQUEST_CODE_CROP_IMAGE   = 0x3;
@@ -77,8 +69,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		Utilities utils;
 		ImageView camaerIconImg;
 
-		UserImagesAdapter userImagesAdapter;
-		List<NavImagesInfo> navImagesInfoList;
 		GridView postedImgsGridView;
 		public static View main_include_layout;
 		String imagePath;
@@ -134,10 +124,8 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 				navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
 
 				// nav drawer icons from resources
-
 				mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 				mDrawerList = (ExpandableListView) findViewById(R.id.list_slidermenu);
-
 
                 // preparing list data
                 prepareListData();
@@ -234,8 +222,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 						public void onDrawerOpened(View drawerView)
 							{
 								getActionBar().setTitle(mDrawerTitle);
-								// calling onPrepareOptionsMenu() to hide action bar icons
-//								Sync2Manager.getSync2Manager().getCurrentVersion();
 								invalidateOptionsMenu();
 							}
 					};
@@ -256,7 +242,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 			{
 				// TODO Auto-generated method stub
 				super.onResume();
-//				new MyTask().execute();
 
             }
 
@@ -454,7 +439,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                     boolean result = dir.mkdir();
                     if (result)
                     {
-                        System.out.println("created a DIR");
                     }
                 }
                 return dirname;
@@ -598,8 +582,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                                     try
                                     {
 
-                                        System.out.println("image cropped and added "+imagePath);
-
                                                 FragmentTransaction ft1 = fm1.beginTransaction();
                                                 fragment = new MessageFragment();
 
@@ -615,7 +597,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 												e.printStackTrace();
 											}
 									}
-                                else System.out.println("extra's null");
 							}
 						break;
 					}
@@ -660,18 +641,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 			{
 				if (json != null && json.optString("status").equals("OK"))
 					{
-						// navImagesInfoList = utils.convertJSONToNavImagesInfoList(json.optJSONArray("data"));
-						// userImagesAdapter = new UserImagesAdapter(MainActivity.this, navImagesInfoList);
-						// postedImgsGridView.setAdapter(userImagesAdapter);
-						// postedImgsGridView.setOnItemClickListener(new OnItemClickListener()
-						// {
-						//
-						// @Override
-						// public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-						// {
-						// utils.showToastMessage("Item Clicked", MainActivity.this);
-						// }
-						// });
+
 					}
 				else
 					{
@@ -687,8 +657,17 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
 			}
 
-        public void openNavDrawer(){
-            mDrawerLayout.openDrawer(mDrawerList);
+
+        @Override
+        public void onBackPressed(){
+            FragmentManager fm = getFragmentManager();
+            if (fm.getBackStackEntryCount() > 0) {
+                Log.i("MainActivity", "popping backstack");
+                fm.popBackStack();
+            } else {
+                Log.i("MainActivity", "nothing on backstack, calling super");
+                super.onBackPressed();
+            }
         }
 
 	}
