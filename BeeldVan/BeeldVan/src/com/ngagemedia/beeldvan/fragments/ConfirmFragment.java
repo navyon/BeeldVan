@@ -3,11 +3,13 @@ package com.ngagemedia.beeldvan.fragments;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import com.ngagemedia.beeldvan.MainActivity;
@@ -163,6 +165,9 @@ public class ConfirmFragment extends Fragment
                     {
                         // creating new message in background thread
                         new CreateNewMessage().execute();
+                        //hide keyboard
+                        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
                     }
                     else

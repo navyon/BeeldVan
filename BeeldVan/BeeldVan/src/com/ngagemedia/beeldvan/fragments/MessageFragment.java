@@ -101,8 +101,6 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
         Typeface fontLight = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");
         Typeface fontHelv = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaBold.ttf");
         txtView_msg.setTypeface(fontHelv);
-//				txtView_maxLines.setTypeface(fontRegular);
-//				txtView_msgTip.setTypeface(fontLight);
         bundle = this.getArguments();
         if (bundle!=null)
         {

@@ -166,7 +166,7 @@ public class CropImage extends MonitoredActivity {
         }
 
         // Make UI fullscreen.
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
         findViewById(R.id.save).setOnClickListener(
@@ -394,7 +394,7 @@ public class CropImage extends MonitoredActivity {
             extras.putParcelable(RETURN_DATA_AS_BITMAP, croppedImage);
             setResult(RESULT_OK,
                     (new Intent()).setAction(ACTION_INLINE_DATA).putExtras(extras));
-            finish();
+//            finish();
         } else {
             final Bitmap b = croppedImage;
             Util.startBackgroundJob(this, null, getString(R.string.saving_image),

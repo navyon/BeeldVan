@@ -26,8 +26,9 @@
         android:layout_gravity="start"
         android:background="@color/list_background"
         android:choiceMode="singleChoice"
-        android:divider="@color/list_divider"
-        android:dividerHeight="1dp"
+        android:divider="@color/white"
+        android:dividerHeight="1px"
+        android:childDivider="@color/list_divider"
         android:listSelector="@drawable/list_selector"
         android:cacheColorHint="#00000000"
             />

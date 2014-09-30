@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="55dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
     android:orientation="vertical"
-    android:background="#000000" >
+    android:background="@color/list_background" >
 
     <ImageView
         android:id="@+id/icon"
@@ -11,8 +13,8 @@
         android:layout_height="20dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="20dp"
         android:contentDescription="@string/desc_list_item_icon"
          />
 
@@ -21,11 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/icon"
-        android:textSize="17dip"
+        android:textSize="20sp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:textColor="#ffffff"
-
+        android:fontFamily="sans-serif-thin"
             />
 
 

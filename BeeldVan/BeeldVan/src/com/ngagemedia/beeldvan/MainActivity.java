@@ -284,9 +284,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                 }
 
                 for(int i = 0; i < listDataHeader.size(); i++) {
-//                    for (int c = 0; c < 3; c++) {
                         listDataChild.put(listDataHeader.get(i),childItems);
-//                    }
                 }
             }
 
@@ -328,7 +326,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 		public boolean onPrepareOptionsMenu(Menu menu)
 			{
 				// if nav drawer is opened, hide the action items
-				boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 				menu.findItem(R.id.action_settings).setVisible(false);
 				return super.onPrepareOptionsMenu(menu);
 			}
@@ -358,15 +355,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 						break;
 					case 2:
                         fragment = new TwitterFragment();
-						break;
-					case 3:
-//						fragment = new FacebookFragment();
-						break;
-					case 4:
-//						fragment = new MessageFragment();
-						break;
-					case 5:
-//						fragment = new ConfirmFragment();
 						break;
 
 					default:

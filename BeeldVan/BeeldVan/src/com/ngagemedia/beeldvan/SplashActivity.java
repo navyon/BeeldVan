@@ -45,6 +45,7 @@ public class SplashActivity extends Activity implements LocationListener, Animat
     Animation fadeIn;
     ImageView locLoading;
     AnimationDrawable locLoadingAnim;
+    ImageLoader imageLoader;
 
     public static ArrayList<CityData> mCityList;
 
@@ -63,6 +64,7 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         locLoading = (ImageView) findViewById(R.id.locloader);
         locLoadingAnim = (AnimationDrawable) locLoading.getDrawable();
         locLoadingAnim.start();
+        imageLoader = new ImageLoader(this);
 //        new MyTask().execute();
     }
 
@@ -142,8 +144,7 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         cityTitleTv.setTypeface(fontHelv);
         LocationTitleTv.setTypeface(fontRobLight);
         //show splashimage and screen name
-        ImageLoader imgLoader = new ImageLoader(this);
-        imgLoader.DisplayImage(image_url, loader, cityImage);
+        imageLoader.DisplayImage(image_url, loader, cityImage);
         cityTitleTv.setText(cityTitle);
         LocationTitleTv.setText(screenTitle);
 
@@ -199,6 +200,7 @@ public class SplashActivity extends Activity implements LocationListener, Animat
                 @Override
                 public void run() {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    imageLoader.clearCache();
                     finish();
                 }
             }, 5000);
