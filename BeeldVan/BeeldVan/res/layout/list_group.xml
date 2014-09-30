@@ -6,8 +6,8 @@
               android:background="@color/list_background">
     <ImageView
             android:id="@+id/expandableIcon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginLeft="20dp"
             android:src="@drawable/arrow_down_float"
             android:visibility="visible"

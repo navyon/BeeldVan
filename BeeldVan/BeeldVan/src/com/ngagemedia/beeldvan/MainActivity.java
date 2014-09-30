@@ -343,8 +343,6 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 						fragment = new HomeFragment();
 						break;
 					case 1:
-
-
                         FragmentManager fm = getFragmentManager();
                         FragmentTransaction ft = fm.beginTransaction();
 
@@ -367,12 +365,13 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 					{
 						if (fragment instanceof HomeFragment)
 							{
+                                Log.d("MainActivity", "setting visible");
 								main_include_layout.setVisibility(View.VISIBLE);
 							}
 						else
 							{
 								main_include_layout.setVisibility(View.GONE);
-
+                                Log.d("MainActivity", "setting GONE");
 							}
 						FragmentManager fragmentManager = getFragmentManager();
 						fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
@@ -577,7 +576,9 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                                                 extras.putBoolean("hasphoto", hasphoto);
                                                 ft1.replace(R.id.frame_container, fragment);
                                                 fragment.setArguments(extras);
-                                                ft1.commit();
+                                        main_include_layout.setVisibility(View.GONE);
+                                        ft1.commit();
+
 
 											}
 										catch (Exception e)
@@ -608,6 +609,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
                                 ft1.addToBackStack(null);
 
                                 ft1.replace(R.id.frame_container, fragment);
+                                main_include_layout.setVisibility(View.GONE);
                                 ft1.commit();
 
 							}

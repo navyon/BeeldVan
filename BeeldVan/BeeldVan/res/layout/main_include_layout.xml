@@ -10,23 +10,22 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/progress_0"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        android:layout_marginBottom="10dp" />
 
     <ImageView
         android:id="@+id/camaerIconImg"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_below="@+id/progress_0Img"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
         android:contentDescription="@string/app_name"
         android:scaleType="fitCenter"
-        android:src="@drawable/camera_big" />
+        android:src="@drawable/camera_big"
+        android:layout_centerInParent="true" />
 
     <GridView
         android:id="@+id/postedImgsGridView"

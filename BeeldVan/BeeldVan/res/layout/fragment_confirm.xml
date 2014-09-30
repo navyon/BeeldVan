@@ -10,10 +10,11 @@
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/progress_4"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -138,10 +139,10 @@
                 android:paddingTop="15dp"
                 android:selectAllOnFocus="true"
                 android:textSize="18sp"
-            android:background="@color/white"
+            android:background="@drawable/rounded_white"
             android:layout_above="@+id/checkBox"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="20dp"
             android:layout_alignParentStart="true"
             android:layout_toLeftOf="@+id/imageButton" />
 
@@ -159,7 +160,7 @@
                 android:textSize="12sp" android:layout_weight="0.69" android:layout_height="wrap_content"
             android:layout_above="@+id/btnfinalsubmit"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="20dp" />
 
         <Button
                 android:id="@+id/btnfinalsubmit"

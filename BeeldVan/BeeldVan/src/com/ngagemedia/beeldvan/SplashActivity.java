@@ -146,7 +146,7 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         //show splashimage and screen name
         imageLoader.DisplayImage(image_url, loader, cityImage);
         cityTitleTv.setText(cityTitle);
-        LocationTitleTv.setText(screenTitle);
+        LocationTitleTv.setText(cityTitle + " " + screenTitle);
 
         new Handler().postDelayed(new Runnable() {
             @Override

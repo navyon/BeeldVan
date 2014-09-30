@@ -22,7 +22,7 @@
     <string name="ConfirmCheckbox">Bij deze bevestig ik dat ik alle rechten heb voor het gebruiken
 van de door mij toegevoegde afbeelding</string>
     <string name="ConfirmEmailHint">Vul hier uw e-mailadres in</string>
-    <string name="ConfirmBtn">Plaats uw inzending!</string>
+    <string name="ConfirmBtn">Verstuur het bericht!</string>
     <string name="ConfirmCheckboxError">U moet akkoord gaan</string>
     <string name="ConfirmEmailError">Controleer uw e-mailadres.</string>
     <string name="FinalThnx">Bedankt!</string>

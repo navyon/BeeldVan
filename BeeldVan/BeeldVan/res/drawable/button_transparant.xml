@@ -4,5 +4,5 @@
     <solid android:color="@color/transparant"/>
     <stroke android:width="2px" android:color="@android:color/white" />
     <corners
-        android:radius="14dp"/>
+        android:radius="@dimen/button_radius"/>
 </shape>

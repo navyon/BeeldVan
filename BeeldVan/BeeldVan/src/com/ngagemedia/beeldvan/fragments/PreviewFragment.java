@@ -538,6 +538,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
 
     private void startAnimation(){
         layBtns.setVisibility(View.INVISIBLE);
+        btnRestartAnim.setVisibility(View.INVISIBLE);
         if(hasphoto){
             animateImage();
         } else {
