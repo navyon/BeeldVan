@@ -660,8 +660,8 @@ public class CropImage extends MonitoredActivity {
         		storageDirectory = activity.getFilesDir().toString();
         	}
             StatFs stat = new StatFs(storageDirectory);
-            float remaining = ((float) stat.getAvailableBlocks()
-                    * (float) stat.getBlockSize()) / 400000F;
+            float remaining = ((float) stat.getAvailableBlocksLong()
+                    * (float) stat.getBlockSizeLong()) / 400000F;
             return (int) remaining;
             //}
         } catch (Exception ex) {

@@ -3,7 +3,6 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/libs/android-support-v4.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/UHL.jar!/" />
-      <root url="jar://$PROJECT_DIR$/libs/ftp4j-1.6.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/jsoup-1.7.3.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/android-async-http-1.4.3.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/commons-io-2.4.jar!/" />
