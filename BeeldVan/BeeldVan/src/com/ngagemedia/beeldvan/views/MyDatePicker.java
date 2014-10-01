@@ -47,7 +47,7 @@ public class MyDatePicker
 
 			lytdate.addView(day, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1.1f));
 			lytdate.addView(month, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-			lytdate.addView(year, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 0.9f));
+//			lytdate.addView(year, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 0.9f));
 
 			lytmain.addView(lytdate);
 
@@ -108,9 +108,12 @@ public class MyDatePicker
 				super.configureTextView(view);
 				if (currentItem == currentValue)
 					{
-						view.setTextColor(0xFF0000F0);
+                        view.setTextColor(0xFFFFFFFF);
 					}
-				view.setTypeface(null, Typeface.BOLD);
+                else {
+                    view.setTextColor(0x50FFFFFF);
+                }
+                view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
 			}
 
 		@Override
@@ -139,9 +142,12 @@ public class MyDatePicker
 				super.configureTextView(view);
 				if (currentItem == currentValue)
 					{
-						view.setTextColor(0xFF0000F0);
+						view.setTextColor(0xFFFFFFFF);
 					}
-				view.setTypeface(null, Typeface.BOLD);
+                else {
+                    view.setTextColor(0x50FFFFFF);
+                }
+                view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
 			}
 
 		@Override

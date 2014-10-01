@@ -91,9 +91,9 @@ abstract class ImageViewTouchBase extends ImageView {
         mLeft = left;
         mRight = right;
         mTop = top;
-        mBottom = bottom;
+        mBottom = bottom - 100;
         mThisWidth = right - left;
-        mThisHeight = bottom - top;
+        mThisHeight = bottom - top - 100;
         Runnable r = mOnLayoutRunnable;
         if (r != null) {
             mOnLayoutRunnable = null;

@@ -95,16 +95,19 @@ public class MyTimePicker
 				setTextSize(20);
 			}
 
-		@Override
-		protected void configureTextView(TextView view)
-			{
-				super.configureTextView(view);
-				if (currentItem == currentValue)
-					{
-						view.setTextColor(0xFF0000F0);
-					}
-				view.setTypeface(null, Typeface.BOLD);
-			}
+        @Override
+        protected void configureTextView(TextView view)
+        {
+            super.configureTextView(view);
+            if (currentItem == currentValue)
+            {
+                view.setTextColor(0xFFFFFFFF);
+            }
+            else {
+                view.setTextColor(0x50FFFFFF);
+            }
+            view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        }
 
 		@Override
 		public View getItem(int index, View cachedView, ViewGroup parent)
@@ -126,16 +129,19 @@ public class MyTimePicker
 				setTextSize(20);
 			}
 
-		@Override
-		protected void configureTextView(TextView view)
-			{
-				super.configureTextView(view);
-				if (currentItem == currentValue)
-					{
-						view.setTextColor(0xFF0000F0);
-					}
-				view.setTypeface(null, Typeface.BOLD);
-			}
+        @Override
+        protected void configureTextView(TextView view)
+        {
+            super.configureTextView(view);
+            if (currentItem == currentValue)
+            {
+                view.setTextColor(0xFFFFFFFF);
+            }
+            else {
+                view.setTextColor(0x50FFFFFF);
+            }
+            view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+        }
 
 		@Override
 		public View getItem(int index, View cachedView, ViewGroup parent)

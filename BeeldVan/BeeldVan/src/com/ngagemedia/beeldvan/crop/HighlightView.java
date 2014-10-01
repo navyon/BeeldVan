@@ -80,7 +80,7 @@ class HighlightView {
         
         Path path = new Path();
         if (!hasFocus()) {
-            mOutlinePaint.setColor(0x00000000);
+            mOutlinePaint.setColor(0xFFFFFFFF);
             canvas.drawRect(mDrawRect, mOutlinePaint);
         } else {
             Rect viewDrawingRect = new Rect();

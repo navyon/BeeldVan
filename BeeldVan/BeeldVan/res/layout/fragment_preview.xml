@@ -23,7 +23,7 @@
         android:layout_alignParentEnd="false"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        android:visibility="invisible">
+        android:visibility="visible">
 
         <Button
             android:id="@+id/btnChangePreviewPhoto"
@@ -31,9 +31,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/camera_new"
+            android:drawableLeft="@drawable/prev_photoimg"
             android:text="@string/PreviewbtnChangePhoto"
-            android:paddingLeft="10dp"
+            android:paddingLeft="20dp"
             android:layout_above="@+id/btnchangePreviewText"
             android:layout_marginBottom="5dp" />
 
@@ -43,9 +43,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/text_new"
+            android:drawableLeft="@drawable/prev_txtimg"
             android:text="@string/PreviewbtnChangeTxt"
-            android:paddingLeft="10dp"
+            android:paddingLeft="20dp"
             android:layout_above="@+id/btnSubmitmsgtxt"
             android:layout_marginBottom="5dp" />
 
@@ -55,11 +55,11 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/happy"
+            android:drawableLeft="@drawable/prev_smile"
             android:text="@string/Continue"
             android:textColor="@android:color/white"
 
-            android:paddingLeft="10dp"
+            android:paddingLeft="20dp"
             android:layout_marginBottom="10dp"
             android:layout_alignParentBottom="true" />
     </RelativeLayout>

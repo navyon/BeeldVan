@@ -242,6 +242,8 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 			{
 				// TODO Auto-generated method stub
 				super.onResume();
+                Log.d("resume", "true");
+                main_include_layout.setVisibility(View.VISIBLE);
 
             }
 
@@ -508,6 +510,25 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
             intent.putExtra(CropImage.OUTPUT_Y, screen.getAspectRatioHeight());
 
             startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
+
+
+            // converting for fragment
+//
+//            FragmentTransaction ft1 = fm1.beginTransaction();
+//            fragment = new CropFragment();
+//            final Bundle extras = new Bundle();
+//            extras.putString(CropImage.IMAGE_PATH, mFileTemp.getPath());
+//            extras.putBoolean(CropImage.SCALE, true);
+//            extras.putBoolean(CropImage.SCALE_UP_IF_NEEDED, true);
+//            extras.putInt(CropImage.ASPECT_X, screen.getAspectRatioWidth());
+//            extras.putInt(CropImage.ASPECT_Y, screen.getAspectRatioHeight());
+//            extras.putInt(CropImage.OUTPUT_X, screen.getAspectRatioWidth());
+//            extras.putInt(CropImage.OUTPUT_Y, screen.getAspectRatioHeight());
+//            ft1.replace(R.id.frame_container, fragment);
+//            fragment.setArguments(extras);
+//            main_include_layout.setVisibility(View.GONE);
+//            ft1.commit();
+
         }
 
 		private String getRandomFileName()
@@ -648,16 +669,16 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 			}
 
 
-        @Override
-        public void onBackPressed(){
-            FragmentManager fm = getFragmentManager();
-            if (fm.getBackStackEntryCount() > 0) {
-                Log.i("MainActivity", "popping backstack");
-                fm.popBackStack();
-            } else {
-                Log.i("MainActivity", "nothing on backstack, calling super");
-                super.onBackPressed();
-            }
-        }
+//        @Override
+//        public void onBackPressed(){
+//            FragmentManager fm = getFragmentManager();
+//            if (fm.getBackStackEntryCount() > 0) {
+//                Log.i("MainActivity", "popping backstack");
+//                fm.popBackStack();
+//            } else {
+//                Log.i("MainActivity", "nothing on backstack, calling super");
+//                super.onBackPressed();
+//            }
+//        }
 
 	}

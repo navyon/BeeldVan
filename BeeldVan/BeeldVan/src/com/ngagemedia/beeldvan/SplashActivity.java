@@ -88,8 +88,8 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         // start location check.
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-        mLocationManager.requestSingleUpdate(criteria, this, Looper.getMainLooper());
-
+        mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER,this,Looper.getMainLooper());
+        mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER,this,Looper.getMainLooper());
     }
 
     @Override

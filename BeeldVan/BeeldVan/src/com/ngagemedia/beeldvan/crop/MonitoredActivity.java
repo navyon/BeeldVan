@@ -19,9 +19,11 @@ package com.ngagemedia.beeldvan.crop;
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.ngagemedia.beeldvan.MainActivity;
+
 import java.util.ArrayList;
 
-public class MonitoredActivity extends Activity {
+public class MonitoredActivity extends MainActivity{
 
     private final ArrayList<LifeCycleListener> mListeners =
             new ArrayList<LifeCycleListener>();
@@ -80,7 +82,7 @@ public class MonitoredActivity extends Activity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         for (LifeCycleListener listener : mListeners) {

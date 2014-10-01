@@ -17,13 +17,12 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:left="-1dp" android:right="-1dp">
+        <shape>
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="1px" android:color="#ffffff" />
+        </shape>
+    </item>
+</layer-list>
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-        <gradient
-                android:startColor="#70244552"
-                android:centerColor="#70125522"
-                android:endColor="#70EEEEEE"
-                android:angle="90" />
-
-        <stroke android:width="1dp" android:color="#70333333" /> 
-</shape>
