@@ -39,11 +39,11 @@ public class MyTimePicker
 
 			hour = new WheelView(mContex);
 			min = new WheelView(mContex);
-			amPm = new WheelView(mContex);
+			//amPm = new WheelView(mContex);
 
 			lytdate.addView(hour, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
 			lytdate.addView(min, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-			lytdate.addView(amPm, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+			//lytdate.addView(amPm, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
 
 			lytmain.addView(lytdate);
 
@@ -51,27 +51,27 @@ public class MyTimePicker
 			int curHour = calendar.get(Calendar.HOUR);
 			int curMin = calendar.get(Calendar.MINUTE);
 
-			int curAmPm = calendar.get(Calendar.AM_PM);
-			String[] amPmArr = new String[] {"AM", "PM"};
+			//int curAmPm = calendar.get(Calendar.AM_PM);
+			//String[] amPmArr = new String[] {"AM", "PM"};
 
-			hour.setViewAdapter(new DateNumericAdapter(context, 1, 12, curHour - 1));
+			hour.setViewAdapter(new DateNumericAdapter(context, 0, 23, curHour - 1));
 			min.setViewAdapter(new DateNumericAdapter(context, 1, 59, curMin - 1));
-			amPm.setViewAdapter(new TimeArrayAdapter(context, amPmArr, curAmPm));
+			//amPm.setViewAdapter(new TimeArrayAdapter(context, amPmArr, curAmPm));
 
 			hour.setCurrentItem(curHour - 1);
 			min.setCurrentItem(curMin - 1);
-			amPm.setCurrentItem(curAmPm);
+			//amPm.setCurrentItem(curAmPm);
 
-			updateTime(hour, min, amPm);
+			updateTime(hour, min);
 
 		}
 
-	Calendar updateTime(WheelView hour, WheelView min, WheelView amPm)
+	Calendar updateTime(WheelView hour, WheelView min)
 		{
 			Calendar calendar = Calendar.getInstance();
 			calendar.set(Calendar.HOUR, hour.getCurrentItem());
 			calendar.set(Calendar.MINUTE, min.getCurrentItem());
-			calendar.set(Calendar.AM_PM, amPm.getCurrentItem());
+			//calendar.set(Calendar.AM_PM, amPm.getCurrentItem());
 
 			return calendar;
 
@@ -80,7 +80,7 @@ public class MyTimePicker
 	public String getTime()
 		{
 			String format = "%02d:%02d:%2S";
-			return String.format(format, hour.getCurrentItem() + 1, min.getCurrentItem() + 1, amPm.getCurrentItem() == 0 ? "AM" : "PM");
+			return String.format(format, hour.getCurrentItem() + 1, min.getCurrentItem() + 1);
 		}
 
 	private class DateNumericAdapter extends NumericWheelAdapter

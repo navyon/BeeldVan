@@ -64,9 +64,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
             android:weightSum="5">
-
-
-
             <LinearLayout
                     android:id="@+id/fcLlDate"
                     android:layout_width="0dp"
