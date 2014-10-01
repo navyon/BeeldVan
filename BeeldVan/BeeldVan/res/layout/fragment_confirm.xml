@@ -128,13 +128,13 @@
                 android:layout_weight="0.69"
                 android:button="@drawable/checkbox"
                 android:checked="false"
-                android:gravity="center"
-                android:paddingLeft="5dp"
+            android:paddingLeft="10dp"
                 android:paddingRight="15dp"
                 android:radius="5dp"
                 android:text="@string/ConfirmCheckbox"
                 android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:textSize="10sp"
+            android:gravity="center_vertical|left" />
 
         <Button
                 android:id="@+id/btnfinalsubmit"
