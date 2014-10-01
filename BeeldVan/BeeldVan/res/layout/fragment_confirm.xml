@@ -10,127 +10,113 @@
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/progress_4"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+            android:src="@drawable/progress_4" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/progress_4Img"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:background="@color/transparant_white"
-        android:id="@+id/relativeLayout"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:visibility="gone">
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progress_4Img"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/transparant_white"
+            android:gravity="center"
+            android:visibility="visible" >
 
         <TextView
-            android:id="@+id/dateLblTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/date"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+                android:id="@+id/dateLblTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/dateTimeTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+                android:id="@+id/dateTimeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:text="Time"
+                android:textStyle="bold" />
 
         <View
-            android:id="@+id/lineSeparator"
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/dateLblTv"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="3dp"
-            android:background="@color/dark_trans" />
+                android:id="@+id/lineSeparator"
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/dateLblTv"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:background="@color/dark_trans" />
 
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lineSeparator" >
-
-            <RelativeLayout
+        <RelativeLayout
                 android:id="@+id/dateTimeLL"
+                android:layout_below="@+id/lineSeparator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-                <TextView
-                    android:id="@+id/datePickerLbl"
+            <LinearLayout
+                    android:id="@+id/fcLlTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/date_"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/fcTv"
+                    android:orientation="horizontal" >
+            </LinearLayout>
 
-                <DatePicker
-                    android:id="@+id/datePicker1"
+            <TextView
+                    android:id="@+id/fcTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/datePickerLbl"
-                    android:calendarViewShown="false"
-                    android:fitsSystemWindows="true"
-                    android:textDirection="locale"
+                    android:layout_alignParentTop="true"
+                    android:padding="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="" />
 
-                    />
-
-                <TextView
-                    android:id="@+id/timePickerLbl"
+            <LinearLayout
+                    android:id="@+id/fcLlDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/timePicker1"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/datePicker1"
-                    android:text="@string/time_"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-
-                <TimePicker
-                    android:id="@+id/timePicker1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/timePickerLbl"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/datePicker1"
-                    android:fitsSystemWindows="true"
-                    android:layoutMode="clipBounds"
-
-                    />
-            </RelativeLayout>
-        </HorizontalScrollView>
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/fcTv"
+                    android:orientation="horizontal" >
+            </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
             android:id="@+id/confirmOptionsLL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-        android:orientation="vertical" android:weightSum="1"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_below="@+id/relativeLayout">
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical"
+            android:weightSum="1" >
 
         <EditText
                 android:id="@+id/editText_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:drawablePadding="25dp"
-            android:ems="10"
+                android:layout_above="@+id/checkBox"
+                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:layout_toLeftOf="@+id/imageButton"
+                android:background="@color/white"
+                android:drawablePadding="25dp"
+                android:ems="10"
                 android:hint="@string/ConfirmEmailHint"
                 android:inputType="textEmailAddress"
                 android:paddingBottom="15dp"
@@ -138,18 +124,17 @@
                 android:paddingRight="15dp"
                 android:paddingTop="15dp"
                 android:selectAllOnFocus="true"
-                android:textSize="18sp"
-            android:background="@drawable/rounded_white"
-            android:layout_above="@+id/checkBox"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/imageButton" />
+                android:textSize="18sp" />
 
         <CheckBox
                 android:id="@+id/checkBox"
                 android:layout_width="match_parent"
-            android:button="@drawable/checkbox"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btnfinalsubmit"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="0.69"
+                android:button="@drawable/checkbox"
                 android:checked="false"
                 android:gravity="center"
                 android:paddingLeft="5dp"
@@ -157,37 +142,34 @@
                 android:radius="5dp"
                 android:text="@string/ConfirmCheckbox"
                 android:textColor="@android:color/white"
-                android:textSize="12sp" android:layout_weight="0.69" android:layout_height="wrap_content"
-            android:layout_above="@+id/btnfinalsubmit"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp" />
+                android:textSize="12sp" />
 
         <Button
                 android:id="@+id/btnfinalsubmit"
                 style="@style/button_simple"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="false"
+                android:layout_centerHorizontal="true"
                 android:layout_gravity="bottom"
-            android:text="@string/ConfirmBtn"
-                android:textColor="@android:color/white"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentEnd="false"
-            android:layout_marginRight="0dp"
-            android:layout_marginLeft="0dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:text="@string/ConfirmBtn"
+                android:textColor="@android:color/white" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageButton"
-            android:src="@drawable/question_mark"
-            android:layout_alignTop="@+id/editText_email"
-            android:layout_alignParentRight="true"
-            android:layout_alignBottom="@+id/editText_email"
-            android:background="@color/transparant"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"
-            android:scaleType="fitCenter" />
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/editText_email"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/editText_email"
+                android:background="@color/transparant"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/question_mark" />
     </RelativeLayout>
 
 </RelativeLayout>
