@@ -106,7 +106,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
                 android:layout_toLeftOf="@+id/imageButton"
-                android:background="@color/white"
+                android:background="@drawable/rounded_white"
                 android:drawablePadding="25dp"
                 android:ems="10"
                 android:hint="@string/ConfirmEmailHint"
