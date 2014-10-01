@@ -79,7 +79,7 @@ public class MyTimePicker
 
 	public String getTime()
 		{
-			String format = "%02d:%02d:%2S";
+			String format = "%02d:%02d";
 			return String.format(format, hour.getCurrentItem() + 1, min.getCurrentItem() + 1);
 		}
 
