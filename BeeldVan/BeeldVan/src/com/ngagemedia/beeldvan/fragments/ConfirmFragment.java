@@ -1,11 +1,12 @@
 package com.ngagemedia.beeldvan.fragments;
 
+import java.io.Console;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import org.apache.http.HttpEntity;
@@ -20,6 +21,10 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -80,6 +85,7 @@ public class ConfirmFragment extends Fragment
 	// TimePicker timePicker1;
 	String imagePath;
 	Bundle extras = null;
+    Long unixPublishDate;
 	Bitmap photo;
 	TextView dateTimeTv;
 	FragmentManager fm1 = ConfirmFragment.this.getFragmentManager();
@@ -102,8 +108,7 @@ public class ConfirmFragment extends Fragment
 			extras = getArguments();
 			if (extras != null)
 				{
-					// extras = getActivity().getIntent().getExtras();
-					// photo = extras.getParcelable("data");
+
 					imagePath = extras.getString("imagePath");
 					if (imagePath != null)
 						hasphoto = true;
@@ -111,30 +116,6 @@ public class ConfirmFragment extends Fragment
 				}
 
 			dateTimeTv = (TextView) rootView.findViewById(R.id.dateTimeTv);
-			// timePicker1 = (TimePicker) rootView.findViewById(R.id.timePicker1);
-			// datePicker1 = (DatePicker) rootView.findViewById(R.id.datePicker1);
-
-			// showDateTime(datePicker1.getDayOfMonth(), (datePicker1.getMonth() + 1), datePicker1.getYear(), timePicker1.getCurrentHour(), timePicker1.getCurrentMinute());
-			// timePicker1.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener()
-			// {
-			//
-			// @Override
-			// public void onTimeChanged(TimePicker view, int hourOfDay, int minute)
-			// {
-			// showDateTime(datePicker1.getDayOfMonth(), (datePicker1.getMonth() + 1), datePicker1.getYear(), timePicker1.getCurrentHour(), timePicker1.getCurrentMinute());
-			// }
-			// });
-			//
-			// datePicker1.init(datePicker1.getYear(), datePicker1.getMonth(), datePicker1.getDayOfMonth(), new DatePicker.OnDateChangedListener()
-			// {
-			//
-			// @Override
-			// public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth)
-			// {
-			// showDateTime(datePicker1.getDayOfMonth(), (datePicker1.getMonth() + 1), datePicker1.getYear(), timePicker1.getCurrentHour(), timePicker1.getCurrentMinute());
-			//
-			// }
-			// });
 			mDp = new MyDatePicker(getActivity(), Calendar.getInstance(), rootView.findViewById(R.id.fcLlDate));
 			mTp = new MyTimePicker(getActivity(), Calendar.getInstance(), rootView.findViewById(R.id.fcLlTime));
 			Button submitbox = (Button) rootView.findViewById(R.id.btnfinalsubmit);
@@ -164,7 +145,19 @@ public class ConfirmFragment extends Fragment
 				{
 					public void onClick(View v)
 						{
-							mPublishDate = mDp.getDate() + "   " + mTp.getTime();
+                            try {
+                                mPublishDate = mDp.getDate()+ ", " + mTp.getTime();
+                                DateTimeZone zone = DateTimeZone.forID("Europe/Amsterdam");
+                                DateTimeZone.setDefault(zone);
+                                DateTimeFormatter format = DateTimeFormat.forPattern("dd/MM/yyyy, hh:mm");
+                                DateTime dateTime = format.parseDateTime(mPublishDate);
+                                unixPublishDate = dateTime.getMillis()/1000;
+                            }
+                            catch (Exception e)
+                            {
+
+                            }
+
 							String email = edittx_email.getText().toString();
 							if (checkEmail(email))
 								{
@@ -250,7 +243,7 @@ public class ConfirmFragment extends Fragment
 						StringBody ip = new StringBody(msg.getIp_address(), ContentType.TEXT_PLAIN);
 						StringBody source = new StringBody("Android", ContentType.TEXT_PLAIN);
 						StringBody location = new StringBody(Integer.toString(screen.getLid()), ContentType.TEXT_PLAIN);
-						StringBody publishDate = new StringBody(mPublishDate, ContentType.TEXT_PLAIN);
+						StringBody publishDate = new StringBody(Long.toString(unixPublishDate), ContentType.TEXT_PLAIN);
 
 						entityBuilder.addPart("message", message);
 						entityBuilder.addPart("email", email);
@@ -333,31 +326,6 @@ public class ConfirmFragment extends Fragment
 			return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
 		}
 
-	// Start a New thread for the network activity
-	public void StartNewThreadUpload()
-		{
-
-			Thread thread = new Thread(new Runnable()
-				{
-					@Override
-					public void run()
-						{
-							try
-								{
-
-									/********** Pick file from sdcard *******/
-									// we can add a check for null here maybe
-
-								}
-							catch (Exception e)
-								{
-									e.printStackTrace();
-								}
-						}
-				});
-
-			thread.start();
-		}
 
 	// Creates a http connection
 
@@ -405,45 +373,6 @@ public class ConfirmFragment extends Fragment
 			return "";
 		}
 
-	private void showDateTime(int day, int month, int year, int hour, int minutes)
-		{
-			String dateTimeStr = "";
-			if (day < 10)
-				{
-					dateTimeStr += "0" + day;
-				}
-			else
-				{
-					dateTimeStr += day;
-				}
 
-			if (month < 10)
-				{
-					dateTimeStr += "-0" + month;
-				}
-			else
-				{
-					dateTimeStr += "-" + month;
-				}
-
-			dateTimeStr += "-" + year;
-			if (hour < 10)
-				{
-					dateTimeStr += "   0" + hour;
-				}
-			else
-				{
-					dateTimeStr += "   " + hour;
-				}
-			if (minutes < 10)
-				{
-					dateTimeStr += ":0" + minutes;
-				}
-			else
-				{
-					dateTimeStr += ":" + minutes;
-				}
-			dateTimeTv.setText(dateTimeStr);
-		}
 
 }

@@ -76,7 +76,7 @@ public class MyDatePicker
 			calendar.set(Calendar.MONTH, month.getCurrentItem());
 
 			int maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-			day.setViewAdapter(new DateNumericAdapter(mContex, 1, maxDays, calendar.get(Calendar.DAY_OF_MONTH) - 1));
+			day.setViewAdapter(new DateNumericAdapter(mContex, 1, maxDays, calendar.get(Calendar.DAY_OF_MONTH)));
 			int curDay = Math.min(maxDays, day.getCurrentItem() + 1);
 			day.setCurrentItem(curDay - 1, true);
 			calendar.set(Calendar.DAY_OF_MONTH, curDay);
@@ -86,7 +86,7 @@ public class MyDatePicker
 
 	public String getDate()
 		{
-			String format = "%02d-%02d-%4d";
+			String format = "%02d/%02d/%4d";
 			return String.format(format, day.getCurrentItem() + 1, month.getCurrentItem() + 1, mYear - NoOfYear + year.getCurrentItem());
 		}
 
