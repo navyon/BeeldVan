@@ -1,5 +1,6 @@
 package com.ngagemedia.beeldvan.views;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.app.Dialog;
@@ -80,7 +81,9 @@ public class MyDatePicker
 			int curDay = Math.min(maxDays, day.getCurrentItem() + 1);
 			day.setCurrentItem(curDay - 1, true);
 			calendar.set(Calendar.DAY_OF_MONTH, curDay);
-			return calendar;
+            //SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a");
+            //sdf.format(calendar.getTime());
+            return calendar;
 
 		}
 

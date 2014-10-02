@@ -108,7 +108,8 @@ public class ConfirmFragment extends Fragment
 			extras = getArguments();
 			if (extras != null)
 				{
-
+					// extras = getActivity().getIntent().getExtras();
+					// photo = extras.getParcelable("data");
 					imagePath = extras.getString("imagePath");
 					if (imagePath != null)
 						hasphoto = true;
@@ -145,17 +146,18 @@ public class ConfirmFragment extends Fragment
 				{
 					public void onClick(View v)
 						{
+                            mPublishDate = mDp.getDate()+ ", " + mTp.getTime();
+                            DateTimeZone zone = DateTimeZone.forID("Europe/Amsterdam");
+                            DateTimeZone.setDefault(zone);
+                            DateTimeFormatter format = DateTimeFormat.forPattern("dd/MM/yyyy, HH:mm");
                             try {
-                                mPublishDate = mDp.getDate()+ ", " + mTp.getTime();
-                                DateTimeZone zone = DateTimeZone.forID("Europe/Amsterdam");
-                                DateTimeZone.setDefault(zone);
-                                DateTimeFormatter format = DateTimeFormat.forPattern("dd/MM/yyyy, hh:mm");
+
                                 DateTime dateTime = format.parseDateTime(mPublishDate);
                                 unixPublishDate = dateTime.getMillis()/1000;
                             }
                             catch (Exception e)
                             {
-
+                                unixPublishDate = System.currentTimeMillis()/1000;
                             }
 
 							String email = edittx_email.getText().toString();
