@@ -40,6 +40,7 @@ public class Sync2Manager
         private SplashActivity mInstance;
 
         private static final String TAG_nameValuePair = "nameValuePairs";
+        private static final String TAG_lastupdate = "lastUpdate";
         public Sync2Manager(Context context){
 
             mInstance = (SplashActivity) context;
@@ -75,7 +76,7 @@ public class Sync2Manager
                                 String lastestVersion = cvgson.toJson(arg1);
                                 lmap = (Map<String, Object>) cvgson.fromJson(lastestVersion, lmap.getClass());
                                 LinkedTreeMap<String, Double> updateMap1 = (LinkedTreeMap<String, Double>) lmap.get(TAG_nameValuePair);
-                                Double latestversion = updateMap1.get("lastUpdate");
+                                Double latestversion = updateMap1.get(TAG_lastupdate);
                                 // if no current version is saved, store it in shared pref
                                 if(TextUtils.isEmpty(currentVersion)) {
                                     Gson cv1gson = new Gson();
@@ -89,7 +90,7 @@ public class Sync2Manager
                                     Gson gson = new GsonBuilder().serializeNulls().create();
                                     cmap = (Map<String, Object>) gson.fromJson(currentVersion, cmap.getClass());
                                     LinkedTreeMap<String, Double> updateMap = (LinkedTreeMap<String, Double>) cmap.get(TAG_nameValuePair);
-                                    Double currentversion = updateMap.get("lastUpdate");
+                                    Double currentversion = updateMap.get(TAG_lastupdate);
                                     // check current version against the latest version
                                     // if newer save to Shared Pref
                                     if(currentversion < latestversion) {
