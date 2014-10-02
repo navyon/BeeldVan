@@ -267,6 +267,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
             childItems.add("Nieuw Bericht");
             childItems.add("Informatie");
             childItems.add("Nieuws");
+            childItems.add("Informatie over de App");
 
             listDataHeader = new ArrayList<String>();
             listDataLid = new ArrayList<Integer>();
@@ -287,6 +288,7 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 
                 for(int i = 0; i < listDataHeader.size(); i++) {
                         listDataChild.put(listDataHeader.get(i),childItems);
+
                 }
             }
 
@@ -356,7 +358,9 @@ public class MainActivity extends Activity implements OnClickListener,ImageLoadI
 					case 2:
                         fragment = new TwitterFragment();
 						break;
-
+                    case 3:
+                        fragment = new GenInfoFragment();
+                        break;
 					default:
 						break;
 					}

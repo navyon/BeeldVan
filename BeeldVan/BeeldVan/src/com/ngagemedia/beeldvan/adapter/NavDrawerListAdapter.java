@@ -60,6 +60,8 @@ public class NavDrawerListAdapter extends BaseExpandableListAdapter
             childIcon.setImageResource(slideImages[1]);
         if(childPosition==2)
             childIcon.setImageResource(slideImages[2]);
+        if(childPosition==3)
+            childIcon.setImageResource(0);
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.lblListItem);
 
