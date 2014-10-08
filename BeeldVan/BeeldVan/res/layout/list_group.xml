@@ -6,9 +6,11 @@
               android:background="@color/list_background">
     <ImageView
             android:id="@+id/expandableIcon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
             android:src="@drawable/arrow_down_float"
             android:visibility="visible"
             android:scaleType="fitCenter"
@@ -19,8 +21,6 @@
             android:id="@+id/lblListHeader"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
             android:paddingLeft="20dp"
             android:textSize="@dimen/slide_menu_textsize"
             android:textColor="#ffffff"

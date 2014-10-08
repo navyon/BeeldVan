@@ -30,6 +30,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -39,9 +40,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,40 +64,33 @@ import com.ngagemedia.beeldvan.utilities.Utilities;
 import com.ngagemedia.beeldvan.views.MyDatePicker;
 import com.ngagemedia.beeldvan.views.MyTimePicker;
 
-public class ConfirmFragment extends Fragment
+public class ConfirmFragment extends Fragment implements Animation.AnimationListener
 {
 	JSONParser jsonParser = new JSONParser();
 
 	// JSON Node names
 	private static final String TAG_SUCCESS = "success";
-	// url to call php script
-	// private static String url_create_message =
-	// "http://beeldvandenhaag.daankrn.nl/android_api/create_message.php";
 	private static String url_create_message = "http://api.beeldvan.nu/1.0/messages/post.json";
-
-	/************* Php script upload file ****************/
-	// private static String upLoadServerUri =
-	// "http://beeldvandenhaag.daankrn.nl/android_api/UploadToServer.php";
-	private static String upLoadServerUri = "http://beeldvandenhaag.nu/android/upload_pictures.php";
 
 	Utilities utils;
 	Locations screen;
-	int uploadFinished = 0;
 	String ip_address = "";
 	EditText edittx_email;
 	CheckBox chkbox;
 	// Progress Dialog
 	private ProgressDialog pDialog;
-	int serverResponseCode = 0;
 	boolean hasphoto = false;
 
-	// DatePicker datePicker1;
-	// TimePicker timePicker1;
 	String imagePath;
 	Bundle extras = null;
     Long unixPublishDate;
-	Bitmap photo;
 	TextView dateTimeTv;
+    Button submitbox;
+    LinearLayout confirmOptions;
+    RelativeLayout dateTimePicker;
+    ScrollView mScrollView;
+    ImageView mProgress;
+
 	FragmentManager fm1 = ConfirmFragment.this.getFragmentManager();
 
 	public final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+");
@@ -95,6 +98,11 @@ public class ConfirmFragment extends Fragment
 	MyDatePicker mDp;
 	MyTimePicker mTp;
 	String mPublishDate;
+
+
+//    Animation slideUpIn;
+//    Animation slideDownOut;
+    Animation fadeIn, fadeOut;
 
 	public ConfirmFragment()
 		{
@@ -115,11 +123,10 @@ public class ConfirmFragment extends Fragment
 						hasphoto = true;
 
 				}
-
 			dateTimeTv = (TextView) rootView.findViewById(R.id.dateTimeTv);
 			mDp = new MyDatePicker(getActivity(), Calendar.getInstance(), rootView.findViewById(R.id.fcLlDate));
 			mTp = new MyTimePicker(getActivity(), Calendar.getInstance(), rootView.findViewById(R.id.fcLlTime));
-			Button submitbox = (Button) rootView.findViewById(R.id.btnfinalsubmit);
+			submitbox = (Button) rootView.findViewById(R.id.btnfinalsubmit);
 			edittx_email = (EditText) rootView.findViewById(R.id.editText_email);
 			edittx_email.setTextColor(Color.BLACK);
 
@@ -129,12 +136,73 @@ public class ConfirmFragment extends Fragment
 			edittx_email.setTypeface(fontLight);
 			submitbox.setTypeface(fontLight);
 
+//            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+            dateTimePicker = (RelativeLayout) rootView.findViewById(R.id.dateTimePicker);
+            mScrollView = (ScrollView) rootView.findViewById(R.id.confirmsv);
+            mProgress = (ImageView) rootView.findViewById(R.id.progress_4Img);
+
 			utils = new Utilities(getActivity());
 			screen = utils.getSelectedLocation(getActivity());
 			chkbox = (CheckBox) rootView.findViewById(R.id.checkBox);
 			chkbox.setTypeface(fontRegular);
+            confirmOptions = (LinearLayout) rootView.findViewById(R.id.confirmOptionsLL);
 
-			String mail = utils.getSharedPrefValue("email");
+            fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
+            fadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
+
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+            fadeOut.setAnimationListener(this);
+//            slideUpIn.setAnimationListener(this);
+
+//
+//            btnhidekeyb.setOnClickListener(new View.OnClickListener()
+//            {
+//                @Override
+//                public void onClick(View v)
+//                {
+//                    // hide keyboard
+//                    InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+//                    edittx_email.clearFocus();
+////                    confirmOptions.startAnimation(slideUpIn);
+//                    chkbox.setVisibility(View.VISIBLE);
+//                    submitbox.setVisibility(View.VISIBLE);
+//                }
+//            });
+
+//edittx_email.setImeOptions(EditorInfo.IME_ACTION_DONE);
+//
+            edittx_email.setOnFocusChangeListener(new View.OnFocusChangeListener()
+            {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus)
+                {
+                    if (hasFocus)
+                    {
+//                        mScrollView.scrollTo(0, y);
+//                        mProgress.startAnimation(fadeOut);
+//                        dateTimePicker.startAnimation(fadeOut);
+                        mScrollView.post(new Runnable() {
+                            public void run() {
+                                mScrollView.smoothScrollTo(0,confirmOptions.getBottom());
+                            }
+                        });
+                    } else {
+                        if(mProgress.getVisibility() == View.INVISIBLE){
+//                            mProgress.startAnimation(fadeIn);
+//                            mProgress.setVisibility(View.VISIBLE);
+//                            dateTimePicker.startAnimation(fadeIn);
+//                            dateTimePicker.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                }
+            });
+
+
+            String mail = utils.getSharedPrefValue("email");
 			if (mail != null)
 				{
 					edittx_email.setText(mail);
@@ -147,11 +215,11 @@ public class ConfirmFragment extends Fragment
 					public void onClick(View v)
 						{
                             mPublishDate = mDp.getDate()+ ", " + mTp.getTime();
+
                             DateTimeZone zone = DateTimeZone.forID("Europe/Amsterdam");
                             DateTimeZone.setDefault(zone);
                             DateTimeFormatter format = DateTimeFormat.forPattern("dd/MM/yyyy, HH:mm");
                             try {
-
                                 DateTime dateTime = format.parseDateTime(mPublishDate);
                                 unixPublishDate = dateTime.getMillis()/1000;
                             }
@@ -189,7 +257,26 @@ public class ConfirmFragment extends Fragment
 			return rootView;
 		}
 
-	/**
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        if(animation == fadeOut){
+            mProgress.setVisibility(View.INVISIBLE);
+            dateTimePicker.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+    }
+
+
+    /**
 	 * Background Async Task to Create new Message
 	 * */
 	class CreateNewMessage extends AsyncTask<String, String, String>

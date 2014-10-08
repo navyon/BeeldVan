@@ -88,7 +88,6 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         imagev = (ImageView) rootView.findViewById(R.id.ImageViewPreview);
         txtview = (TextView) rootView.findViewById(R.id.TextViewPreview);
         aspectv = (ImageView) rootView.findViewById(R.id.aspectFix);
-        animView = (ImageView) rootView.findViewById(R.id.animView);
         btnChangePreviewPhoto = (Button) rootView.findViewById(R.id.btnChangePreviewPhoto);
         btnChangePreviewMessage = (Button) rootView.findViewById(R.id.btnchangePreviewText);
         btnRestartAnim = (ImageButton) rootView.findViewById(R.id.btnRestartAnim);

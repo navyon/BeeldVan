@@ -65,7 +65,6 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         locLoadingAnim = (AnimationDrawable) locLoading.getDrawable();
         locLoadingAnim.start();
         imageLoader = new ImageLoader(this);
-//        new MyTask().execute();
     }
 
     @Override
@@ -77,7 +76,6 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         s.getSync2Manager().getCurrentVersion();
         if (mLocationManager == null)
             mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
     }
 
     private ArrayList<CityData> CityDataList;

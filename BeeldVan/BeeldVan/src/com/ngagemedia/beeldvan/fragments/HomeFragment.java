@@ -1,5 +1,6 @@
 package com.ngagemedia.beeldvan.fragments;
 
+import com.ngagemedia.beeldvan.MainActivity;
 import com.ngagemedia.beeldvan.R;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ public class HomeFragment extends Fragment
 	{
 
 		View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
+        MainActivity.main_include_layout.setVisibility(View.VISIBLE);
 		return rootView;
 	}
 }

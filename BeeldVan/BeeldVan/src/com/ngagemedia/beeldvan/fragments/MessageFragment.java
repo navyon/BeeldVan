@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.TypedValue;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -73,7 +74,8 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
         //get selected screen
         screen = utils.getSelectedLocation(getActivity());
 
-
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         txtView_msg = (EditText) rootView.findViewById(R.id.txtView_msg);
         aspectv = (ImageView) rootView.findViewById(R.id.aspectv);
         progress2 = (ImageView) rootView.findViewById(R.id.progress_2Img);
@@ -97,7 +99,6 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
         });
         final AlertDialog alert = builder.create();
 
-        Typeface fontRegular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Regular.ttf");
         Typeface fontLight = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");
         Typeface fontHelv = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaBold.ttf");
         txtView_msg.setTypeface(fontHelv);
@@ -200,6 +201,8 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
             {
                 if (hasFocus)
                 {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(txtView_msg, InputMethodManager.SHOW_IMPLICIT);
                     layhidekeyb.setVisibility(View.VISIBLE);
                     continueRL.startAnimation(slideDownOut);
                     progress2.startAnimation(slideUpOut);
@@ -209,6 +212,8 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
 
             }
         });
+
+        txtView_msg.requestFocus();
         return rootView;
     }
 

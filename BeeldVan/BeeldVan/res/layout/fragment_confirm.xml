@@ -1,164 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/confirmsv"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/backrepeat"
+    android:fillViewport="true"
+    android:isScrollContainer="false"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:focusable="false">
+
+            <ImageView
+                android:id="@+id/progress_4Img"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/backrepeat"
-                android:orientation="vertical" >
+                android:layout_height="50dp"
+                android:adjustViewBounds="false"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/progress_4" />
 
-    <ImageView
-            android:id="@+id/progress_4Img"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="5dp"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/progress_4"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
-
-    <RelativeLayout
-            android:id="@+id/relativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/progress_4Img"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-        android:gravity="center"
-            android:visibility="visible" >
-
-        <TextView
-                android:id="@+id/dateLblTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/date"
-                android:textColor="@color/white"
-                android:textSize="17sp"
-            android:fontFamily="sans-serif-thin"
-                />
-
-        <TextView
-                android:id="@+id/dateTimeTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/white"
-                android:textSize="17sp"
-                android:text="Time"
-            android:fontFamily="sans-serif-thin"
-                android:textStyle="bold" />
-
-        <View
-                android:id="@+id/lineSeparator"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/dateLblTv"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
-                android:background="@color/transparant_white" />
-
-        <LinearLayout
-                android:id="@+id/dateTimeLL"
-                android:layout_below="@+id/lineSeparator"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-            android:weightSum="5">
             <LinearLayout
-                    android:id="@+id/fcLlDate"
-                    android:layout_width="0dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="false"
+                android:layout_below="@+id/progress_4Img"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/dateTimePicker"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                android:layout_weight="2">
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/dateLblTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-thin"
+                        android:text="@string/date"
+                        android:textColor="@color/white"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/dateTimeTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:fontFamily="sans-serif-thin"
+                        android:text="Time"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/lineSeparator"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/dateLblTv"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@color/transparant_white" />
+
+                    <LinearLayout
+                        android:id="@+id/dateTimeLL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lineSeparator"
+                        android:orientation="horizontal"
+                        android:weightSum="5">
+
+                        <LinearLayout
+                            android:id="@+id/fcLlDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:orientation="horizontal"></LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/fcLlTime"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:orientation="horizontal"></LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
+
+
             <LinearLayout
-                android:id="@+id/fcLlTime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="3">
-            </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
-            android:id="@+id/confirmOptionsLL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/relativeLayout"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical"
-            android:weightSum="1" >
-
-        <EditText
-                android:id="@+id/editText_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/checkBox"
-                android:layout_alignParentStart="true"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"
-                android:layout_toLeftOf="@+id/imageButton"
-                android:background="@drawable/rounded_white"
-                android:drawablePadding="25dp"
-                android:ems="10"
-                android:hint="@string/ConfirmEmailHint"
-                android:inputType="textEmailAddress"
-                android:paddingBottom="15dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="15dp"
-                android:paddingTop="15dp"
-                android:selectAllOnFocus="true"
-                android:textSize="18sp" />
-
-        <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/confirmOptionsLL"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/btnfinalsubmit"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="20dp"
-                android:layout_weight="0.69"
-                android:button="@drawable/checkbox"
-                android:checked="false"
-            android:paddingLeft="10dp"
-                android:paddingRight="15dp"
-                android:radius="5dp"
-                android:text="@string/ConfirmCheckbox"
-                android:textColor="@android:color/white"
-                android:textSize="10sp"
-            android:gravity="center_vertical|left" />
-
-        <Button
-                android:id="@+id/btnfinalsubmit"
-                style="@style/button_simple"
-                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="false"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:text="@string/ConfirmBtn"
-                android:textColor="@android:color/white" />
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical"
+                android:visibility="visible"
+                android:weightSum="1"
+                android:scaleType="centerCrop"
+                android:background="@drawable/backrepeat"
+                android:paddingTop="20dp">
 
-        <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/editText_email"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/editText_email"
-                android:background="@color/transparant"
-                android:paddingLeft="15dp"
-                android:paddingRight="10dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/question_mark" />
-    </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="20dp">
 
-</RelativeLayout>
+                    <EditText
+                        android:id="@+id/editText_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toLeftOf="@+id/confirmQuestion"
+                        android:background="@drawable/rounded_white"
+                        android:ems="10"
+                        android:hint="@string/ConfirmEmailHint"
+                        android:imeOptions="actionSend"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="15dp"
+                        android:selectAllOnFocus="true"
+                        android:singleLine="true"
+                        android:textSize="18sp" />
+
+                    <ImageButton
+                        android:id="@+id/confirmQuestion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/editText_email"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/editText_email"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/transparant"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="10dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/question_mark" />
+                </RelativeLayout>
+
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="0.69"
+                    android:button="@drawable/checkbox"
+                    android:checked="false"
+                    android:gravity="center_vertical|left"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="15dp"
+                    android:radius="5dp"
+                    android:text="@string/ConfirmCheckbox"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/btnfinalsubmit"
+                    style="@style/button_simple"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:text="@string/ConfirmBtn"
+                    android:textColor="@android:color/white"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

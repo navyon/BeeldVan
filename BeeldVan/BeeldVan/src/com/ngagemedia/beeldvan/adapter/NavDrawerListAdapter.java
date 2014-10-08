@@ -109,6 +109,11 @@ public class NavDrawerListAdapter extends BaseExpandableListAdapter
         } else {
             image.setVisibility(View.INVISIBLE);
         }
+        if(groupPosition == _listDataHeader.size()-1){
+            image.setVisibility(View.INVISIBLE);
+        }
+
+
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setText(headerTitle);

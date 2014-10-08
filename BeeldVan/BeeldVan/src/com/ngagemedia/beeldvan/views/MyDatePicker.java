@@ -36,11 +36,11 @@ public class MyDatePicker
 			lytmain.setOrientation(LinearLayout.VERTICAL);
 			LinearLayout lytdate = new LinearLayout(mContex);
 
-			Button btnset = new Button(mContex);
-			Button btncancel = new Button(mContex);
+//			Button btnset = new Button(mContex);
+//			Button btncancel = new Button(mContex);
 
-			btnset.setText("Set");
-			btncancel.setText("Cancel");
+//			btnset.setText("Set");
+//			btncancel.setText("Cancel");
 
 			month = new WheelView(mContex);
 			year = new WheelView(mContex);
@@ -66,7 +66,7 @@ public class MyDatePicker
 
 			// day
 			updateDays(year, month, day);
-			day.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH) - 1);
+			day.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH)-1);
 
 		}
 
@@ -77,9 +77,9 @@ public class MyDatePicker
 			calendar.set(Calendar.MONTH, month.getCurrentItem());
 
 			int maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-			day.setViewAdapter(new DateNumericAdapter(mContex, 1, maxDays, calendar.get(Calendar.DAY_OF_MONTH)));
-			int curDay = Math.min(maxDays, day.getCurrentItem() + 1);
-			day.setCurrentItem(curDay - 1, true);
+			day.setViewAdapter(new DateNumericAdapter(mContex, 1, maxDays, calendar.get(Calendar.DAY_OF_MONTH)-1));
+			int curDay = Math.min(maxDays, day.getCurrentItem()-1);
+			day.setCurrentItem(curDay, true);
 			calendar.set(Calendar.DAY_OF_MONTH, curDay);
             //SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a");
             //sdf.format(calendar.getTime());
@@ -90,7 +90,7 @@ public class MyDatePicker
 	public String getDate()
 		{
 			String format = "%02d/%02d/%4d";
-			return String.format(format, day.getCurrentItem() + 1, month.getCurrentItem() + 1, mYear - NoOfYear + year.getCurrentItem());
+			return String.format(format, day.getCurrentItem()+1, month.getCurrentItem() + 1, mYear - NoOfYear + year.getCurrentItem());
 		}
 
 	private class DateNumericAdapter extends NumericWheelAdapter

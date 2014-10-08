@@ -1,6 +1,7 @@
 package com.ngagemedia.beeldvan.fragments;
 
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ngagemedia.beeldvan.MainActivity;
@@ -16,30 +17,23 @@ import com.ngagemedia.beeldvan.model.Locations;
 
 public class GenInfoFragment extends Fragment
 {
-    Locations screen;
-    ImageView cityImage;
-    TextView cityInfo;
-    TextView cityTitle;
-    String baseUrl = "http://beeldvan.nu/";
-    String cityName;
-
+    TextView appInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        int loader = R.drawable.loader;
+
+        getActivity().setTitle("Ngage Media");
         View rootView = inflater.inflate(R.layout.fragment_gen_info, container, false);
-        cityImage = (ImageView) rootView.findViewById(R.id.cityimageView);
-        cityInfo = (TextView) rootView.findViewById(R.id.txtCityInfo);
-        cityTitle =(TextView) rootView.findViewById(R.id.txtcityTitle);
+        appInfo = (TextView) rootView.findViewById(R.id.appInfo);
 
+        MainActivity.main_include_layout.setVisibility(View.GONE);
+        MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
 
-
-        if(screen!=null) {
-
-            MainActivity.main_include_layout.setVisibility(View.GONE);
-            MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
-        }
+        String info = getString(R.string.app_info);
+        System.out.println(info);
+        appInfo.setText(Html.fromHtml(getString(R.string.app_info)));
+        appInfo.setMovementMethod(LinkMovementMethod.getInstance());
         return rootView;
     }
 

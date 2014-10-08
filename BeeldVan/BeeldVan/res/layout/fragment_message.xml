@@ -13,13 +13,13 @@
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/progress_2"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="20dp" />
 
     <RelativeLayout
             android:layout_width="fill_parent"
@@ -66,7 +66,9 @@
                 android:singleLine="false"
                 android:textColor="#f5f5f5"
                 android:textSize="50sp"
-                android:textStyle="bold" />
+
+                android:textStyle="bold"/>
+
 
     </RelativeLayout>
 
@@ -94,7 +96,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/msgContRL"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"

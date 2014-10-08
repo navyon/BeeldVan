@@ -1,8 +1,11 @@
 package com.ngagemedia.beeldvan.asynctasks;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.widget.ProgressBar;
+
 import com.google.myjson.*;
 import com.google.myjson.internal.LinkedTreeMap;
 import com.google.myjson.reflect.TypeToken;
@@ -133,13 +136,18 @@ public class Sync2Manager
 
         private class UpdateLocations extends AsyncTask<Void, Void, Void>
         {
+            ProgressBar progressBar;
             private OnTaskCompleted mListener;
 
             public UpdateLocations(OnTaskCompleted listener){
                 this.mListener = listener;
             }
 
+            @Override
+            protected void onPreExecute()
+            {
 
+            };
             @Override
             protected Void doInBackground(Void... params)
             {
@@ -185,20 +193,9 @@ public class Sync2Manager
             @Override
             protected void onPostExecute(Void params) {
                 mListener.OnTaskCompleted();
-//                mCityList = new Utilities(context).getAllCitiesList();
-//                if(mCityList !=null) {
-//                    for (int i = 0; i < mCityList.size(); i++) { //loop through cities
-//                        List<Locations> l = mCityList.get(i).getLocations();
-//                        if (mCityList.get(i).getLocations().size() > 0) {//if city has location
-//                            for (int j = 0; j < mCityList.get(i).getLocations().size(); j++) {//loop through lid's
-//                                if(l.get(j) != null) {
-//                                    SplashActivity.mLocationList.add(l.get(j));
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
+
             }
+
 
         }
 

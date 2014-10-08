@@ -4,13 +4,13 @@
     <string name="btnAddPhoto">Foto toevoegen</string>
     <string name="btnAddTxt">Overslaan</string>
     <string name="PreviewbtnChangeTxt">Wijzig Tekst</string>
-    <string name="PreviewbtnChangePhoto">Wijzig Photo</string>
+    <string name="PreviewbtnChangePhoto">Wijzig Foto</string>
     <string name="Continue">Ik ben tevreden!</string>
     <string name="deletephoto">Verwijder foto</string>
-    <string name="ChooseaTask">Selecteer een bron</string>
-    <string name="ChooseApp">Kies een applicatie</string>
-    <string name="ChoosefromGallery">Selecteer een bestaande foto</string>
-    <string name="CapturePhoto">Maak een foto"</string>
+    <string name="ChooseaTask">Kies een bron</string>
+    <string name="ChooseApp">Kies een bron</string>
+    <string name="ChoosefromGallery">Gemaakte foto\'s</string>
+    <string name="CapturePhoto">Camera"</string>
     <string name="PreviewbtnAddPhoto">Foto toevoegen</string>
     <string name="PreviewbtnAddTxt">Tekst toevoegen</string>
     <string name="CropOption">Pas formaat aan</string>
@@ -29,33 +29,25 @@ van de door mij toegevoegde afbeelding</string>
     <string name="FinalTip">Je krijgt een e-mail wanneer je bericht is goedgekeurd.</string>
     <string name="InternetCheck">Er is geen internet verbinding gevonden, controleer uw internetverbinding en probeer het opnieuw.</string>
     <string name="UploadDialog">Uw inzending wordt verstuurd</string>
-	 <string name="action_settings">Settings</string>
+    <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
-	  <!-- Nav Drawer Menu Items -->
+    <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
-        <item >Beeld van</item>
-        <item >Informatie</item>
-        <item >Nieuws</item>
-        <item >Informatie over de App</item>
+        <item>Beeld van</item>
+        <item>Informatie</item>
+        <item>Nieuws</item>
+        <item>Informatie over de App</item>
     </string-array>
-    
+
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
 
-    
+
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
-    <string name="start_">Start!</string>
-    <string name="english">English</string>
-    <string name="nederlands">Nederlands</string>
-    <string name="communities_view">Communities View</string>
     <string name="News">Nieuws</string>
-    <string name="home_view">Home View</string>
-    <string name="pages_view">Pages View</string>
-    <string name="photos_view">Photos View</string>
-    <string name="what_s_hot_view">What\'s Hot View</string>
     <string name="like_ons_op_facebook_">Like ons op Facebook!</string>
     <string name="wat_wilt_u_plaatsen_op_de_haagse_toren_">Wat wilt u plaatsen op de haagse toren?</string>
     <string name="foto_en_tekst">Foto en tekst</string>
@@ -63,7 +55,15 @@ van de door mij toegevoegde afbeelding</string>
     <string name="Overslaan">Overslaan</string>
     <string name="done">Done</string>
     <string name="afbleeding">Afbeelding</string>
-    
+
+
+    <!--HTML app info string-->
+    <string name="app_info"><![CDATA[<p><span style="color: #000000; font-family: arial, sans, sans-serif; font-size: 13px; line-height: normal; white-space: pre-wrap;">Beeld Van is de app die je toegang geeft tot vele grote schermen bij jou in buurt. Deel jouw mooiste foto met je eigen stad, of verras je vriend of vriendin aan de andere kant van het land.</span></p>
+<br>
+<p><span style="color: #000000; font-family: arial, sans, sans-serif; font-size: 13px; line-height: normal; white-space: pre-wrap;">Beeld Van is een initiatief van <a href="http://www.ngagemedia.nl">Ngage Media</a> en draait op het groeiende netwerk van grote schermen in eigen beheer.</p><br>
+    <p><span style="color: #000000; font-family: arial, sans, sans-serif; font-size: 13px; line-height: normal; white-space: pre-wrap;\">Persoonlijke inzendingen zijn gratis, voor advertentie mogelijkheden neem contact op met ons via <a href="mailto:sales@ngagemedia.nl">sales@ngagemedia.nl</a>.</span></p><br>
+    <p><span style="color: #000000; font-family: arial, sans, sans-serif; font-size: 13px; line-height: normal; white-space: pre-wrap;">Ngage Media keurt de inzendingen voor plaatsing, en behoudt het recht om zonder opgaaf van rede een inzending af te keuren. Een goedgekeurd bericht is geen garantie op een geplaatst bericht, aangezien dit met de huidige ruimte op het scherm te maken heeft.</span></p>]]>
+    </string>
     <!-- More Strings -->
     <string name="cancel">Cancel</string>
     <string name="date">Date</string>

@@ -12,8 +12,9 @@
         android:layout_gravity="center_horizontal"
         android:src="@drawable/progress_3"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp" />
 
     <RelativeLayout
         android:id="@+id/previewTxtOptionsLL"
@@ -72,17 +73,6 @@
         android:layout_below="@+id/progress_3Img">
 
         <ImageView
-            android:id="@+id/animView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/aspectFix"
-            android:layout_alignLeft="@+id/aspectFix"
-            android:layout_alignRight="@+id/aspectFix"
-            android:layout_alignTop="@+id/aspectFix"
-            android:background="#000000"
-            android:contentDescription="@string/app_name" />
-
-        <ImageView
             android:id="@+id/aspectFix"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -108,7 +98,8 @@
             android:contentDescription="@string/app_name"
 
             android:scaleType="fitXY"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:padding="1dp" />
 
         <TextView
             android:id="@+id/TextViewPreview"
