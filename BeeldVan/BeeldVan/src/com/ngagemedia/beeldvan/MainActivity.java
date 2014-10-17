@@ -7,6 +7,8 @@ import java.util.*;
 
 import android.app.*;
 import android.content.*;
+import android.os.Handler;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import com.ngagemedia.beeldvan.adapter.NavDrawerListAdapter;
@@ -42,6 +44,9 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
     public static DrawerLayout mDrawerLayout;
     public static ExpandableListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
+
+    private boolean doubleBackToExitPressedOnce;
+    private Handler myHandler;
 
     ExpandableListAdapter listAdapter;
     List<Integer> listDataLid;
@@ -85,8 +90,7 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_new);
         utils = new Utilities(this);
-        screen = utils.getSelectedLocation(this);
-
+        myHandler = new Handler();
 
         main_include_layout = (View) findViewById(R.id.main_include_layout);
         postedImgsGridView = (GridView) findViewById(R.id.postedImgsGridView);
@@ -126,11 +130,49 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
         // preparing list data
         prepareListData();
 
+
+
         listAdapter = new NavDrawerListAdapter(this, listDataHeader, listDataChild);
         // setting list adapter
         mDrawerList.setAdapter(listAdapter);
         mDrawerList.setGroupIndicator(null);
 
+        // enabling action bar app icon and behaving it as toggle button
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, // nav menu toggle icon
+                R.string.app_name, // nav drawer open - description for accessibility
+                R.string.app_name // nav drawer close - description for accessibility
+        ) {
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
+                // calling onPrepareOptionsMenu() to show action bar icons
+                invalidateOptionsMenu();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                getActionBar().setTitle(mDrawerTitle);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                Log.d("drawer", "should hide keyboard");
+                invalidateOptionsMenu();
+            }
+        };
+
+        loadImagesList();
+    }
+
+
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        if(utils.getSelectedLocation(this) !=null) {
+            screen = utils.getSelectedLocation(this);
+        } else {
+            mDrawerLayout.openDrawer(MainActivity.mDrawerList);
+        }
 
         // Listview Group click listener
         mDrawerList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -143,15 +185,16 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
                          Toast.LENGTH_SHORT).show();*/
 
                 lastExpandedGroupPosition = groupPosition;
+                String tag = "GenInfoFragment";
                 if (listDataHeader.size() - 1 == groupPosition) {
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
                     fragment = new GenInfoFragment();
-                    ft.replace(R.id.frame_container, fragment);
-//                    ft.addToBackStack(null);
+                    ft.replace(R.id.frame_container, fragment, tag);
+                    ft.addToBackStack(null);
                     ft.commit();
                     System.out.println("groupClick" + fragment.getTag());
-                    main_include_layout.setVisibility(View.GONE);
+//                    main_include_layout.setVisibility(View.GONE);
                 }
                 return false;
             }
@@ -192,7 +235,7 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
                                         int groupPosition, int childPosition, long id) {
                 sgroupPosition = groupPosition;
                 //save selected screen
-                    utils.setSelectedLocation(MainActivity.this, utils.getLocFromLid(listDataLid.get(sgroupPosition)));
+                utils.setSelectedLocation(MainActivity.this, utils.getLocFromLid(listDataLid.get(sgroupPosition)));
                 screen = utils.getSelectedLocation(MainActivity.this);
                 displayView(childPosition, groupPosition);
 
@@ -210,25 +253,7 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
             }
         });
 
-        // enabling action bar app icon and behaving it as toggle button
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, // nav menu toggle icon
-                R.string.app_name, // nav drawer open - description for accessibility
-                R.string.app_name // nav drawer close - description for accessibility
-        ) {
-            public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
-                // calling onPrepareOptionsMenu() to show action bar icons
-                invalidateOptionsMenu();
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu();
-            }
-        };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
                 /*//mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_L);
                 if (savedInstanceState == null)
@@ -237,29 +262,24 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 						displayView(0);
 					}*/
 
-        loadImagesList();
-    }
-
-
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        Log.d("resume", "true");
-//                main_include_layout.setVisibility(View.VISIBLE);
 
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     private void loadImagesList() {
         new GetImagesAsyncTask(MainActivity.this, this).execute();
-
     }
 
+    public void openMenu(){
+        if(!mDrawerLayout.isDrawerOpen(mDrawerList)) {
+            mDrawerLayout.openDrawer(mDrawerList);
+        }
+    }
 
     private void prepareListData() {
 
@@ -332,10 +352,11 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
      */
     private void displayView(int childposition, int groupPosition) {
         // update the main content by replacing fragments
-
+        String tag = "fragment";
         switch (childposition) {
             case 0:
                 fragment = new HomeFragment();
+                tag = "HomeFragment";
                 break;
             case 1:
                 FragmentManager fm = getFragmentManager();
@@ -344,10 +365,11 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
                 fragment = new InfoFragment(utils.getCityFromLid(screen.getLid()).getName(), screen);
                 ft.addToBackStack(null);
                 ft.commit();
-
+                tag = "InfoFragment";
                 break;
             case 2:
                 fragment = new TwitterFragment();
+                tag = "TwitterFragment";
                 break;
             case 3:
                 break;
@@ -365,7 +387,7 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
                 Log.d("MainActivity", "setting GONE");
             }
             FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, tag).commit();
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(childposition, true);
             mDrawerList.setSelection(childposition);
@@ -416,7 +438,7 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 
     private void showPhotoOptionsDialog() {
         final String[] items = new String[]{getString(R.string.CapturePhoto), getString(R.string.ChoosefromGallery), getString(R.string.cancel)};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.custom_arrayadapter, items);
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogSlideAnim);
         builder.setInverseBackgroundForced(true);
 
@@ -435,6 +457,7 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
             }
 
         });
+
         builder.show();
     }
 
@@ -512,6 +535,7 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
     @Override
     protected void onPause() {
         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        mDrawerLayout.closeDrawer(mDrawerList);
         super.onPause();
     }
 
@@ -551,13 +575,13 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 
                     if (extras != null) {
                         try {
-
+                            String tag = "MessageFragment";
                             FragmentTransaction ft1 = fm1.beginTransaction();
                             fragment = new MessageFragment();
 
                             extras.putString("imagePath", imagePath);
                             extras.putBoolean("hasphoto", hasphoto);
-                            ft1.replace(R.id.frame_container, fragment);
+                            ft1.replace(R.id.frame_container, fragment, tag);
                             fragment.setArguments(extras);
                             main_include_layout.setVisibility(View.GONE);
                             ft1.commit();
@@ -577,22 +601,26 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.camaerIconImg:
-                showPhotoOptionsDialog();
+                if(screen != null) {
+                    showPhotoOptionsDialog();
+                } else mDrawerLayout.openDrawer(MainActivity.mDrawerList);
                 break;
             case R.id.overslaanTv:
-                try {
+                if(screen != null) {
+                    try {
+                        String tag = "MessageFragment";
+                        FragmentTransaction ft1 = fm1.beginTransaction();
+                        fragment = new MessageFragment();
+                        ft1.addToBackStack(null);
 
-                    FragmentTransaction ft1 = fm1.beginTransaction();
-                    fragment = new MessageFragment();
-                    ft1.addToBackStack(null);
+                        ft1.replace(R.id.frame_container, fragment, tag);
+                        main_include_layout.setVisibility(View.GONE);
+                        ft1.commit();
 
-                    ft1.replace(R.id.frame_container, fragment);
-                    main_include_layout.setVisibility(View.GONE);
-                    ft1.commit();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else  mDrawerLayout.openDrawer(MainActivity.mDrawerList);
                 break;
 
             default:
@@ -619,16 +647,39 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
     }
 
 
-//        @Override
-//        public void onBackPressed(){
-//            FragmentManager fm = getFragmentManager();
-//            if (fm.getBackStackEntryCount() > 0) {
-//                Log.i("MainActivity", "popping backstack");
-//                fm.popBackStack();
-//            } else {
-//                Log.i("MainActivity", "nothing on backstack, calling super");
-//                super.onBackPressed();
+    private final Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            doubleBackToExitPressedOnce = false;
+        }
+    };
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+        if (myHandler != null) { myHandler.removeCallbacks(mRunnable); }
+    }
+
+
+
+//    @Override
+//    public void onBackPressed() {
+//        Fragment myFragment = getFragmentManager().findFragmentByTag("HomeFragment");
+//        if (myFragment.isVisible()) {
+//            if (doubleBackToExitPressedOnce) {
+//                finish();
+//                return;
 //            }
+//
+//            doubleBackToExitPressedOnce = true;
+//            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+//
+//            myHandler.postDelayed(mRunnable, 2000);
+//        } else {
+//            super.onBackPressed();
 //        }
+//    }
 
 }

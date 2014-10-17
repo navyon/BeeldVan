@@ -36,6 +36,5 @@ public class GenInfoFragment extends Fragment
         appInfo.setMovementMethod(LinkMovementMethod.getInstance());
         return rootView;
     }
-
 }
 

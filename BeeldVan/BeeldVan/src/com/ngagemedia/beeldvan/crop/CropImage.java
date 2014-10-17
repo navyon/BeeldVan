@@ -109,13 +109,10 @@ public class CropImage extends MonitoredActivity {
         super.onCreate(icicle);
         mContentResolver = getContentResolver();
 
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.cropimage);
 
         mImageView = (CropImageView) findViewById(R.id.image);
 
-        showStorageToast(this);
         setTitle("aanpassen");
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -137,6 +134,7 @@ public class CropImage extends MonitoredActivity {
 
             mSaveUri = getImageUri(mImagePath);
             mBitmap = getBitmap(mImagePath);
+
 
             if (extras.containsKey(ASPECT_X) && extras.get(ASPECT_X) instanceof Integer) {
 
@@ -165,9 +163,6 @@ public class CropImage extends MonitoredActivity {
             finish();
             return;
         }
-
-        // Make UI fullscreen.
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
         findViewById(R.id.save).setOnClickListener(
@@ -618,7 +613,7 @@ public class CropImage extends MonitoredActivity {
 
     public static void showStorageToast(Activity activity) {
 
-        showStorageToast(activity, calculatePicturesRemaining(activity));
+//        showStorageToast(activity, calculatePicturesRemaining(activity));
     }
 
     public static void showStorageToast(Activity activity, int remaining) {
@@ -642,36 +637,36 @@ public class CropImage extends MonitoredActivity {
 
         if (noStorageText != null) {
 
-            Toast.makeText(activity, noStorageText, 5000).show();
+            Toast.makeText(activity, noStorageText, Toast.LENGTH_SHORT).show();
         }
     }
-
-    public static int calculatePicturesRemaining(Activity activity) {
-
-        try {
-            /*if (!ImageManager.hasStorage()) {
-                return NO_STORAGE_ERROR;
-            } else {*/
-        	String storageDirectory = "";
-        	String state = Environment.getExternalStorageState();
-        	if (Environment.MEDIA_MOUNTED.equals(state)) {
-        		storageDirectory = Environment.getExternalStorageDirectory().toString();
-        	}
-        	else {
-        		storageDirectory = activity.getFilesDir().toString();
-        	}
-            StatFs stat = new StatFs(storageDirectory);
-            float remaining = ((float) stat.getAvailableBlocksLong()
-                    * (float) stat.getBlockSizeLong()) / 400000F;
-            return (int) remaining;
-            //}
-        } catch (Exception ex) {
-            // if we can't stat the filesystem then we don't know how many
-            // pictures are remaining.  it might be zero but just leave it
-            // blank since we really don't know.
-            return CANNOT_STAT_ERROR;
-        }
-    }
+//
+//    public static int calculatePicturesRemaining(Activity activity) {
+//
+//        try {
+//            /*if (!ImageManager.hasStorage()) {
+//                return NO_STORAGE_ERROR;
+//            } else {*/
+//        	String storageDirectory = "";
+//        	String state = Environment.getExternalStorageState();
+//        	if (Environment.MEDIA_MOUNTED.equals(state)) {
+//        		storageDirectory = Environment.getExternalStorageDirectory().toString();
+//        	}
+//        	else {
+//        		storageDirectory = activity.getFilesDir().toString();
+//        	}
+//            StatFs stat = new StatFs(storageDirectory);
+//            float remaining = ((float) stat.getAvailableBlocksLong()
+//                    * (float) stat.getBlockSizeLong()) / 400000F;
+//            return (int) remaining;
+//            //}
+//        } catch (Exception ex) {
+//            // if we can't stat the filesystem then we don't know how many
+//            // pictures are remaining.  it might be zero but just leave it
+//            // blank since we really don't know.
+//            return CANNOT_STAT_ERROR;
+//        }
+//    }
 
 
 }

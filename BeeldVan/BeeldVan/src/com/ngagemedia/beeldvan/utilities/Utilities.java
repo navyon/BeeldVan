@@ -315,7 +315,6 @@ public class Utilities
 
         float width = w;
         float height;
-        //todo add LID width etc.
         float lWidth = (float) l.getAspectRatioWidth();
         float lHeight = (float) l.getAspectRatioHeight();
 

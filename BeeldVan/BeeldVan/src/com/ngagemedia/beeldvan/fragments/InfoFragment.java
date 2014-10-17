@@ -42,7 +42,6 @@ public class InfoFragment extends Fragment
 
         if(screen!=null) {
             String info = screen.getText();
-            System.out.println(info);
             String infoImage =  screen.getInfoImageLocation();
 
             String image_url = baseUrl+infoImage;

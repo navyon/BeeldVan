@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
         >
 
     <TextView
         android:id="@+id/appInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtcityTitle"
         android:textSize="15sp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"

@@ -6,10 +6,14 @@ package com.ngagemedia.beeldvan.model;
 public class Card {
     private String line1;
     private String line2;
+    private String date;
+    private String url;
 
-    public Card(String line1, String line2) {
+    public Card(String url, String line1, String line2, String date) {
         this.line1 = line1;
         this.line2 = line2;
+        this.date = date;
+        this.url = url;
     }
 
     public String getLine1() {
@@ -18,6 +22,14 @@ public class Card {
 
     public String getLine2() {
         return line2;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
 }

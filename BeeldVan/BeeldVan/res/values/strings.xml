@@ -19,8 +19,7 @@
     <string name="MsgMaxLines">Houd er rekening mee dat er maximaal 4 regels op kunnen.</string>
     <string name="MsgCont">Tevreden? Bekijk dan je preview!</string>
     <string name="MsgBtnPrev">Preview</string>
-    <string name="ConfirmCheckbox">Bij deze bevestig ik dat ik alle rechten heb voor het gebruiken
-van de door mij toegevoegde afbeelding</string>
+    <string name="ConfirmCheckbox">Ik heb alle rechten voor de inhoud van mijn inzending.</string>
     <string name="ConfirmEmailHint">Vul hier uw e-mailadres in</string>
     <string name="ConfirmBtn">Verstuur het bericht!</string>
     <string name="ConfirmCheckboxError">U moet akkoord gaan</string>
@@ -56,6 +55,9 @@ van de door mij toegevoegde afbeelding</string>
     <string name="done">Done</string>
     <string name="afbleeding">Afbeelding</string>
 
+    <!--email question page-->
+    <string name="email_question_title">Waarom mijn e-mailadres?</string>
+    <string name="email_question_text">Vul je e-mailadres in zodat er een ontvangstbevestiging en/of een goedkeuring van de desbetreffende foto en tekst opgestuurd kan worden.</string>
 
     <!--HTML app info string-->
     <string name="app_info"><![CDATA[<p><span style="color: #000000; font-family: arial, sans, sans-serif; font-size: 13px; line-height: normal; white-space: pre-wrap;">Beeld Van is de app die je toegang geeft tot vele grote schermen bij jou in buurt. Deel jouw mooiste foto met je eigen stad, of verras je vriend of vriendin aan de andere kant van het land.</span></p>

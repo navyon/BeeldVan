@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -90,6 +91,8 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
         slideUpOut.setAnimationListener(this);
         slideDownIn.setAnimationListener(this);
         slideDownOut.setAnimationListener(this);
+        continueRL.setVisibility(View.GONE);
+        progress2.setVisibility(View.GONE);
 
         builder.setMessage("Er passen maximaal 4 regels op het scherm!").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener()
         {
@@ -183,8 +186,11 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
             public void onClick(View v)
             {
                 // hide keyboard
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+//                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+//                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 txtView_msg.clearFocus();
                 continueRL.startAnimation(slideUpIn);
                 continueRL.setVisibility(View.VISIBLE);
@@ -201,14 +207,17 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
             {
                 if (hasFocus)
                 {
+                    Log.d("Message", "Keyboard should show");
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(txtView_msg, InputMethodManager.SHOW_IMPLICIT);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+//                    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                     layhidekeyb.setVisibility(View.VISIBLE);
                     continueRL.startAnimation(slideDownOut);
                     progress2.startAnimation(slideUpOut);
                 }
                 else
                     layhidekeyb.setVisibility(View.GONE);
+
 
             }
         });
@@ -227,6 +236,7 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
         Bitmap.Config conf = Bitmap.Config.ALPHA_8;
         Bitmap bmp = Bitmap.createBitmap((int)width, height, conf);// create transparent bitmap
         aspectv.setImageBitmap(bmp);
+        aspectv.setMinimumHeight(height);
 
         textsize = utils.getFontSize(width,screen);
         int margin = utils.getMarginSize(width, screen);

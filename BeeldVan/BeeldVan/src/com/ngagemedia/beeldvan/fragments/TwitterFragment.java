@@ -12,12 +12,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.google.myjson.Gson;
 import com.ngagemedia.beeldvan.R;
 import com.ngagemedia.beeldvan.model.*;
+import com.ngagemedia.beeldvan.utilities.Utilities;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -34,13 +37,15 @@ import java.net.URLEncoder;
 public class TwitterFragment extends Fragment
 {
     private ListActivity activity;
-    final static String ScreenName = "beeldvan";
+    String ScreenName = "beeldvan";
+    String Hashtag;
     final static String LOG_TAG = "bvdh";
     private static final String TAG = "TwitterListActivity";
     private CardArrayAdapter cardArrayAdapter;
     private ListView listView;
     private ProgressBar spinner;
     Locations screen;
+    Utilities utils;
 
     public TwitterFragment()
 	{
@@ -49,13 +54,18 @@ public class TwitterFragment extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-
+        utils = new Utilities(getActivity());
+        screen = utils.getSelectedLocation(getActivity());
+        ScreenName = screen.getTwitterAccount();
+        Hashtag = screen.getTwitterHashTag();
+        Hashtag = "#"+Hashtag;
 		View rootView = inflater.inflate(R.layout.fragment_twitter, container, false);
         listView = (ListView) rootView.findViewById(R.id.card_listView);
         spinner = (ProgressBar)rootView.findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
         listView.addHeaderView(new View(getActivity()));
         listView.addFooterView(new View(getActivity()));
+
         // call method to download tweets
         downloadTweets();
 		return rootView;
@@ -75,8 +85,10 @@ public class TwitterFragment extends Fragment
             Log.v(LOG_TAG, "No network connection available.");
         }
     }
+
     // Uses an AsyncTask to download a Twitter user's timeline
-    private class DownloadTwitterTask extends AsyncTask<String, Void, String> {
+    //TODO cancel this when view is changed!
+    private class DownloadTwitterTask extends AsyncTask<String, Void, String>  {
         final static String CONSUMER_KEY = "qlyebD6dTpCgjwzJ9GEpRpe15";
         final static String CONSUMER_SECRET = "BgjCkACzQ80gHUtDo0GXMxt1ay3muLxWnMXVP3HfSBxzc8cGxv";
         final static String TwitterTokenURL = "https://api.twitter.com/oauth2/token";
@@ -106,10 +118,20 @@ public class TwitterFragment extends Fragment
 
             for (int i = 0; i < twits.size(); i++) {
                 String dt = twits.get(i).getDateCreated();
-                Card card = new Card(twits.get(i).getUser().getScreenName()+" "+ dt.substring(0,10),twits.get(i).toString());
+                Log.d("tweetURL", twits.get(i).getUser().getProfileImageUrl());
+                Card card = new Card(twits.get(i).getUser().getProfileImageUrl(), twits.get(i).getUser().getScreenName(), twits.get(i).toString(), dt.substring(0, 10));
                 cardArrayAdapter.add(card);
+
             }
-            listView.setAdapter(cardArrayAdapter);
+
+            //filter the tweets
+
+            cardArrayAdapter.getFilter().filter(Hashtag, new Filter.FilterListener() {
+                @Override
+                public void onFilterComplete(int count) {
+                    listView.setAdapter(cardArrayAdapter);
+                }
+            });
             spinner.setVisibility(View.GONE);
         }
 

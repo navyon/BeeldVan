@@ -204,10 +204,15 @@ class HighlightView {
         mCropCirclePaint.setAntiAlias(true);
         mCropCirclePaint.setColor(Color.WHITE);
         mCropCirclePaint.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(mDrawRect.right, mDrawRect.top, 25, mCropCirclePaint);
-        canvas.drawCircle(mDrawRect.left, mDrawRect.top, 25, mCropCirclePaint);
+
+
+        int xMiddle = mDrawRect.left + ((mDrawRect.right - mDrawRect.left) / 2);
+        int yMiddle = mDrawRect.top  + ((mDrawRect.bottom - mDrawRect.top) / 2);
+        canvas.drawCircle(mDrawRect.right, yMiddle, 25, mCropCirclePaint);
+        canvas.drawCircle(mDrawRect.left, yMiddle, 25, mCropCirclePaint);
         canvas.drawCircle(mDrawRect.right, mDrawRect.bottom, 25, mCropCirclePaint);
         canvas.drawCircle(mDrawRect.left, mDrawRect.bottom, 25, mCropCirclePaint);
+
 
     }
 
@@ -334,7 +339,10 @@ class HighlightView {
         mDrawRect = computeLayout();
         invalRect.union(mDrawRect);
         invalRect.inset(-10, -10);
-        mContext.invalidate(invalRect);
+//        mContext.invalidate(invalRect);
+
+        mDrawRect = computeLayout();
+        mContext.invalidate();
     }
 
     // Grows the cropping rectange by (dx, dy) in image space.

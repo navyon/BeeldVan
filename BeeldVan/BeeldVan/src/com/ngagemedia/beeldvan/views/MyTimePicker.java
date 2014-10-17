@@ -99,13 +99,13 @@ public class MyTimePicker
         protected void configureTextView(TextView view)
         {
             super.configureTextView(view);
-            if (currentItem == currentValue)
-            {
-                view.setTextColor(0xFFFFFFFF);
-            }
-            else {
+//            if (currentItem == currentValue)
+//            {
                 view.setTextColor(0x50FFFFFF);
-            }
+//            }
+//            else {
+//                view.setTextColor(0x50FFFFFF);
+//            }
             view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         }
 

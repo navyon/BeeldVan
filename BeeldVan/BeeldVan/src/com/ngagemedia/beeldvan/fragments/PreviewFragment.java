@@ -242,7 +242,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         Bitmap.Config conf = Bitmap.Config.ALPHA_8;
         Bitmap bmp = Bitmap.createBitmap((int)width, height, conf);
         aspectv.setImageBitmap(bmp);
-
+        aspectv.setMinimumHeight(height);
         textsize = utils.getFontSize(width,screen);
         int margin = utils.getMarginSize(width, screen);
 
@@ -420,7 +420,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         } else {
             items = new String[]{getString(R.string.CapturePhoto), getString(R.string.ChoosefromGallery), getString(R.string.cancel)};
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.custom_arrayadapter, items);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogSlideAnim);
         builder.setInverseBackgroundForced(true);
 

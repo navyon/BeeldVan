@@ -21,7 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
 
-public class LazyImageLaoder
+public class LazyImageLoader
 {
 
 	public interface IImageLoadListener
@@ -40,7 +40,7 @@ public class LazyImageLaoder
 	private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
 	ExecutorService executorService;
 
-	public LazyImageLaoder(Context context)
+	public LazyImageLoader(Context context)
 	{
 		fileCache = new FileCache(context);
 		executorService = Executors.newFixedThreadPool(5);
@@ -103,12 +103,14 @@ public class LazyImageLaoder
 			OutputStream os = new FileOutputStream(f);
 			CopyStream(is, os);
 			os.close();
-			bitmap = new GetResizedImage().decodeSampledBitmapFromFile(f, width, height);
+            if(f != null) {
+                bitmap = new GetResizedImage().decodeSampledBitmapFromFile(f, width, height);
+            }
 			return bitmap;
 		}
 		catch (Exception ex)
 		{
-			// ex.printStackTrace();
+			ex.printStackTrace();
 			return null;
 		}
 	}
