@@ -48,12 +48,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,8 +63,6 @@ import com.ngagemedia.beeldvan.utilities.JSONParser;
 import com.ngagemedia.beeldvan.utilities.Utilities;
 import com.ngagemedia.beeldvan.views.MyDatePicker;
 import com.ngagemedia.beeldvan.views.MyTimePicker;
-import com.ngagemedia.customwheel.OnWheelChangedListener;
-import com.ngagemedia.customwheel.WheelView;
 
 public class ConfirmFragment extends Fragment implements Animation.AnimationListener
 {
@@ -90,11 +86,9 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
     Long unixPublishDate;
 	TextView dateTimeTv;
     Button submitbox;
-    ImageButton questionMark;
     LinearLayout confirmOptions;
     RelativeLayout dateTimePicker;
     ScrollView mScrollView;
-    RelativeLayout emailQuestionRL;
     ImageView mProgress;
 
 	FragmentManager fm1 = ConfirmFragment.this.getFragmentManager();
@@ -153,7 +147,6 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 			chkbox = (CheckBox) rootView.findViewById(R.id.checkBox);
 			chkbox.setTypeface(fontRegular);
             confirmOptions = (LinearLayout) rootView.findViewById(R.id.confirmOptionsLL);
-            questionMark = (ImageButton) rootView.findViewById(R.id.confirmQuestion);
 
             fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
             fadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
@@ -208,18 +201,7 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
                 }
             });
 
-//            mTp.hour.setCyclic(true);
 
-            mTp.hour.addChangingListener(new OnWheelChangedListener() {
-                @Override
-                public void onChanged(WheelView wheel, int oldValue, int newValue) {
-                    wheel.invalidateWheel(true);
-                    ((TextView) wheel.getItemView(wheel.getCurrentItem())).setTextColor(0xFFFFFFFF);
-                    ((TextView) wheel.getItemView(wheel.getCurrentItem())).getText();
-                    Log.d("wheel", "changing from " + oldValue + " to " + newValue);
-                    wheel.invalidate();
-                }
-            });
             String mail = utils.getSharedPrefValue("email");
 			if (mail != null)
 				{
@@ -228,21 +210,12 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 
 			getActivity().setTitle("Verzenden");
 
-            questionMark.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-
-                                                }
-                                            }
-            );
-
 			submitbox.setOnClickListener(new View.OnClickListener()
 				{
 					public void onClick(View v)
 						{
                             mPublishDate = mDp.getDate()+ ", " + mTp.getTime();
-                            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
                             DateTimeZone zone = DateTimeZone.forID("Europe/Amsterdam");
                             DateTimeZone.setDefault(zone);
                             DateTimeFormatter format = DateTimeFormat.forPattern("dd/MM/yyyy, HH:mm");
