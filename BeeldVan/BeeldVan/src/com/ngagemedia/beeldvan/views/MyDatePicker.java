@@ -1,20 +1,20 @@
 package com.ngagemedia.beeldvan.views;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.ngagemedia.customwheel.ArrayWheelAdapter;
 import com.ngagemedia.customwheel.NumericWheelAdapter;
+import com.ngagemedia.customwheel.OnWheelChangedListener;
 import com.ngagemedia.customwheel.WheelView;
 
 public class MyDatePicker
@@ -26,6 +26,8 @@ public class MyDatePicker
 	// String months[] = new String[] {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 	String monthsShort[] = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 	int curYear, mYear;
+	final int DEFAULT_COLOR = Color.GRAY;
+	final int SELECTED_COLOR = Color.WHITE;
 
 	public MyDatePicker( Context context, Calendar calendar, View parent )
 		{
@@ -36,11 +38,11 @@ public class MyDatePicker
 			lytmain.setOrientation(LinearLayout.VERTICAL);
 			LinearLayout lytdate = new LinearLayout(mContex);
 
-//			Button btnset = new Button(mContex);
-//			Button btncancel = new Button(mContex);
+			// Button btnset = new Button(mContex);
+			// Button btncancel = new Button(mContex);
 
-//			btnset.setText("Set");
-//			btncancel.setText("Cancel");
+			// btnset.setText("Set");
+			// btncancel.setText("Cancel");
 
 			month = new WheelView(mContex);
 			year = new WheelView(mContex);
@@ -48,12 +50,14 @@ public class MyDatePicker
 
 			lytdate.addView(day, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1.1f));
 			lytdate.addView(month, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-//			lytdate.addView(year, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 0.9f));
+			// lytdate.addView(year, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 0.9f));
 
 			lytmain.addView(lytdate);
 
 			int curMonth = calendar.get(Calendar.MONTH);
-			month.setViewAdapter(new DateArrayAdapter(context, monthsShort, curMonth));
+			DateArrayAdapter monthAdapter = new DateArrayAdapter(context, monthsShort, curMonth);
+			month.setViewAdapter(monthAdapter);
+			month.addChangingListener(monthAdapter);
 			month.setCurrentItem(curMonth);
 
 			Calendar cal = Calendar.getInstance();
@@ -61,12 +65,14 @@ public class MyDatePicker
 			curYear = calendar.get(Calendar.YEAR);
 			mYear = cal.get(Calendar.YEAR);
 
-			year.setViewAdapter(new DateNumericAdapter(context, mYear - NoOfYear, mYear + NoOfYear, NoOfYear));
+			DateNumericAdapter yearAdapter = new DateNumericAdapter(context, mYear - NoOfYear, mYear + NoOfYear, NoOfYear);
+			year.setViewAdapter(yearAdapter);
+			year.addChangingListener(yearAdapter);
 			year.setCurrentItem(curYear - (mYear - NoOfYear));
 
 			// day
 			updateDays(year, month, day);
-			day.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH)-1);
+			day.setCurrentItem(calendar.get(Calendar.DAY_OF_MONTH) - 1);
 
 		}
 
@@ -77,65 +83,79 @@ public class MyDatePicker
 			calendar.set(Calendar.MONTH, month.getCurrentItem());
 
 			int maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-			day.setViewAdapter(new DateNumericAdapter(mContex, 1, maxDays, calendar.get(Calendar.DAY_OF_MONTH)-1));
-			int curDay = Math.min(maxDays, day.getCurrentItem()-1);
+			DateNumericAdapter dayAdapter = new DateNumericAdapter(mContex, 1, maxDays, calendar.get(Calendar.DAY_OF_MONTH) - 1);
+			day.setViewAdapter(dayAdapter);
+			day.addChangingListener(dayAdapter);
+			int curDay = Math.min(maxDays, day.getCurrentItem() - 1);
 			day.setCurrentItem(curDay, true);
 			calendar.set(Calendar.DAY_OF_MONTH, curDay);
-            //SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a");
-            //sdf.format(calendar.getTime());
-            return calendar;
+			// SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a");
+			// sdf.format(calendar.getTime());
+			return calendar;
 
 		}
 
 	public String getDate()
 		{
 			String format = "%02d/%02d/%4d";
-			return String.format(format, day.getCurrentItem()+1, month.getCurrentItem() + 1, mYear - NoOfYear + year.getCurrentItem());
+			return String.format(format, day.getCurrentItem() + 1, month.getCurrentItem() + 1, mYear - NoOfYear + year.getCurrentItem());
 		}
 
-	private class DateNumericAdapter extends NumericWheelAdapter
+	private class DateNumericAdapter extends NumericWheelAdapter implements OnWheelChangedListener
 	{
-		int currentItem;
-		int currentValue;
+		TextView selTv;
 
 		public DateNumericAdapter( Context context, int minValue, int maxValue, int current )
 			{
 				super(context, minValue, maxValue);
-				this.currentValue = current;
 				setTextSize(20);
+			}
+
+		@Override
+		public void onChanged(WheelView wheel, TextView oldTextView, TextView newTextView)
+			{
+
 			}
 
 		@Override
 		protected void configureTextView(TextView view)
 			{
 				super.configureTextView(view);
-				if (currentItem == currentValue)
+				view.setTextColor(DEFAULT_COLOR);
+				try
 					{
-                        view.setTextColor(0xFFFFFFFF);
+						if (view.getId() == selTv.getId())
+							view.setTextColor(SELECTED_COLOR);
 					}
-                else {
-                    view.setTextColor(0x50FFFFFF);
-                }
-                view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+				catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+
+				view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
 			}
 
 		@Override
-		public View getItem(int index, View cachedView, ViewGroup parent)
+		public View getItem(int index, int resId, View cachedView, ViewGroup parent)
 			{
-				currentItem = index;
-				return super.getItem(index, cachedView, parent);
+				return super.getItem(index, index, cachedView, parent);
+			}
+
+		@Override
+		public void onChanged(WheelView wheel, int oldValue, int newValue)
+			{
+				selTv = ((TextView) wheel.getItemView(newValue));
+				notifyDataChangedEvent();
 			}
 	}
 
-	private class DateArrayAdapter extends ArrayWheelAdapter<String>
+	private class DateArrayAdapter extends ArrayWheelAdapter<String> implements OnWheelChangedListener
 	{
-		int currentItem;
-		int currentValue;
+		TextView selTv;
 
 		public DateArrayAdapter( Context context, String[] items, int current )
 			{
 				super(context, items);
-				this.currentValue = current;
 				setTextSize(20);
 			}
 
@@ -143,21 +163,37 @@ public class MyDatePicker
 		protected void configureTextView(TextView view)
 			{
 				super.configureTextView(view);
-				if (currentItem == currentValue)
+				view.setTextColor(DEFAULT_COLOR);
+				try
 					{
-						view.setTextColor(0xFFFFFFFF);
+						if (view.getId() == selTv.getId())
+							view.setTextColor(SELECTED_COLOR);
 					}
-                else {
-                    view.setTextColor(0x50FFFFFF);
-                }
-                view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+				catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+
+				view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
 			}
 
 		@Override
-		public View getItem(int index, View cachedView, ViewGroup parent)
+		public View getItem(int index, int resId, View cachedView, ViewGroup parent)
 			{
-				currentItem = index;
-				return super.getItem(index, cachedView, parent);
+				return super.getItem(index, index, cachedView, parent);
+			}
+
+		@Override
+		public void onChanged(WheelView wheel, int oldValue, int newValue)
+			{
+				selTv = ((TextView) wheel.getItemView(newValue));
+				notifyDataChangedEvent();
+			}
+
+		@Override
+		public void onChanged(WheelView wheel, TextView oldTextView, TextView newTextView)
+			{
+
 			}
 	}
 

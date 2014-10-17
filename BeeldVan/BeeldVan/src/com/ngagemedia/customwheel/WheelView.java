@@ -27,7 +27,7 @@ public class WheelView extends View
 {
 
 	/** Top and bottom shadows colors */
-	private static final int[] SHADOWS_COLORS = new int[] {0x00000000, 0x00000000, 0x00000000};
+	private static final int[] SHADOWS_COLORS = new int[] {0xFF111111, 0x00AAAAAA, 0x00AAAAAA};
 
 	/** Top and bottom items offset (to hide that) */
 	private static final int ITEM_OFFSET_PERCENT = 10;
@@ -510,7 +510,7 @@ public class WheelView extends View
 					bottomShadow = new GradientDrawable(Orientation.BOTTOM_TOP, SHADOWS_COLORS);
 				}
 
-//			setBackgroundResource(R.drawable.wheel_bg);
+			setBackgroundResource(R.drawable.wheel_bg);
 		}
 
 	/**
@@ -1057,7 +1057,7 @@ public class WheelView extends View
 				}
 
 			index %= count;
-			return viewAdapter.getItem(index, recycle.getItem(), itemsLayout);
+			return viewAdapter.getItem(index, index, recycle.getItem(), itemsLayout);
 		}
 
 	/**

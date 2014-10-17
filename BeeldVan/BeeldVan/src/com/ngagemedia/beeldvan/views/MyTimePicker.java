@@ -3,6 +3,7 @@ package com.ngagemedia.beeldvan.views;
 import java.util.Calendar;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.ngagemedia.customwheel.ArrayWheelAdapter;
 import com.ngagemedia.customwheel.NumericWheelAdapter;
+import com.ngagemedia.customwheel.OnWheelChangedListener;
 import com.ngagemedia.customwheel.WheelView;
 
 public class MyTimePicker
@@ -20,6 +22,8 @@ public class MyTimePicker
 
 	private Context mContex;
 	public static WheelView hour, min, amPm;
+	final int DEFAULT_COLOR = Color.GRAY;
+	final int SELECTED_COLOR = Color.WHITE;
 
 	public MyTimePicker( Context context, Calendar calendar, View parent )
 		{
@@ -39,11 +43,11 @@ public class MyTimePicker
 
 			hour = new WheelView(mContex);
 			min = new WheelView(mContex);
-			//amPm = new WheelView(mContex);
+			// amPm = new WheelView(mContex);
 
 			lytdate.addView(hour, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
 			lytdate.addView(min, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-			//lytdate.addView(amPm, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+			// lytdate.addView(amPm, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
 
 			lytmain.addView(lytdate);
 
@@ -51,16 +55,23 @@ public class MyTimePicker
 			int curHour = calendar.get(Calendar.HOUR_OF_DAY);
 			int curMin = calendar.get(Calendar.MINUTE);
 
-			//int curAmPm = calendar.get(Calendar.AM_PM);
-			//String[] amPmArr = new String[] {"AM", "PM"};
+			// int curAmPm = calendar.get(Calendar.AM_PM);
+			// String[] amPmArr = new String[] {"AM", "PM"};
+			DateNumericAdapter hourAdapter = new DateNumericAdapter(context, 0, 23, curHour);
+			hour.setViewAdapter(hourAdapter);
+			hour.addChangingListener(hourAdapter);
 
-			hour.setViewAdapter(new DateNumericAdapter(context, 0, 23, curHour));
-			min.setViewAdapter(new DateNumericAdapter(context, 0, 59, curMin));
-			//amPm.setViewAdapter(new TimeArrayAdapter(context, amPmArr, curAmPm));
+			DateNumericAdapter minAdapter = new DateNumericAdapter(context, 0, 59, curMin);
+			min.setViewAdapter(minAdapter);
+			min.addChangingListener(minAdapter);
+
+			// hour.setViewAdapter(new DateNumericAdapter(context, 0, 23, curHour));
+			// min.setViewAdapter(new DateNumericAdapter(context, 0, 59, curMin));
+			// amPm.setViewAdapter(new TimeArrayAdapter(context, amPmArr, curAmPm));
 
 			hour.setCurrentItem(curHour);
 			min.setCurrentItem(curMin);
-			//amPm.setCurrentItem(curAmPm);
+			// amPm.setCurrentItem(curAmPm);
 
 			updateTime(hour, min);
 
@@ -71,7 +82,7 @@ public class MyTimePicker
 			Calendar calendar = Calendar.getInstance();
 			calendar.set(Calendar.HOUR_OF_DAY, hour.getCurrentItem());
 			calendar.set(Calendar.MINUTE, min.getCurrentItem());
-			//calendar.set(Calendar.AM_PM, amPm.getCurrentItem());
+			// calendar.set(Calendar.AM_PM, amPm.getCurrentItem());
 
 			return calendar;
 
@@ -83,71 +94,99 @@ public class MyTimePicker
 			return String.format(format, hour.getCurrentItem(), min.getCurrentItem());
 		}
 
-	private class DateNumericAdapter extends NumericWheelAdapter
+	private class DateNumericAdapter extends NumericWheelAdapter implements OnWheelChangedListener
 	{
-		int currentItem;
-		int currentValue;
+		TextView selTv;
 
 		public DateNumericAdapter( Context context, int minValue, int maxValue, int current )
 			{
 				super(context, minValue, maxValue);
-				this.currentValue = current;
 				setTextSize(20);
 			}
 
-        @Override
-        protected void configureTextView(TextView view)
-        {
-            super.configureTextView(view);
-//            if (currentItem == currentValue)
-//            {
-                view.setTextColor(0x50FFFFFF);
-//            }
-//            else {
-//                view.setTextColor(0x50FFFFFF);
-//            }
-            view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-        }
+		@Override
+		protected void configureTextView(TextView view)
+			{
+				super.configureTextView(view);
+				view.setTextColor(DEFAULT_COLOR);
+				try
+					{
+						if (view.getId() == selTv.getId())
+							view.setTextColor(SELECTED_COLOR);
+					}
+				catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+
+				view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+			}
 
 		@Override
-		public View getItem(int index, View cachedView, ViewGroup parent)
+		public View getItem(int index, int resId, View cachedView, ViewGroup parent)
 			{
-				currentItem = index;
-				return super.getItem(index, cachedView, parent);
+				return super.getItem(index, index, cachedView, parent);
+			}
+
+		@Override
+		public void onChanged(WheelView wheel, int oldValue, int newValue)
+			{
+				selTv = ((TextView) wheel.getItemView(newValue));
+				notifyDataChangedEvent();
+			}
+
+		@Override
+		public void onChanged(WheelView wheel, TextView oldTextView, TextView newTextView)
+			{
+
 			}
 	}
 
-	private class TimeArrayAdapter extends ArrayWheelAdapter<String>
+	private class TimeArrayAdapter extends ArrayWheelAdapter<String> implements OnWheelChangedListener
 	{
-		int currentItem;
-		int currentValue;
+		TextView selTv;
 
 		public TimeArrayAdapter( Context context, String[] items, int current )
 			{
 				super(context, items);
-				this.currentValue = current;
 				setTextSize(20);
 			}
 
-        @Override
-        protected void configureTextView(TextView view)
-        {
-            super.configureTextView(view);
-            if (currentItem == currentValue)
-            {
-                view.setTextColor(0xFFFFFFFF);
-            }
-            else {
-                view.setTextColor(0x50FFFFFF);
-            }
-            view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-        }
+		@Override
+		protected void configureTextView(TextView view)
+			{
+				super.configureTextView(view);
+				view.setTextColor(DEFAULT_COLOR);
+				try
+					{
+						if (view.getId() == selTv.getId())
+							view.setTextColor(SELECTED_COLOR);
+					}
+				catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+
+				view.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+			}
 
 		@Override
-		public View getItem(int index, View cachedView, ViewGroup parent)
+		public View getItem(int index, int resId, View cachedView, ViewGroup parent)
 			{
-				currentItem = index;
-				return super.getItem(index, cachedView, parent);
+				return super.getItem(index, index, cachedView, parent);
+			}
+
+		@Override
+		public void onChanged(WheelView wheel, int oldValue, int newValue)
+			{
+				selTv = ((TextView) wheel.getItemView(newValue));
+				notifyDataChangedEvent();
+			}
+
+		@Override
+		public void onChanged(WheelView wheel, TextView oldTextView, TextView newTextView)
+			{
+
 			}
 	}
 

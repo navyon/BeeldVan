@@ -204,7 +204,7 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter
 	protected abstract CharSequence getItemText(int index);
 
 	@Override
-	public View getItem(int index, View convertView, ViewGroup parent)
+	public View getItem(int index, int resId, View convertView, ViewGroup parent)
 		{
 			if (index >= 0 && index < getItemsCount())
 				{
@@ -227,6 +227,7 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter
 									configureTextView(textView);
 								}
 						}
+					convertView.setId(resId);
 					return convertView;
 				}
 			return null;

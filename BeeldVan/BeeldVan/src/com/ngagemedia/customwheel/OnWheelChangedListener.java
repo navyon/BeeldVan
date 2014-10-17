@@ -1,5 +1,7 @@
 package com.ngagemedia.customwheel;
 
+import android.widget.TextView;
+
 public interface OnWheelChangedListener
 {
 	/**
@@ -13,6 +15,8 @@ public interface OnWheelChangedListener
 	 *            the new value of current item
 	 */
 	void onChanged(WheelView wheel, int oldValue, int newValue);
+
+	void onChanged(WheelView wheel, TextView oldTextView, TextView newTextView);
 
 	public interface OnWheelChangedListenerTime
 	{
