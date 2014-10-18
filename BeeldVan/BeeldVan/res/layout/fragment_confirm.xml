@@ -131,21 +131,23 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/lineSeparator"
                         android:orientation="horizontal"
-                        android:weightSum="5">
+                        android:weightSum="2">
 
                         <LinearLayout
                             android:id="@+id/fcLlDate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:orientation="horizontal"></LinearLayout>
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:layout_marginRight="20dp"></LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/fcLlTime"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
-                            android:orientation="horizontal"></LinearLayout>
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:layout_marginLeft="20dp"></LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
