@@ -12,6 +12,54 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:background="#ffffffff"
+            android:visibility="gone"
+            android:id="@+id/emailInfo">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email_question_title"
+                android:id="@+id/email_question_title"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:textStyle="bold"
+                android:typeface="sans"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email_question_text"
+                android:id="@+id/email_question_text"
+                android:layout_below="@+id/email_question_title"
+                android:layout_alignParentLeft="true"
+                android:typeface="sans"
+                android:textStyle="normal"
+                android:textSize="18sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Close"
+                android:id="@+id/email_question_closebtn"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="20dp"
+                android:background="@color/transparent"
+                android:gravity="center_vertical|right"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"

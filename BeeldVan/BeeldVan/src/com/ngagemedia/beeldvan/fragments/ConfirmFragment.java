@@ -48,6 +48,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -90,6 +91,9 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
     RelativeLayout dateTimePicker;
     ScrollView mScrollView;
     ImageView mProgress;
+    ImageButton emailQuestion;
+    Button emailClose;
+    RelativeLayout emailInfoRL;
 
 	FragmentManager fm1 = ConfirmFragment.this.getFragmentManager();
 
@@ -129,6 +133,9 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 			submitbox = (Button) rootView.findViewById(R.id.btnfinalsubmit);
 			edittx_email = (EditText) rootView.findViewById(R.id.editText_email);
 			edittx_email.setTextColor(Color.BLACK);
+            emailQuestion = (ImageButton) rootView.findViewById(R.id.confirmQuestion);
+            emailClose = (Button) rootView.findViewById(R.id.email_question_closebtn);
+            emailInfoRL = (RelativeLayout) rootView.findViewById(R.id.emailInfo);
 
 			Typeface fontRegular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Regular.ttf");
 			Typeface fontLight = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");
@@ -157,20 +164,24 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 //            slideUpIn.setAnimationListener(this);
 
 //
-//            btnhidekeyb.setOnClickListener(new View.OnClickListener()
-//            {
-//                @Override
-//                public void onClick(View v)
-//                {
-//                    // hide keyboard
-//                    InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-//                    edittx_email.clearFocus();
-////                    confirmOptions.startAnimation(slideUpIn);
-//                    chkbox.setVisibility(View.VISIBLE);
-//                    submitbox.setVisibility(View.VISIBLE);
-//                }
-//            });
+            emailQuestion.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    emailInfoRL.setVisibility(View.VISIBLE);
+                    emailInfoRL.startAnimation(fadeIn);
+                }
+            });
+
+            emailClose.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    emailInfoRL.startAnimation(fadeOut);
+                }
+            });
 
 //edittx_email.setImeOptions(EditorInfo.IME_ACTION_DONE);
 //
@@ -265,8 +276,7 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
     @Override
     public void onAnimationEnd(Animation animation) {
         if(animation == fadeOut){
-            mProgress.setVisibility(View.INVISIBLE);
-            dateTimePicker.setVisibility(View.INVISIBLE);
+            emailInfoRL.setVisibility(View.GONE);
         }
     }
 
