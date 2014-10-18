@@ -71,6 +71,7 @@ public class MyTimePicker
 
 			hour.setCurrentItem(curHour);
 			min.setCurrentItem(curMin);
+            min.setCyclic(true);
 			// amPm.setCurrentItem(curAmPm);
 
 			updateTime(hour, min);
