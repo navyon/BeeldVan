@@ -104,8 +104,6 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 	String mPublishDate;
 
 
-//    Animation slideUpIn;
-//    Animation slideDownOut;
     Animation fadeIn, fadeOut;
 
 	public ConfirmFragment()
@@ -120,8 +118,6 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 			extras = getArguments();
 			if (extras != null)
 				{
-					// extras = getActivity().getIntent().getExtras();
-					// photo = extras.getParcelable("data");
 					imagePath = extras.getString("imagePath");
 					if (imagePath != null)
 						hasphoto = true;
@@ -143,7 +139,6 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 			edittx_email.setTypeface(fontLight);
 			submitbox.setTypeface(fontLight);
 
-//            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
             dateTimePicker = (RelativeLayout) rootView.findViewById(R.id.dateTimePicker);
             mScrollView = (ScrollView) rootView.findViewById(R.id.confirmsv);
@@ -161,9 +156,7 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
             fadeOut.setAnimationListener(this);
-//            slideUpIn.setAnimationListener(this);
 
-//
             emailQuestion.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -183,8 +176,6 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
                 }
             });
 
-//edittx_email.setImeOptions(EditorInfo.IME_ACTION_DONE);
-//
             edittx_email.setOnFocusChangeListener(new View.OnFocusChangeListener()
             {
                 @Override
@@ -192,9 +183,6 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
                 {
                     if (hasFocus)
                     {
-//                        mScrollView.scrollTo(0, y);
-//                        mProgress.startAnimation(fadeOut);
-//                        dateTimePicker.startAnimation(fadeOut);
                         mScrollView.post(new Runnable() {
                             public void run() {
                                 mScrollView.smoothScrollTo(0,confirmOptions.getBottom());
@@ -202,10 +190,6 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
                         });
                     } else {
                         if(mProgress.getVisibility() == View.INVISIBLE){
-//                            mProgress.startAnimation(fadeIn);
-//                            mProgress.setVisibility(View.VISIBLE);
-//                            dateTimePicker.startAnimation(fadeIn);
-//                            dateTimePicker.setVisibility(View.VISIBLE);
                         }
                     }
 
@@ -233,35 +217,37 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
                             try {
                                 DateTime dateTime = format.parseDateTime(mPublishDate);
                                 unixPublishDate = dateTime.getMillis()/1000;
+
                             }
                             catch (Exception e)
                             {
                                 unixPublishDate = System.currentTimeMillis()/1000;
+
                             }
 
-							String email = edittx_email.getText().toString();
-							if (checkEmail(email))
-								{
-									utils.saveValueToSharedPrefs("email", email);
-									if (chkbox.isChecked())
-										{
-											// creating new message in background thread
-											new CreateNewMessage().execute();
+                            if(unixPublishDate > (System.currentTimeMillis()-300000)/1000) {
 
-										}
-									else
-										{
-											String chkboxerror = getString(R.string.ConfirmCheckboxError);
-											Toast.makeText(getActivity().getApplicationContext(), chkboxerror, Toast.LENGTH_LONG).show();
-										}
+                                String email = edittx_email.getText().toString();
+                                if (checkEmail(email)) {
+                                    utils.saveValueToSharedPrefs("email", email);
+                                    if (chkbox.isChecked()) {
+                                        // creating new message in background thread
+                                        new CreateNewMessage().execute();
 
-								}
-							else
-								{
-									edittx_email.setTextColor(Color.RED);
-									String emailerror = getString(R.string.ConfirmEmailError);
-									Toast.makeText(getActivity().getApplicationContext(), emailerror, Toast.LENGTH_LONG).show();
-								}
+                                    } else {
+                                        String chkboxerror = getString(R.string.ConfirmCheckboxError);
+                                        Toast.makeText(getActivity().getApplicationContext(), chkboxerror, Toast.LENGTH_LONG).show();
+                                    }
+
+                                } else {
+                                    edittx_email.setTextColor(Color.RED);
+                                    String emailerror = getString(R.string.ConfirmEmailError);
+                                    Toast.makeText(getActivity().getApplicationContext(), emailerror, Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                String DateError = getString(R.string.ConfirmDateError);
+                                Toast.makeText(getActivity().getApplicationContext(), DateError, Toast.LENGTH_LONG).show();
+                            }
 
 						}
 				});
