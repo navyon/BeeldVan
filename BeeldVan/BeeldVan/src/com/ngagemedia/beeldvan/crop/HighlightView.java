@@ -210,8 +210,8 @@ class HighlightView {
         int yMiddle = mDrawRect.top  + ((mDrawRect.bottom - mDrawRect.top) / 2);
         canvas.drawCircle(mDrawRect.right, yMiddle, 25, mCropCirclePaint);
         canvas.drawCircle(mDrawRect.left, yMiddle, 25, mCropCirclePaint);
-        canvas.drawCircle(mDrawRect.right, mDrawRect.bottom, 25, mCropCirclePaint);
-        canvas.drawCircle(mDrawRect.left, mDrawRect.bottom, 25, mCropCirclePaint);
+        canvas.drawCircle(xMiddle, mDrawRect.top, 25, mCropCirclePaint);
+        canvas.drawCircle(xMiddle, mDrawRect.bottom, 25, mCropCirclePaint);
 
 
     }

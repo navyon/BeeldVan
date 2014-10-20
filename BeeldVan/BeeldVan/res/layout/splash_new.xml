@@ -23,19 +23,47 @@
         android:src="@drawable/logo"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="van Jou"
-        android:id="@+id/SplashCityName"
-        android:textSize="36sp"
-        android:textColor="@android:color/black"
-        android:layout_alignBottom="@+id/logo"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignTop="@+id/logo"
         android:layout_alignRight="@+id/logo"
+        android:layout_alignEnd="@+id/logo"
         android:layout_alignLeft="@+id/logo"
-        android:gravity="center"
-        android:layout_marginBottom="6dp"
-        android:visibility="invisible" />
+        android:layout_alignStart="@+id/logo"
+        android:layout_alignBottom="@+id/logo"
+        android:weightSum="20">
+
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="11" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:id="@+id/SplashCityName"
+                android:textSize="36sp"
+                android:textColor="@android:color/black"
+                android:visibility="invisible"
+                android:gravity="center" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/locloader"
+                android:src="@drawable/loc_loading"
+                android:scaleType="center" />
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="fill_parent"
@@ -50,16 +78,5 @@
         android:gravity="center"
         android:background="@drawable/white_transparant_background"
         android:visibility="invisible" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/locloader"
-        android:layout_alignLeft="@+id/SplashCityName"
-        android:layout_alignRight="@+id/SplashCityName"
-        android:layout_alignBottom="@+id/SplashCityName"
-        android:layout_alignTop="@+id/SplashCityName"
-        android:src="@drawable/loc_loading"
-        android:scaleType="center" />
 
 </RelativeLayout>

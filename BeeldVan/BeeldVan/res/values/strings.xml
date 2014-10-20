@@ -24,6 +24,7 @@
     <string name="ConfirmBtn">Verstuur het bericht!</string>
     <string name="ConfirmCheckboxError">U moet akkoord gaan</string>
     <string name="ConfirmEmailError">Controleer uw e-mailadres.</string>
+    <string name="ConfirmDateError">Tijdreizen is onmogelijk. De inzending moet in de toekomst.</string>
     <string name="FinalThnx">Bedankt!</string>
     <string name="FinalTip">Je krijgt een e-mail wanneer je bericht is goedgekeurd.</string>
     <string name="InternetCheck">Er is geen internet verbinding gevonden, controleer uw internetverbinding en probeer het opnieuw.</string>

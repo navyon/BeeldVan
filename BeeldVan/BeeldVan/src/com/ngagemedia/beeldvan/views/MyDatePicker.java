@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -38,11 +39,6 @@ public class MyDatePicker
 			lytmain.setOrientation(LinearLayout.VERTICAL);
 			LinearLayout lytdate = new LinearLayout(mContex);
 
-			// Button btnset = new Button(mContex);
-			// Button btncancel = new Button(mContex);
-
-			// btnset.setText("Set");
-			// btncancel.setText("Cancel");
 
 			month = new WheelView(mContex);
 			year = new WheelView(mContex);
@@ -86,7 +82,7 @@ public class MyDatePicker
 			DateNumericAdapter dayAdapter = new DateNumericAdapter(mContex, 1, maxDays, calendar.get(Calendar.DAY_OF_MONTH) - 1);
 			day.setViewAdapter(dayAdapter);
 			day.addChangingListener(dayAdapter);
-			int curDay = Math.min(maxDays, day.getCurrentItem() - 1);
+			int curDay = Math.min(maxDays, day.getCurrentItem());
 			day.setCurrentItem(curDay, true);
 			calendar.set(Calendar.DAY_OF_MONTH, curDay);
 			// SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a");
@@ -145,6 +141,7 @@ public class MyDatePicker
 		public void onChanged(WheelView wheel, int oldValue, int newValue)
 			{
 				selTv = ((TextView) wheel.getItemView(newValue));
+
 				notifyDataChangedEvent();
 			}
 	}
@@ -186,7 +183,9 @@ public class MyDatePicker
 		@Override
 		public void onChanged(WheelView wheel, int oldValue, int newValue)
 			{
-				selTv = ((TextView) wheel.getItemView(newValue));
+                //make sure there' no non-existent dates
+                updateDays(year, month, day);
+                selTv = ((TextView) wheel.getItemView(newValue));
 				notifyDataChangedEvent();
 			}
 
