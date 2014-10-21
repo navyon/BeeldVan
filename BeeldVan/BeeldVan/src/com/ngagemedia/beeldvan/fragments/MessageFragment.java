@@ -112,7 +112,7 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
             txtView_msg.setText(msg);
             imagePath = bundle.getString("imagePath");
             hasPhoto = bundle.getBoolean("hasphoto", false);
-            System.out.println("at Message hasPhoto = "+hasPhoto);
+            Log.d("message hasPhoto", Boolean.toString(hasPhoto));
         }
 
         txtView_continue = (TextView) rootView.findViewById(R.id.txtpreview); //text above button
@@ -186,11 +186,8 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
             public void onClick(View v)
             {
                 // hide keyboard
-//                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-//                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
                 txtView_msg.clearFocus();
                 continueRL.startAnimation(slideUpIn);
                 continueRL.setVisibility(View.VISIBLE);

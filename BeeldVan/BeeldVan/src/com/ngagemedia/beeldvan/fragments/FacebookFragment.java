@@ -1,5 +1,6 @@
 package com.ngagemedia.beeldvan.fragments;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 public class FacebookFragment extends Fragment {
     TextView thankyou;
     TextView finalTip;
+    Handler handler;
 
     public FacebookFragment() {
     }
@@ -25,8 +27,6 @@ public class FacebookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_thanks, container, false);
-        thankyou = (TextView) rootView.findViewById(R.id.thanks);
-        finalTip = (TextView) rootView.findViewById(R.id.FinalTip);
 
         getActivity().setTitle("Bedankt!");
 
@@ -43,14 +43,14 @@ public class FacebookFragment extends Fragment {
                 }
             }
         });
-
-        new Handler().postDelayed(new Runnable() {
+        handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 //show sliding menu
                 MainActivity.mDrawerLayout.openDrawer(MainActivity.mDrawerList);
             }
-        }, 5000);
+        }, 3000);
 
         return rootView;
 
@@ -70,12 +70,16 @@ public class FacebookFragment extends Fragment {
 
     public void onStop() {
         super.onStop();
+
+        FragmentManager fm = getFragmentManager();
+        fm.popBackStack("main", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
     }
 
 
     public void onPause() {
         super.onPause();
+        handler.removeCallbacksAndMessages(null);
         MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
     }
 }

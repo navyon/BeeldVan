@@ -1,23 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <TextView
-        android:id="@+id/txtLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="16sp"
-        android:visibility="gone" />
+    android:layout_height="match_parent"
+    android:background="@drawable/backrepeat"
+    android:orientation="vertical" >
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtLabel"
+        android:id="@+id/progress_0Img"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/app_name"
-        android:visibility="gone" />
+        android:src="@drawable/progress_0"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:scaleType="fitCenter"
+        android:layout_marginBottom="10dp" />
+
+    <ImageButton
+        android:id="@+id/camaerIconImg"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
+        android:src="@drawable/camera_big"
+        android:layout_centerInParent="true"
+        android:background="@color/transparent" />
+
+    <GridView
+        android:id="@+id/postedImgsGridView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/camaerIconImg"
+        android:layout_alignParentBottom="true"
+        android:cacheColorHint="@color/transparent"
+        android:numColumns="3"
+        android:visibility="gone" >
+    </GridView>
+
+    <RelativeLayout
+        android:id="@+id/bottomBarRL"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="@color/green">
+
+        <Button
+            android:id="@+id/overslaanTv"
+            style="@style/button_wide_left"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:paddingLeft="10dp"
+            android:text="@string/Overslaan"
+            android:textColor="@color/white"
+            android:clickable="true"
+            />
+
+    </RelativeLayout>
 
 </RelativeLayout>

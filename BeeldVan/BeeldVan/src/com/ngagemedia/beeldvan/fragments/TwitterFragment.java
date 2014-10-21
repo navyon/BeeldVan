@@ -3,6 +3,8 @@ package com.ngagemedia.beeldvan.fragments;
 import android.app.Fragment;
 import android.app.ListActivity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -13,11 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.google.myjson.Gson;
 import com.ngagemedia.beeldvan.R;
+import com.ngagemedia.beeldvan.lazyloader.LazyImageLoader;
 import com.ngagemedia.beeldvan.model.*;
 import com.ngagemedia.beeldvan.utilities.Utilities;
 
@@ -32,6 +36,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 
 import java.io.*;
+import java.net.URL;
 import java.net.URLEncoder;
 
 public class TwitterFragment extends Fragment
@@ -65,7 +70,6 @@ public class TwitterFragment extends Fragment
         spinner.setVisibility(View.GONE);
         listView.addHeaderView(new View(getActivity()));
         listView.addFooterView(new View(getActivity()));
-
         // call method to download tweets
         downloadTweets();
 		return rootView;
@@ -88,7 +92,7 @@ public class TwitterFragment extends Fragment
 
     // Uses an AsyncTask to download a Twitter user's timeline
     //TODO cancel this when view is changed!
-    private class DownloadTwitterTask extends AsyncTask<String, Void, String>  {
+    private class DownloadTwitterTask extends AsyncTask<String, Void, String> {
         final static String CONSUMER_KEY = "qlyebD6dTpCgjwzJ9GEpRpe15";
         final static String CONSUMER_SECRET = "BgjCkACzQ80gHUtDo0GXMxt1ay3muLxWnMXVP3HfSBxzc8cGxv";
         final static String TwitterTokenURL = "https://api.twitter.com/oauth2/token";
@@ -107,7 +111,7 @@ public class TwitterFragment extends Fragment
         // onPostExecute convert the JSON results into a Twitter object (which is an Array list of tweets
         @Override
         protected void onPostExecute(String result) {
-            Twitter twits = jsonToTwitter(result);
+            final Twitter twits = jsonToTwitter(result);
 
             // lets write the results to the console as well
             for (Tweet tweet : twits) {
@@ -115,17 +119,12 @@ public class TwitterFragment extends Fragment
             }
 
             cardArrayAdapter = new CardArrayAdapter(getActivity().getApplicationContext(), R.layout.list_item_card);
-
             for (int i = 0; i < twits.size(); i++) {
                 String dt = twits.get(i).getDateCreated();
-                Log.d("tweetURL", twits.get(i).getUser().getProfileImageUrl());
                 Card card = new Card(twits.get(i).getUser().getProfileImageUrl(), twits.get(i).getUser().getScreenName(), twits.get(i).toString(), dt.substring(0, 10));
                 cardArrayAdapter.add(card);
 
             }
-
-            //filter the tweets
-
             cardArrayAdapter.getFilter().filter(Hashtag, new Filter.FilterListener() {
                 @Override
                 public void onFilterComplete(int count) {
@@ -134,6 +133,8 @@ public class TwitterFragment extends Fragment
             });
             spinner.setVisibility(View.GONE);
         }
+
+
 
         // converts a string of JSON data into a Twitter object
         private Twitter jsonToTwitter(String result) {

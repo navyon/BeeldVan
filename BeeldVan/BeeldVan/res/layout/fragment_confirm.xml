@@ -182,7 +182,6 @@
                         android:background="@drawable/rounded_white"
                         android:ems="10"
                         android:hint="@string/ConfirmEmailHint"
-                        android:imeOptions="actionSend"
                         android:inputType="textEmailAddress"
                         android:paddingBottom="15dp"
                         android:paddingLeft="20dp"

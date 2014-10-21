@@ -113,7 +113,7 @@ public class CropImage extends MonitoredActivity {
 
         mImageView = (CropImageView) findViewById(R.id.image);
 
-        setTitle("aanpassen");
+        setTitle("Aanpassen");
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if (extras != null) {

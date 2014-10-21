@@ -137,6 +137,7 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 			Typeface fontLight = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");
 
 			edittx_email.setTypeface(fontLight);
+            edittx_email.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			submitbox.setTypeface(fontLight);
 
 

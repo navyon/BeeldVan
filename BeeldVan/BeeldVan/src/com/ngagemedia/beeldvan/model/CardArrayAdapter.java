@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.ngagemedia.beeldvan.R;
 import com.ngagemedia.beeldvan.lazyloader.LazyImageLoader;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import java.util.List;
 public class CardArrayAdapter  extends ArrayAdapter<Card> implements Filterable{
     private static final String TAG = "CardArrayAdapter";
     private List<Card> cardList = new ArrayList<Card>();
-    private LazyImageLoader imageLoader;
+    private ImageLoader imageLoader;
 
 
     static class CardViewHolder {
@@ -60,7 +61,8 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> implements Filterable{
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         final CardViewHolder viewHolder;
-        imageLoader = new LazyImageLoader(getContext());
+        imageLoader = new ImageLoader(getContext());
+
         if (row == null) {
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.list_item_card, parent, false);
@@ -79,15 +81,6 @@ public class CardArrayAdapter  extends ArrayAdapter<Card> implements Filterable{
         viewHolder.line2.setText(card.getLine2());
         viewHolder.date.setText(card.getDate());
         viewHolder.line2.setMovementMethod(LinkMovementMethod.getInstance());
-//        imageLoader.DisplayImage(card.getUrl(), loader, viewHolder.userImage);
-        imageLoader.DisplayImage(card.getUrl(),viewHolder.userImage,48,48);
-        imageLoader.setOnImageLoadListener(new LazyImageLoader.IImageLoadListener() {
-            @Override
-            public void onImageLoad() {
-                // ready
-                Log.d("imageLoader", "Tweet image loaded");
-            }
-        });
         return row;
     }
 

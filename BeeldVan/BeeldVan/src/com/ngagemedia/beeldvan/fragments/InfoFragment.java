@@ -54,7 +54,7 @@ public class InfoFragment extends Fragment
             cityInfo.setText(Html.fromHtml(info));
             cityTitle.setText(cityName+" "+screen.getName());
             getActivity().setTitle(cityName+" "+screen.getName());
-            MainActivity.main_include_layout.setVisibility(View.GONE);
+//            MainActivity.main_include_layout.setVisibility(View.GONE);
             MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
         }
         return rootView;

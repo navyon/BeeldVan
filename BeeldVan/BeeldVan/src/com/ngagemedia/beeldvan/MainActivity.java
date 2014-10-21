@@ -38,15 +38,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 
-public class MainActivity extends Activity implements OnClickListener, ImageLoadInterface, ListItemClickedInterface {
+public class MainActivity extends Activity implements ImageLoadInterface, ListItemClickedInterface {
     private static Uri mImageCaptureUri;
     // Sliding menu objects
     public static DrawerLayout mDrawerLayout;
     public static ExpandableListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
-
-    private boolean doubleBackToExitPressedOnce;
-    private Handler myHandler;
 
     ExpandableListAdapter listAdapter;
     List<Integer> listDataLid;
@@ -69,17 +66,17 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
     public static String TEMP_PHOTO_FILE_NAME;
     public static String FOLDER_NAME;
 
-    private File mFileTemp;
+//    private File mFileTemp;
 
     Utilities utils;
-    ImageView camaerIconImg;
+//    ImageView camaerIconImg;
 
     GridView postedImgsGridView;
-    public static View main_include_layout;
-    String imagePath;
+//    public static View main_include_layout;
+//    String imagePath;
     public static String imageLocation;
     int lastExpandedGroupPosition = -1;
-    FragmentManager fm1 = MainActivity.this.getFragmentManager();
+    FragmentManager fm1 = getFragmentManager();
     Fragment fragment = null;
     public static int sgroupPosition;
 
@@ -90,35 +87,33 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_new);
         utils = new Utilities(this);
-        myHandler = new Handler();
-
-        main_include_layout = (View) findViewById(R.id.main_include_layout);
+//        main_include_layout = (View) findViewById(R.id.main_include_layout);
         postedImgsGridView = (GridView) findViewById(R.id.postedImgsGridView);
-        TextView overslaanTV = (TextView) findViewById(R.id.overslaanTv);
-        overslaanTV.setOnClickListener(this);
+//        TextView overslaanTV = (TextView) findViewById(R.id.overslaanTv);
+//        overslaanTV.setOnClickListener(this);
 
         //crop option implementation
-        FOLDER_NAME = checkDir();
+//        FOLDER_NAME = checkDir();
 
-        TEMP_PHOTO_FILE_NAME = getRandomFileName();
-
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            mFileTemp = new File(Environment.getExternalStorageDirectory(), TEMP_PHOTO_FILE_NAME);
-        } else {
-            mFileTemp = new File(getFilesDir(), TEMP_PHOTO_FILE_NAME);
-        }
-
-
-        camaerIconImg = (ImageView) findViewById(R.id.camaerIconImg);
-
-        camaerIconImg.setOnClickListener(this);
-
-
-        // Slider Menu methods
-        mTitle = mDrawerTitle = getTitle();
-        mTitle = "Afbeelding";
-        setTitle(mTitle);
+//        TEMP_PHOTO_FILE_NAME = getRandomFileName();
+//
+//        String state = Environment.getExternalStorageState();
+//        if (Environment.MEDIA_MOUNTED.equals(state)) {
+//            mFileTemp = new File(Environment.getExternalStorageDirectory(), TEMP_PHOTO_FILE_NAME);
+//        } else {
+//            mFileTemp = new File(getFilesDir(), TEMP_PHOTO_FILE_NAME);
+//        }
+//
+//
+//        camaerIconImg = (ImageView) findViewById(R.id.camaerIconImg);
+//
+//        camaerIconImg.setOnClickListener(this);
+//
+//
+//        // Slider Menu methods
+//        mTitle = mDrawerTitle = getTitle();
+//        mTitle = "Afbeelding";
+//        setTitle(mTitle);
 
         // load slide menu items
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
@@ -130,6 +125,17 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
         // preparing list data
         prepareListData();
 
+
+        if (savedInstanceState == null)
+        {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            String tag = "HomeFragment";
+//            ft.add(R.id.frame_container, new HomeFragment()).commit();
+            fragment = new HomeFragment();
+            ft.addToBackStack("main");
+            ft.add(R.id.frame_container, fragment, tag).commit();
+        }
 
 
         listAdapter = new NavDrawerListAdapter(this, listDataHeader, listDataChild);
@@ -154,8 +160,8 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
             public void onDrawerOpened(View drawerView) {
                 getActionBar().setTitle(mDrawerTitle);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                Log.d("drawer", "should hide keyboard");
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    Log.d("drawer", "should hide keyboard");
                 invalidateOptionsMenu();
             }
         };
@@ -359,12 +365,7 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
                 tag = "HomeFragment";
                 break;
             case 1:
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-
                 fragment = new InfoFragment(utils.getCityFromLid(screen.getLid()).getName(), screen);
-                ft.addToBackStack(null);
-                ft.commit();
                 tag = "InfoFragment";
                 break;
             case 2:
@@ -379,15 +380,17 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
 
 
         if (fragment != null) {
-            if (fragment instanceof HomeFragment) {
-                Log.d("MainActivity", "setting visible");
-//								main_include_layout.setVisibility(View.VISIBLE);
-            } else {
-                main_include_layout.setVisibility(View.GONE);
-                Log.d("MainActivity", "setting GONE");
-            }
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, tag).commit();
+//            if (fragment instanceof HomeFragment) {
+//                Log.d("MainActivity", "setting visible");
+////								main_include_layout.setVisibility(View.VISIBLE);
+//            } else {
+//                main_include_layout.setVisibility(View.GONE);
+//                Log.d("MainActivity", "setting GONE");
+//            }
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.addToBackStack(null);
+            ft.replace(R.id.frame_container, fragment, tag).commit();
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(childposition, true);
             mDrawerList.setSelection(childposition);
@@ -425,112 +428,94 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
     }
 
     // check if directory exists. if not, create.
-    private String checkDir() {
-        String dirname = "BeeldVan";
-        File dir = new File(Environment.getExternalStorageDirectory() + "/" + dirname);
-        if (!dir.exists()) {
-            boolean result = dir.mkdir();
-            if (result) {
-            }
-        }
-        return dirname;
-    }
+//    private String checkDir() {
+//        String dirname = "BeeldVan";
+//        File dir = new File(Environment.getExternalStorageDirectory() + "/" + dirname);
+//        if (!dir.exists()) {
+//            boolean result = dir.mkdir();
+//            if (result) {
+//            }
+//        }
+//        return dirname;
+//    }
 
-    private void showPhotoOptionsDialog() {
-        final String[] items = new String[]{getString(R.string.CapturePhoto), getString(R.string.ChoosefromGallery), getString(R.string.cancel)};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.custom_arrayadapter, items);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogSlideAnim);
-        builder.setInverseBackgroundForced(true);
-
-        builder.setTitle(getString(R.string.ChooseaTask));
-        builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) { // pick from
-                // camera
-                if (item == 0) {
-                    takePicture();
-                } else if (item == 1) {
-                    openGallery();
-                } else if (item == 2) {
-                    dialog.cancel();
-                    dialog.dismiss();
-                }
-            }
-
-        });
-
-        builder.show();
-    }
-
-
-    //cropimage lib
-    private void takePicture() {
-
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        try {
-
-            String state = Environment.getExternalStorageState();
-            if (Environment.MEDIA_MOUNTED.equals(state)) {
-                mImageCaptureUri = Uri.fromFile(mFileTemp);
-            } else {
-
-                mImageCaptureUri = InternalStorageContentProvider.CONTENT_URI;
-            }
-            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
-            intent.putExtra("return-data", true);
-            startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
-        } catch (ActivityNotFoundException e) {
-
-            Log.d(TAG, "cannot take picture", e);
-        }
-    }
-
-    //cropimage lib
-    private void openGallery() {
-
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, REQUEST_CODE_GALLERY);
-    }
-
-    //cropimage lib
-    private void startCropImage() {
-
-        Intent intent = new Intent(MainActivity.this, CropImage.class);
-        intent.putExtra(CropImage.IMAGE_PATH, mFileTemp.getPath());
-        intent.putExtra(CropImage.SCALE, true);
-        intent.putExtra(CropImage.SCALE_UP_IF_NEEDED, true);
-        intent.putExtra(CropImage.ASPECT_X, screen.getAspectRatioWidth());
-        intent.putExtra(CropImage.ASPECT_Y, screen.getAspectRatioHeight());
-        intent.putExtra(CropImage.OUTPUT_X, screen.getAspectRatioWidth());
-        intent.putExtra(CropImage.OUTPUT_Y, screen.getAspectRatioHeight());
-
-        startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
-
-
-        // converting for fragment
+//    private void showPhotoOptionsDialog() {
+//        final String[] items = new String[]{getString(R.string.CapturePhoto), getString(R.string.ChoosefromGallery), getString(R.string.cancel)};
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.custom_arrayadapter, items);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogSlideAnim);
+//        builder.setInverseBackgroundForced(true);
 //
-//            FragmentTransaction ft1 = fm1.beginTransaction();
-//            fragment = new CropFragment();
-//            final Bundle extras = new Bundle();
-//            extras.putString(CropImage.IMAGE_PATH, mFileTemp.getPath());
-//            extras.putBoolean(CropImage.SCALE, true);
-//            extras.putBoolean(CropImage.SCALE_UP_IF_NEEDED, true);
-//            extras.putInt(CropImage.ASPECT_X, screen.getAspectRatioWidth());
-//            extras.putInt(CropImage.ASPECT_Y, screen.getAspectRatioHeight());
-//            extras.putInt(CropImage.OUTPUT_X, screen.getAspectRatioWidth());
-//            extras.putInt(CropImage.OUTPUT_Y, screen.getAspectRatioHeight());
-//            ft1.replace(R.id.frame_container, fragment);
-//            fragment.setArguments(extras);
-//            main_include_layout.setVisibility(View.GONE);
-//            ft1.commit();
+//        builder.setTitle(getString(R.string.ChooseaTask));
+//        builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int item) { // pick from
+//                // camera
+//                if (item == 0) {
+//                    takePicture();
+//                } else if (item == 1) {
+//                    openGallery();
+//                } else if (item == 2) {
+//                    dialog.cancel();
+//                    dialog.dismiss();
+//                }
+//            }
+//
+//        });
+//
+//        builder.show();
+//    }
 
-    }
 
-    private String getRandomFileName() {
-        long n = System.currentTimeMillis();
-        String fileName = FOLDER_NAME + File.separator + String.valueOf(n) + "_beeldvan.jpg";
-        return fileName;
-    }
+//    //cropimage lib
+//    private void takePicture() {
+//
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        try {
+//
+//            String state = Environment.getExternalStorageState();
+//            if (Environment.MEDIA_MOUNTED.equals(state)) {
+//                mImageCaptureUri = Uri.fromFile(mFileTemp);
+//            } else {
+//
+//                mImageCaptureUri = InternalStorageContentProvider.CONTENT_URI;
+//            }
+//            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
+//            intent.putExtra("return-data", true);
+//            startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
+//        } catch (ActivityNotFoundException e) {
+//
+//            Log.d(TAG, "cannot take picture", e);
+//        }
+//    }
+//
+//    //cropimage lib
+//    private void openGallery() {
+//
+//        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+//        photoPickerIntent.setType("image/*");
+//        startActivityForResult(photoPickerIntent, REQUEST_CODE_GALLERY);
+//    }
+//
+//    //cropimage lib
+//    private void startCropImage() {
+//
+//        Intent intent = new Intent(MainActivity.this, CropImage.class);
+//        intent.putExtra(CropImage.IMAGE_PATH, mFileTemp.getPath());
+//        intent.putExtra(CropImage.SCALE, true);
+//        intent.putExtra(CropImage.SCALE_UP_IF_NEEDED, true);
+//        intent.putExtra(CropImage.ASPECT_X, screen.getAspectRatioWidth());
+//        intent.putExtra(CropImage.ASPECT_Y, screen.getAspectRatioHeight());
+//        intent.putExtra(CropImage.OUTPUT_X, screen.getAspectRatioWidth());
+//        intent.putExtra(CropImage.OUTPUT_Y, screen.getAspectRatioHeight());
+//
+//        startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
+//
+//    }
+//
+//    private String getRandomFileName() {
+//        long n = System.currentTimeMillis();
+//        String fileName = FOLDER_NAME + File.separator + String.valueOf(n) + "_beeldvan.jpg";
+//        return fileName;
+//    }
 
     @Override
     protected void onPause() {
@@ -539,95 +524,95 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
         super.onPause();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != RESULT_OK)
-            return;
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (resultCode != RESULT_OK)
+//            return;
+//
+//        switch (requestCode) {
+//            case REQUEST_CODE_GALLERY:
+//                try {
+//                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
+//                    FileOutputStream fileOutputStream = new FileOutputStream(mFileTemp);
+//                    Utilities.CopyStream(inputStream, fileOutputStream);
+//                    fileOutputStream.close();
+//                    inputStream.close();
+//
+//                    startCropImage();
+//                } catch (Exception e) {
+//                    Log.e(TAG, "Error while creating temp file", e);
+//                    // TODO: handle exception
+//                }
+//                break;
+//
+//            case REQUEST_CODE_TAKE_PICTURE:
+//                startCropImage();
+//                break;
+//
+//            case REQUEST_CODE_CROP_IMAGE:
+//                if (data != null) {
+//                    imagePath = data.getStringExtra(CropImage.IMAGE_PATH);
+//                }
+//                if (imagePath != null) {
+//                    final Bundle extras = data.getExtras();
+//                    imageLocation = imagePath;
+//                    boolean hasphoto = true;
+//
+//                    if (extras != null) {
+//                        try {
+//                            String tag = "MessageFragment";
+//                            FragmentTransaction ft1 = fm1.beginTransaction();
+//                            fragment = new MessageFragment();
+//
+//                            extras.putString("imagePath", imagePath);
+//                            extras.putBoolean("hasphoto", hasphoto);
+//                            ft1.replace(R.id.frame_container, fragment, tag);
+//                            fragment.setArguments(extras);
+//                            main_include_layout.setVisibility(View.GONE);
+//                            ft1.commit();
+//
+//
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//                break;
+//        }
+//    }
 
-        switch (requestCode) {
-            case REQUEST_CODE_GALLERY:
-                try {
-                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
-                    FileOutputStream fileOutputStream = new FileOutputStream(mFileTemp);
-                    Utilities.CopyStream(inputStream, fileOutputStream);
-                    fileOutputStream.close();
-                    inputStream.close();
+//
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.camaerIconImg:
+//                if(screen != null) {
+//                    showPhotoOptionsDialog();
+//                } else mDrawerLayout.openDrawer(MainActivity.mDrawerList);
+//                break;
+//            case R.id.overslaanTv:
+//                if(screen != null) {
+//                    try {
+//                        String tag = "MessageFragment";
+//                        FragmentTransaction ft1 = fm1.beginTransaction();
+//                        fragment = new MessageFragment();
+//                        ft1.addToBackStack(null);
+//
+//                        ft1.replace(R.id.frame_container, fragment, tag);
+//                        main_include_layout.setVisibility(View.GONE);
+//                        ft1.commit();
+//
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                } else  mDrawerLayout.openDrawer(MainActivity.mDrawerList);
+//                break;
+//
+//            default:
+//                break;
+//        }
 
-                    startCropImage();
-                } catch (Exception e) {
-                    Log.e(TAG, "Error while creating temp file", e);
-                    // TODO: handle exception
-                }
-                break;
-
-            case REQUEST_CODE_TAKE_PICTURE:
-                startCropImage();
-                break;
-
-            case REQUEST_CODE_CROP_IMAGE:
-                if (data != null) {
-                    imagePath = data.getStringExtra(CropImage.IMAGE_PATH);
-                }
-                if (imagePath != null) {
-                    final Bundle extras = data.getExtras();
-                    imageLocation = imagePath;
-                    boolean hasphoto = true;
-
-                    if (extras != null) {
-                        try {
-                            String tag = "MessageFragment";
-                            FragmentTransaction ft1 = fm1.beginTransaction();
-                            fragment = new MessageFragment();
-
-                            extras.putString("imagePath", imagePath);
-                            extras.putBoolean("hasphoto", hasphoto);
-                            ft1.replace(R.id.frame_container, fragment, tag);
-                            fragment.setArguments(extras);
-                            main_include_layout.setVisibility(View.GONE);
-                            ft1.commit();
-
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                break;
-        }
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.camaerIconImg:
-                if(screen != null) {
-                    showPhotoOptionsDialog();
-                } else mDrawerLayout.openDrawer(MainActivity.mDrawerList);
-                break;
-            case R.id.overslaanTv:
-                if(screen != null) {
-                    try {
-                        String tag = "MessageFragment";
-                        FragmentTransaction ft1 = fm1.beginTransaction();
-                        fragment = new MessageFragment();
-                        ft1.addToBackStack(null);
-
-                        ft1.replace(R.id.frame_container, fragment, tag);
-                        main_include_layout.setVisibility(View.GONE);
-                        ft1.commit();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else  mDrawerLayout.openDrawer(MainActivity.mDrawerList);
-                break;
-
-            default:
-                break;
-        }
-
-    }
+//    }
 
 
     @Override
@@ -643,43 +628,5 @@ public class MainActivity extends Activity implements OnClickListener, ImageLoad
     @Override
     public void whichItemClicked(int position) {
         displayView(position, sgroupPosition);
-
     }
-
-
-    private final Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            doubleBackToExitPressedOnce = false;
-        }
-    };
-
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-
-        if (myHandler != null) { myHandler.removeCallbacks(mRunnable); }
-    }
-
-
-
-//    @Override
-//    public void onBackPressed() {
-//        Fragment myFragment = getFragmentManager().findFragmentByTag("HomeFragment");
-//        if (myFragment.isVisible()) {
-//            if (doubleBackToExitPressedOnce) {
-//                finish();
-//                return;
-//            }
-//
-//            doubleBackToExitPressedOnce = true;
-//            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-//
-//            myHandler.postDelayed(mRunnable, 2000);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
-
 }

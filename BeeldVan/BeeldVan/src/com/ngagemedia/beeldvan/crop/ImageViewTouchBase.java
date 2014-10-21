@@ -317,9 +317,9 @@ abstract class ImageViewTouchBase extends ImageView {
             return 1F;
         }
 
-        float fw = (float) mBitmapDisplayed.getWidth() / (float) mThisWidth;
-        float fh = (float) mBitmapDisplayed.getHeight() / (float) mThisHeight;
-        float max = Math.max(fw, fh) * 4;
+        float fw = (float) mThisWidth;//mBitmapDisplayed.getWidth() / (float) mThisWidth;
+        float fh = (float) mThisHeight;// mBitmapDisplayed.getHeight() / (float) mThisHeight;
+        float max = Math.max(fw, fh);
         return max;
     }
 

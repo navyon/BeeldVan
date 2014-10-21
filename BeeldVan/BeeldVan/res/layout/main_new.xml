@@ -3,12 +3,6 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-     <include
-        android:id="@+id/main_include_layout"
-        layout="@layout/main_include_layout"
-
-             />
-
     <!-- Framelayout to display Fragments -->
 
     <FrameLayout

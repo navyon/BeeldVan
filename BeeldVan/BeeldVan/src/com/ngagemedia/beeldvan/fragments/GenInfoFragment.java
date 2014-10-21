@@ -27,7 +27,7 @@ public class GenInfoFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_gen_info, container, false);
         appInfo = (TextView) rootView.findViewById(R.id.appInfo);
 
-        MainActivity.main_include_layout.setVisibility(View.GONE);
+//        MainActivity.main_include_layout.setVisibility(View.GONE);
         MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
 
         String info = getString(R.string.app_info);

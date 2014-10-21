@@ -23,7 +23,7 @@ import com.ngagemedia.beeldvan.MainActivity;
 
 import java.util.ArrayList;
 
-public class MonitoredActivity extends MainActivity{
+public class MonitoredActivity extends Activity{
 
     private final ArrayList<LifeCycleListener> mListeners =
             new ArrayList<LifeCycleListener>();

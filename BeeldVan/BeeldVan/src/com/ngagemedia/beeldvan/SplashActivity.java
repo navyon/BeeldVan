@@ -20,6 +20,8 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.location.LocationListener;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -71,8 +73,6 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         locLoadingAnim = (AnimationDrawable) locLoading.getDrawable();
         locLoadingAnim.start();
 
-
-
     }
 
     @Override
@@ -80,42 +80,44 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         super.onResume();
         mLocationList = new ArrayList<Locations>();
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        s = new Sync2Manager(this);
-        s.getSync2Manager().getCurrentVersion();
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (mLocationManager == null)
             mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (networkInfo != null && networkInfo.isConnected()) {
+            s = new Sync2Manager(this);
+            s.getSync2Manager().getCurrentVersion();
+        } else {
+            Log.v("SplashActivity", "No network connection available.");
+            //check location anyways
+            if(utils.getAllCitiesList()!= null) {
+                startLocationChecks();
+            } else {
+                //kill app, needs notice for user
+                finish();
+            }
+        }
     }
 
     private ArrayList<CityData> CityDataList;
     
     public void startLocationChecks(){
-
-
         CityDataList = utils.getAllCitiesList();
-//        findCurrentLocation();
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("Location", "getting last known location");
-                mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            }
-        }, 50000);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Log.d("Location", "No location found, skipping");
                 startMainActivity();
             }
-        }, 60000);
+        }, 40000);
         Log.d("Location", "checking normal location");
 
         // start location check.
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-        mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER,this,Looper.getMainLooper());
-        mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER,this,Looper.getMainLooper());
+//        mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER,this,Looper.getMainLooper());
+//        mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER,this,Looper.getMainLooper());
+        mLocationManager.requestSingleUpdate(criteria, this, Looper.getMainLooper());
 
 
     }
@@ -131,7 +133,6 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         public void gotLocation(Location location) {
             // TODO Auto-generated method stub
             setLocations(location);
-
         }
     };
 
@@ -282,22 +283,6 @@ public class SplashActivity extends Activity implements LocationListener, Animat
                 cityImage.setVisibility(View.VISIBLE);
             }
         });
-//
-//
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                //start animation
-//                locLoadingAnim.stop();
-//                locLoading.setVisibility(View.GONE);
-//                cityTitleTv.startAnimation(fadeIn);
-//                cityTitleTv.setVisibility(View.VISIBLE);
-//                LocationTitleTv.startAnimation(fadeIn);
-//                LocationTitleTv.setVisibility(View.VISIBLE);
-//                cityImage.startAnimation(fadeIn);
-//                cityImage.setVisibility(View.VISIBLE);
-//            }
-//        }, 2000);
     }
 
 
@@ -340,10 +325,9 @@ public class SplashActivity extends Activity implements LocationListener, Animat
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-//                    imageLoader.clearCache();
                     startMainActivity();
                 }
-            }, 5000);
+            }, 4500);
         }
     }
 
