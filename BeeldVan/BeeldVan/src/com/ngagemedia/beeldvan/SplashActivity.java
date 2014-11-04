@@ -10,6 +10,7 @@ import com.ngagemedia.beeldvan.model.ImageLoader;
 import com.ngagemedia.beeldvan.model.Locations;
 import com.ngagemedia.beeldvan.utilities.Utilities;
 import com.ngagemedia.beeldvan.utilities.getLocation;
+import com.ngagemedia.beeldvan.views.Rotate3dAnimation;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,7 +29,9 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,17 +50,34 @@ public class SplashActivity extends Activity implements LocationListener, Animat
     String baseUrl = "http://beeldvan.nu/";
     ImageView cityImage;
     TextView LocationTitleTv;
-    TextView cityTitleTv;
     Animation fadeIn;
-    ImageView locLoading;
-    AnimationDrawable locLoadingAnim;
+    ScaleAnimation skewYsize;
+    Rotate3dAnimation flipTopAnim;
+    Rotate3dAnimation flipBottomAnim;
+    Rotate3dAnimation skew;
+    AnimationSet finalAnimSet;
     LazyImageLoader imageLoader;
     Handler handler;
+    TextView topLogo;
+    TextView bottomLogo;
+    TextView fixedTop, fixedBottom;
+    Typeface fontHelv;
+    boolean locationSet, changeText;
+    String cityTitle;
+    long animSpeed;
+    float animDepth;
+    int animNumCount;
+
+
     public static ArrayList<CityData> mCityList;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        animSpeed = 70;
+        animDepth = 3.0f;
+        animNumCount = 0;
+        locationSet = changeText = false;
         imageLoader = new LazyImageLoader(this);
         handler = new Handler();
         myLocation = new getLocation();
@@ -65,13 +85,21 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         setContentView(R.layout.splash_new);
         utils = new Utilities(this);
         cityImage = (ImageView) findViewById(R.id.SplashImage);
-        cityTitleTv = (TextView) findViewById(R.id.SplashCityName);
         LocationTitleTv = (TextView) findViewById(R.id.SplashScreenName);
         fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         fadeIn.setAnimationListener(this);
-        locLoading = (ImageView) findViewById(R.id.locloader);
-        locLoadingAnim = (AnimationDrawable) locLoading.getDrawable();
-        locLoadingAnim.start();
+        fadeIn.setDuration(2000);
+
+        fontHelv = Typeface.createFromAsset(getAssets(), "fonts/HelveticaBold.ttf");
+        topLogo = (TextView) findViewById(R.id.toplogo);
+        bottomLogo = (TextView) findViewById(R.id.bottomlogo);
+        fixedBottom = (TextView) findViewById(R.id.staticbottom);
+        fixedTop = (TextView) findViewById(R.id.statictop);
+        topLogo.setTypeface(fontHelv);
+        bottomLogo.setTypeface(fontHelv);
+        fixedTop.setTypeface(fontHelv);
+        fixedBottom.setTypeface(fontHelv);
+        finalAnimSet = new AnimationSet(false);
 
     }
 
@@ -184,11 +212,10 @@ public class SplashActivity extends Activity implements LocationListener, Animat
                 }
             }
 
-            Typeface fontHelv = Typeface.createFromAsset(getAssets(), "fonts/HelveticaBold.ttf");
+
             Typeface fontRobLight = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
-            cityTitleTv.setTypeface(fontHelv);
             LocationTitleTv.setTypeface(fontRobLight);
-            cityTitleTv.setText(cityTitle);
+
             LocationTitleTv.setText(cityTitle + " " + screenTitle);
             //show splashimage and screen name
 //                imageLoader.DisplayImage(image_url, loader, cityImage);
@@ -197,10 +224,6 @@ public class SplashActivity extends Activity implements LocationListener, Animat
                 @Override
                 public void onImageLoad() {
                     //start animation
-                    locLoadingAnim.stop();
-                    locLoading.setVisibility(View.GONE);
-                    cityTitleTv.startAnimation(fadeIn);
-                    cityTitleTv.setVisibility(View.VISIBLE);
                     LocationTitleTv.startAnimation(fadeIn);
                     LocationTitleTv.setVisibility(View.VISIBLE);
                     cityImage.startAnimation(fadeIn);
@@ -234,7 +257,7 @@ public class SplashActivity extends Activity implements LocationListener, Animat
 
         // ImageLoader class instance
         int loader = R.drawable.loader;
-        String cityTitle = "";
+        cityTitle = "";
         String screenTitle = "";
         String image_url = null;
 
@@ -263,20 +286,16 @@ public class SplashActivity extends Activity implements LocationListener, Animat
 
         Typeface fontHelv = Typeface.createFromAsset(getAssets(), "fonts/HelveticaBold.ttf");
         Typeface fontRobLight = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
-        cityTitleTv.setTypeface(fontHelv);
         LocationTitleTv.setTypeface(fontRobLight);
         LocationTitleTv.setText(cityTitle + " " + screenTitle);
-        cityTitleTv.setText(cityTitle);
+
         //show splashimage and screen name
         imageLoader.DisplayImage(image_url,cityImage,cityImage.getWidth(), cityImage.getHeight());
         imageLoader.setOnImageLoadListener(new LazyImageLoader.IImageLoadListener() {
             @Override
             public void onImageLoad() {
                 //start animation
-                locLoadingAnim.stop();
-                locLoading.setVisibility(View.GONE);
-                cityTitleTv.startAnimation(fadeIn);
-                cityTitleTv.setVisibility(View.VISIBLE);
+
                 LocationTitleTv.startAnimation(fadeIn);
                 LocationTitleTv.setVisibility(View.VISIBLE);
                 cityImage.startAnimation(fadeIn);
@@ -315,24 +334,90 @@ public class SplashActivity extends Activity implements LocationListener, Animat
 
     @Override
     public void onAnimationStart(Animation animation) {
+        if(animation == flipTopAnim){
+            topLogo.setVisibility(View.VISIBLE);
+        }
+        if(animation == flipBottomAnim){
+            bottomLogo.setVisibility(View.VISIBLE);
+        }
+        if(animation == skew){
+            topLogo.setVisibility(View.VISIBLE);
+        }
 
     }
 
     @Override
     public void onAnimationEnd(Animation animation) {
         if(animation == fadeIn){
+            locationSet = true;
             //wait 3 seconds and go to main
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     startMainActivity();
                 }
-            }, 4500);
+            }, 6000);
+        }
+        if(animation == flipTopAnim) {
+            if(locationSet){
+                bottomLogo.setText(cityTitle);
+            }
+            bottomLogo.startAnimation(flipBottomAnim);
+            topLogo.setVisibility(View.INVISIBLE);
+        }
+        if(animation == flipBottomAnim){
+            bottomLogo.setVisibility(View.INVISIBLE);
+            if(locationSet){
+                if(changeText) {
+                    fixedBottom.setText(cityTitle);
+                    if(animNumCount == 1) {
+                        topLogo.startAnimation(finalAnimSet);
+                    } else {
+                        animNumCount++;
+                        topLogo.startAnimation(flipTopAnim);
+                    }
+                } else{
+                    changeText = true;
+                    topLogo.startAnimation(flipTopAnim);
+                }
+
+            }
+            else {
+                animSpeed += 20;
+                flipTopAnim.setDuration(animSpeed);
+                flipBottomAnim.setDuration(animSpeed);
+                topLogo.startAnimation(flipTopAnim);
+            }
         }
     }
 
     @Override
     public void onAnimationRepeat(Animation animation) {
 
+    }
+
+    public void onWindowFocusChanged(boolean hasFocus) {
+        // TODO Auto-generated method stub
+        super.onWindowFocusChanged(hasFocus);
+        float cxtop = topLogo.getWidth()/2;
+        float cytop = topLogo.getHeight()+5;
+        flipTopAnim = new Rotate3dAnimation(-5,-90,cxtop,cytop,animDepth, false);
+        flipTopAnim.setDuration(animSpeed);
+        flipTopAnim.setAnimationListener(this);
+        topLogo.startAnimation(flipTopAnim);
+        float cxbot = bottomLogo.getWidth()/2;
+        float cybot = -5;
+        flipBottomAnim = new Rotate3dAnimation(90,5,cxbot,cybot,animDepth, false);
+        flipBottomAnim.setDuration(animSpeed);
+        flipBottomAnim.setAnimationListener(this);
+        skew = new Rotate3dAnimation(0,-15,cxtop,cytop,animDepth,false);
+        skew.setFillAfter(true);
+        skew.setDuration(700);
+        skewYsize = new ScaleAnimation(1,1,1,0.85f,cxtop,topLogo.getHeight());
+        skewYsize.setDuration(700);
+        skewYsize.setFillAfter(true);
+        finalAnimSet.addAnimation(skew);
+        finalAnimSet.addAnimation(skewYsize);
+        finalAnimSet.setFillAfter(true);
     }
 }
