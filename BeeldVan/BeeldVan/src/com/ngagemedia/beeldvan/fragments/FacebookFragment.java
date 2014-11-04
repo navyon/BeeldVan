@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class FacebookFragment extends Fragment {
-    TextView thankyou;
-    TextView finalTip;
     Handler handler;
 
     public FacebookFragment() {

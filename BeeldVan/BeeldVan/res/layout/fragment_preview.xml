@@ -66,79 +66,96 @@
             android:layout_alignParentBottom="true" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/previewTxtOptionsLL"
-        android:id="@+id/previewLL"
-        android:layout_below="@+id/progress_3Img">
-
-        <ImageView
-            android:id="@+id/aspectFix"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/border"
-            android:contentDescription="@string/app_name"
-            android:scaleType="fitXY" />
-
-        <ImageView
-            android:id="@+id/ImageViewPreview"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/aspectFix"
-            android:layout_alignLeft="@+id/aspectFix"
-            android:layout_alignRight="@+id/aspectFix"
-            android:layout_alignTop="@+id/aspectFix"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/app_name"
-
-            android:scaleType="fitXY"
-            android:visibility="visible"
-            android:padding="1dp" />
-
-        <TextView
-            android:id="@+id/TextViewPreview"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/aspectFix"
-            android:layout_alignLeft="@+id/aspectFix"
-            android:layout_alignRight="@+id/aspectFix"
-            android:layout_alignTop="@+id/aspectFix"
-            android:layout_gravity="center_horizontal"
-            android:clickable="true"
-            android:gravity="center_vertical|left"
-            android:lineSpacingExtra="-4dp"
-            android:maxLines="4"
-            android:singleLine="false"
-            android:textColor="#f5f5f5"
-            android:textStyle="bold"
-            android:visibility="invisible" />
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/progress_3Img"
+        android:layout_above="@+id/previewTxtOptionsLL">
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_alignBottom="@+id/aspectFix"
-            android:layout_alignLeft="@+id/aspectFix"
-            android:layout_alignRight="@+id/aspectFix"
-            android:layout_alignTop="@+id/aspectFix" >
+            android:layout_above="@+id/previewTxtOptionsLL"
+            android:id="@+id/previewLL"
+            android:layout_below="@+id/progress_3Img">
 
-            <ImageButton
-                android:id="@+id/btnRestartAnim"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/aspectFix"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="false"
-                android:layout_centerInParent="true"
-                android:background="@android:color/transparent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/border"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/restart"
+                android:scaleType="fitXY" />
+
+            <ImageView
+                android:id="@+id/ImageViewPreview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/aspectFix"
+                android:layout_alignLeft="@+id/aspectFix"
+                android:layout_alignRight="@+id/aspectFix"
+                android:layout_alignTop="@+id/aspectFix"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/app_name"
+
+                android:scaleType="fitXY"
+                android:visibility="visible"
+                android:padding="1dp" />
+
+            <TextView
+                android:id="@+id/TextViewPreview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/aspectFix"
+                android:layout_alignLeft="@+id/aspectFix"
+                android:layout_alignRight="@+id/aspectFix"
+                android:layout_alignTop="@+id/aspectFix"
+                android:layout_gravity="center_horizontal"
+                android:clickable="true"
+                android:gravity="center_vertical|left"
+                android:lineSpacingExtra="-4dp"
+                android:maxLines="4"
+                android:singleLine="false"
+                android:textColor="#f5f5f5"
+                android:textStyle="bold"
                 android:visibility="invisible" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignBottom="@+id/aspectFix"
+                android:layout_alignLeft="@+id/aspectFix"
+                android:layout_alignRight="@+id/aspectFix"
+                android:layout_alignTop="@+id/aspectFix" >
+
+                <ImageButton
+                    android:id="@+id/btnRestartAnim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="false"
+                    android:layout_centerInParent="true"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/restart"
+                    android:visibility="invisible" />
+            </RelativeLayout>
         </RelativeLayout>
-    </RelativeLayout>
+
+        <com.ngagemedia.beeldvan.views.foldablelayout.UnfoldableView
+            android:id="@+id/unfoldable_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignLeft="@+id/aspectFix"
+            android:layout_alignBottom="@+id/aspectFix"
+            android:layout_alignRight="@+id/aspectFix"
+            android:layout_alignTop="@+id/aspectFix" />
+
+    </FrameLayout>
 
 </RelativeLayout>

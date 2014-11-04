@@ -14,56 +14,61 @@
         android:scaleType="centerCrop"
         android:visibility="invisible" />
 
-    <ImageView
-        android:id="@+id/logo"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/statictop"
+        android:background="@drawable/logo_top"
+        android:adjustViewBounds="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="36sp"
+        android:textColor="@android:color/black"
+        android:text="Beeld van"
         android:layout_marginTop="80dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/logo"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginBottom="5dp"
+        android:textStyle="bold"
+        android:gravity="center" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignTop="@+id/logo"
-        android:layout_alignRight="@+id/logo"
-        android:layout_alignEnd="@+id/logo"
-        android:layout_alignLeft="@+id/logo"
-        android:layout_alignStart="@+id/logo"
-        android:layout_alignBottom="@+id/logo"
-        android:weightSum="20">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/staticbottom"
+        android:background="@drawable/logo_bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/toplogo"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="5dp" />
 
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="11" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/toplogo"
+        android:background="@drawable/logo_top"
+        android:adjustViewBounds="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="36sp"
+        android:textColor="@android:color/black"
+        android:text="Beeld van"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="5dp"
+        android:textStyle="bold"
+        android:gravity="center" />
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text=""
-                android:id="@+id/SplashCityName"
-                android:textSize="36sp"
-                android:textColor="@android:color/black"
-                android:visibility="invisible"
-                android:gravity="center" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/locloader"
-                android:src="@drawable/loc_loading"
-                android:scaleType="center" />
-        </RelativeLayout>
-
-    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottomlogo"
+        android:background="@drawable/logo_bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/toplogo"
+        android:layout_marginTop="5dp"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@android:color/black" />
 
     <TextView
         android:layout_width="fill_parent"

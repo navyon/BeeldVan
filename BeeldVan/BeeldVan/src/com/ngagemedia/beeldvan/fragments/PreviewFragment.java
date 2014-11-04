@@ -236,13 +236,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     {
 
         float width = utils.getScreenWidth(getActivity());
-        System.out.println("width = "+width);
 
-        int height = utils.getPreviewHeight(width,screen);
-        Bitmap.Config conf = Bitmap.Config.ALPHA_8;
-        Bitmap bmp = Bitmap.createBitmap((int)width, height, conf);
-        aspectv.setImageBitmap(bmp);
-        aspectv.setMinimumHeight(height);
         textsize = utils.getFontSize(width,screen);
         int margin = utils.getMarginSize(width, screen);
 
@@ -258,6 +252,13 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         Bundle extras = this.getArguments();
         imagePath = extras.getString("imagePath");
         hasphoto = extras.getBoolean("hasphoto", false);
+
+        float width = utils.getScreenWidth(getActivity());
+        int height = utils.getPreviewHeight(width,screen);
+        Bitmap.Config conf = Bitmap.Config.ALPHA_8;
+        Bitmap bmp = Bitmap.createBitmap((int)width, height, conf);
+        aspectv.setImageBitmap(bmp);
+        aspectv.setMinimumHeight(height);
         if(hasphoto) {
             final Bitmap photo = BitmapFactory.decodeFile(imagePath);
             if (photo != null) {
