@@ -1,6 +1,7 @@
 package com.ngagemedia.beeldvan.fragments;
 
 import android.text.Html;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ngagemedia.beeldvan.MainActivity;
@@ -11,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ngagemedia.beeldvan.crop.Util;
 import com.ngagemedia.beeldvan.model.ImageLoader;
 import com.ngagemedia.beeldvan.model.Locations;
+import com.ngagemedia.beeldvan.utilities.Utilities;
 
 public class InfoFragment extends Fragment
 {
@@ -22,11 +25,9 @@ public class InfoFragment extends Fragment
     TextView cityTitle;
     String baseUrl = "http://beeldvan.nu/";
     String cityName;
-    public InfoFragment(String cName, Locations loc)
+    Utilities utils;
+    public InfoFragment()
 	{
-        screen = loc;
-        cityName = cName;
-
     }
 
 	@Override
@@ -37,10 +38,12 @@ public class InfoFragment extends Fragment
         cityImage = (ImageView) rootView.findViewById(R.id.cityimageView);
         cityInfo = (TextView) rootView.findViewById(R.id.txtCityInfo);
         cityTitle =(TextView) rootView.findViewById(R.id.txtcityTitle);
-
+        utils = new Utilities(getActivity());
+        screen = utils.getSelectedLocation(getActivity());
 
 
         if(screen!=null) {
+            cityName = utils.getCityFromLid(screen.getLid()).getName();
             String info = screen.getText();
             String infoImage =  screen.getInfoImageLocation();
 
@@ -54,7 +57,6 @@ public class InfoFragment extends Fragment
             cityInfo.setText(Html.fromHtml(info));
             cityTitle.setText(cityName+" "+screen.getName());
             getActivity().setTitle(cityName+" "+screen.getName());
-//            MainActivity.main_include_layout.setVisibility(View.GONE);
             MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
         }
         return rootView;

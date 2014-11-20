@@ -67,7 +67,8 @@
             style="@style/button_wide_right"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:textStyle="bold" />
+            android:fontFamily="@string/light_font"
+            />
 
     </RelativeLayout>
 

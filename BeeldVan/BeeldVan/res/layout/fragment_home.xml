@@ -55,6 +55,7 @@
             android:paddingLeft="10dp"
             android:text="@string/Overslaan"
             android:textColor="@color/white"
+            android:fontFamily="@string/light_font"
             android:clickable="true"
             />
 

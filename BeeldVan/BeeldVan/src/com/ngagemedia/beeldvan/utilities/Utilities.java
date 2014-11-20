@@ -24,11 +24,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -118,17 +123,12 @@ public class Utilities
         Typeface typeFace;
         switch (WHICH_TYPE_FACE)
         {
-            case 0:// font regular
-                typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
-                break;
-            case 1: // font light
-                typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Light.ttf");
+            case 0:// Helvetica Bold
+                typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/HelveticaBold.ttf");
                 break;
             default:
-                typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Regular.ttf");
-
+                typeFace = Typeface.createFromAsset(context.getAssets(), "fonts/HelveticaBold.ttf");
                 break;
-
         }
         return typeFace;
     }
@@ -324,7 +324,23 @@ public class Utilities
     }
 
     public float getScreenWidth(Activity activityContext){
-        float width;
+    float width;
+
+    Display display = activityContext.getWindowManager().getDefaultDisplay();
+    Point size = new Point();
+    display.getSize(size);
+
+    Resources r = activityContext.getResources();
+
+
+    float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
+    width = size.x - marginpx;
+
+    return width;
+}
+
+    public float getScreenHeight(Activity activityContext){
+        float height;
 
         Display display = activityContext.getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -333,10 +349,9 @@ public class Utilities
         Resources r = activityContext.getResources();
 
 
-        float marginpx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
-        width = size.x - marginpx;
+        height = size.y;
 
-        return width;
+        return height;
     }
 
     //get current selected location
@@ -350,5 +365,7 @@ public class Utilities
         final myApplication globalVariable = (myApplication)  activityContext.getApplication();
         globalVariable.setSelectedLocation(loc);
     }
+
+
 
 }

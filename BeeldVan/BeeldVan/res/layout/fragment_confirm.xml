@@ -100,7 +100,7 @@
                         android:id="@+id/dateLblTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-thin"
+                        android:fontFamily="@string/light_font"
                         android:text="@string/date"
                         android:textColor="@color/white"
                         android:textSize="17sp" />
@@ -110,7 +110,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:fontFamily="sans-serif-thin"
+                        android:fontFamily="@string/light_font"
                         android:text="Time"
                         android:textColor="@color/white"
                         android:textSize="17sp"
@@ -189,6 +189,7 @@
                         android:paddingTop="15dp"
                         android:selectAllOnFocus="true"
                         android:singleLine="true"
+                        android:fontFamily="@string/light_font"
                         android:textSize="18sp" />
 
                     <ImageButton
@@ -222,6 +223,7 @@
                     android:radius="5dp"
                     android:text="@string/ConfirmCheckbox"
                     android:textColor="@android:color/white"
+                    android:fontFamily="@string/light_font"
                     android:textSize="10sp"
                     android:visibility="visible" />
 
@@ -233,6 +235,7 @@
                     android:layout_gravity="bottom"
                     android:text="@string/ConfirmBtn"
                     android:textColor="@android:color/white"
+                    android:fontFamily="@string/light_font"
                     android:visibility="visible" />
 
             </LinearLayout>

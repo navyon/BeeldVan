@@ -39,9 +39,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     private TextView txtview;
     public ImageView imagev;
     public ImageView aspectv;
-    public ImageView animView;
     boolean hasphoto = false;
-    boolean hasmessage = false;
 
     String msg = null;
     Button btnChangePreviewPhoto;
@@ -80,14 +78,13 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
 	{
 
 		final View rootView = inflater.inflate(R.layout.fragment_preview, container, false);
-        // load fonts
-        // Typeface fontRegular = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
-        Typeface fontLight = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");
+        // load font
         Typeface fontHelv = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaBold.ttf");
 
-        imagev = (ImageView) rootView.findViewById(R.id.ImageViewPreview);
-        txtview = (TextView) rootView.findViewById(R.id.TextViewPreview);
-        aspectv = (ImageView) rootView.findViewById(R.id.aspectFix);
+
+        imagev = (ImageView) rootView.findViewById(R.id.ImageViewPreview); //holds the selected image
+        txtview = (TextView) rootView.findViewById(R.id.TextViewPreview); //holds the users text
+        aspectv = (ImageView) rootView.findViewById(R.id.aspectFix); //view to fix aspect ratio for each resolution
         btnChangePreviewPhoto = (Button) rootView.findViewById(R.id.btnChangePreviewPhoto);
         btnChangePreviewMessage = (Button) rootView.findViewById(R.id.btnchangePreviewText);
         btnRestartAnim = (ImageButton) rootView.findViewById(R.id.btnRestartAnim);
@@ -96,8 +93,6 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         screen = utils.getSelectedLocation(getActivity());
         // set fonts
         txtview.setTypeface(fontHelv);
-        btnChangePreviewPhoto.setTypeface(fontLight);
-        btnChangePreviewMessage.setTypeface(fontLight);
 
         // load the animation
         animFadeTxt = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in_and_out);
@@ -113,7 +108,6 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
 
         animFadeTxt.setAnimationListener(this);
         animFadeImg.setAnimationListener(this);
-        // These Methods check whether photos or a message was added
 
 
 
@@ -160,6 +154,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
             {
 
                 FragmentTransaction ft1 = getFragmentManager().beginTransaction();
+                ft1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
                 fragment = new ConfirmFragment();
                 ft1.addToBackStack(null);
                 ft1.replace(R.id.frame_container, fragment);
@@ -188,14 +183,14 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
             public void onClick(View v) {
 
 
-                // Call    Back stack here !!!!!!!!!!!!!!!!!!!!!!!
+                // Call    Back stack here !!!!!!!!!!!!!!!!!!!!!!! (not if photo was added here)
                 FragmentTransaction ft1 = getFragmentManager().beginTransaction();
+                ft1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
                 fragment = new MessageFragment();
                 Bundle extras = new Bundle();
                 ft1.addToBackStack(null);
                 ft1.replace(R.id.frame_container, fragment);
 
-                // Intent i = new Intent(PreviewActivity.this, MessageActivity.class);
                 if (hasphoto) {
                     extras.putString("imagePath", imagePath);
                 } else {
@@ -228,13 +223,10 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     public void onResume() {
         super.onResume();
         screen = utils.getSelectedLocation(getActivity());
-        System.out.println("screen should be set");
-        System.out.println(screen.getName());
     }
 
     void setTextSizes(TextView txt)
     {
-
         float width = utils.getScreenWidth(getActivity());
 
         textsize = utils.getFontSize(width,screen);
@@ -246,6 +238,9 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
 
     }
 
+    /**
+     * loads message and images, sets aspect fix etc.
+     */
     @SuppressWarnings("deprecation")
     void LoadMsgImg()
     {
@@ -391,6 +386,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                         try
                         {
                             FragmentTransaction ft1 = getFragmentManager().beginTransaction();
+                            ft1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
                             fragment = new PreviewFragment();
 
                             ft1.addToBackStack(null);
@@ -431,13 +427,13 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         {
             public void onClick(DialogInterface dialog, int item) { // pick from
                 if (item == 0) {
-                    System.out.println("option 0");
+                    Log.d("dialog", String.valueOf(item));
                     takePicture();
                 } else if (item == 1) {
-                    System.out.println("option 1");
+                    Log.d("dialog", String.valueOf(item));
                     openGallery();
                 } else if (item == 2) {
-                    System.out.println("option 2");
+                    Log.d("dialog", String.valueOf(item));
                     if (hasphoto) {
                         try {
                             // Deletes the stored file from the sd
@@ -460,7 +456,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                         dialog.dismiss();
                     }
                 } else if (hasphoto && item == 3) {
-                    System.out.println("option 3");
+                    Log.d("dialog", String.valueOf(item));
                     dialog.cancel();
                     dialog.dismiss();
                 }
@@ -530,8 +526,8 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
             boolean result = dir.mkdir();
             if (result)
             {
-                System.out.println("created a DIR");
-            }
+                Log.d("checkDir", "dir created");
+            } else Log.d("checkDir", "failed to create dir");
         }
         return dirname;
     }
@@ -545,7 +541,6 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
             animateText();
         }
     }
-
 }
 
 

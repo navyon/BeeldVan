@@ -12,7 +12,7 @@ public class Message
 		private String foto;
 		int locationid;
 
-		public Message( String msg, String ip, String email, String foto, int locationID )
+		public Message( String msg, String ip, String email, String foto, int locationID, long timeStamp )
 			{
 
 				this.email = email;
@@ -20,6 +20,7 @@ public class Message
 				this.ip_address = ip;
 				this.msg = msg;
 				this.locationid = locationID;
+                this.timestamp = timeStamp;
 			}
 
 		public String getEmail()
@@ -46,4 +47,9 @@ public class Message
 			{
 				return locationid;
 			}
+
+        public long getTimestamp()
+            {
+                return timestamp;
+            }
 	}

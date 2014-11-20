@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:id="@+id/splashscreen"
     android:background="@drawable/backrepeat">
 
     <ImageView
@@ -25,8 +26,7 @@
         android:textColor="@android:color/black"
         android:text="Beeld van"
         android:layout_marginTop="80dp"
-        android:layout_marginBottom="5dp"
-        android:textStyle="bold"
+        android:layout_marginBottom="3dp"
         android:gravity="center" />
 
     <TextView
@@ -37,10 +37,9 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/toplogo"
         android:textSize="36sp"
-        android:textStyle="bold"
         android:gravity="center"
         android:textColor="@android:color/black"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="3dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,8 +52,7 @@
         android:textColor="@android:color/black"
         android:text="Beeld van"
         android:layout_marginTop="80dp"
-        android:layout_marginBottom="5dp"
-        android:textStyle="bold"
+        android:layout_marginBottom="3dp"
         android:gravity="center" />
 
     <TextView
@@ -64,11 +62,18 @@
         android:background="@drawable/logo_bottom"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/toplogo"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:textSize="36sp"
-        android:textStyle="bold"
         android:gravity="center"
         android:textColor="@android:color/black" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:id="@+id/blurImage"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -80,6 +85,7 @@
         android:textStyle="normal"
         android:textSize="20sp"
         android:textColor="@android:color/black"
+        android:fontFamily="@string/light_font"
         android:gravity="center"
         android:background="@drawable/white_transparant_background"
         android:visibility="invisible" />

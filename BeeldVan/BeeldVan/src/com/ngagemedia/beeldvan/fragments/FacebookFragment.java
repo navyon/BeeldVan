@@ -28,6 +28,7 @@ public class FacebookFragment extends Fragment {
 
         getActivity().setTitle("Bedankt!");
 
+        //open facebook app, otherwise link to web
         rootView.findViewById(R.id.btnlike).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -42,6 +43,7 @@ public class FacebookFragment extends Fragment {
             }
         });
         handler = new Handler();
+        //open drawer after delay
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -49,14 +51,12 @@ public class FacebookFragment extends Fragment {
                 MainActivity.mDrawerLayout.openDrawer(MainActivity.mDrawerList);
             }
         }, 3000);
-
         return rootView;
-
     }
 
     private boolean isAppInstalled(String packageName) {
         PackageManager pm = getActivity().getPackageManager();
-        boolean installed = false;
+        boolean installed;
         try {
             pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
             installed = true;
@@ -68,7 +68,7 @@ public class FacebookFragment extends Fragment {
 
     public void onStop() {
         super.onStop();
-
+        //on stop clear the backstack
         FragmentManager fm = getFragmentManager();
         fm.popBackStack("main", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);

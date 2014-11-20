@@ -2,6 +2,7 @@ package com.ngagemedia.beeldvan.fragments;
 
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ngagemedia.beeldvan.MainActivity;
@@ -27,11 +28,10 @@ public class GenInfoFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_gen_info, container, false);
         appInfo = (TextView) rootView.findViewById(R.id.appInfo);
 
-//        MainActivity.main_include_layout.setVisibility(View.GONE);
         MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
 
         String info = getString(R.string.app_info);
-        System.out.println(info);
+        Log.d("info", info);
         appInfo.setText(Html.fromHtml(getString(R.string.app_info)));
         appInfo.setMovementMethod(LinkMovementMethod.getInstance());
         return rootView;

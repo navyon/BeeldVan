@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.google.myjson.*;
@@ -97,14 +98,14 @@ public class Sync2Manager
                                     // check current version against the latest version
                                     // if newer save to Shared Pref
                                     if(currentversion < latestversion) {
-                                        System.out.println("new version found");
+                                        Log.d("API Check","new version found");
                                         utils.saveCurrentVersion(lastestVersion);
                                         //do location update with callback
                                         new UpdateLocations(new CallBack()).execute();
 
                                     } else {
                                         // call location check in Splash
-                                        System.out.println("old version found");
+                                        Log.d("API Check","old version found");
                                         mInstance.startLocationChecks();
                                     }
 

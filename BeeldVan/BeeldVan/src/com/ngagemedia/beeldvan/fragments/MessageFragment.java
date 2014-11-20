@@ -29,11 +29,7 @@ import com.ngagemedia.beeldvan.utilities.Utilities;
 
 public class MessageFragment extends Fragment implements Animation.AnimationListener
 {
-    Intent intent;
     private EditText txtView_msg;
-    private TextView txtView_maxLines;
-    private TextView txtView_msgTip;
-    private TextView txtView_continue;
     private ImageView aspectv;
     private ImageView progress2;
     private RelativeLayout continueRL;
@@ -47,7 +43,6 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
     Animation slideDownIn;
     Animation slideUpOut;
     Animation slideDownOut;
-    Animation slideToTop;
     Fragment fragment = null;
     Utilities utils;
     private boolean hasPhoto;
@@ -102,7 +97,6 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
         });
         final AlertDialog alert = builder.create();
 
-        Typeface fontLight = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");
         Typeface fontHelv = Typeface.createFromAsset(getActivity().getAssets(), "fonts/HelveticaBold.ttf");
         txtView_msg.setTypeface(fontHelv);
         bundle = this.getArguments();
@@ -115,9 +109,7 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
             Log.d("message hasPhoto", Boolean.toString(hasPhoto));
         }
 
-        txtView_continue = (TextView) rootView.findViewById(R.id.txtpreview); //text above button
         final Button btnPrev = (Button) rootView.findViewById(R.id.btnpreview);
-        btnPrev.setTypeface(fontLight);
         final Button btnhidekeyb = (Button) rootView.findViewById(R.id.btnhidekey);
         final RelativeLayout layhidekeyb = (RelativeLayout) rootView.findViewById(R.id.layouthidekey);
 
@@ -132,6 +124,7 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
                 {
                     utils.setSelectedLocation(getActivity(), screen);
                     FragmentTransaction ft1 = getFragmentManager().beginTransaction();
+                    ft1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
                     fragment = new PreviewFragment();
                     ft1.addToBackStack(null);
 
@@ -207,7 +200,6 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
                     Log.d("Message", "Keyboard should show");
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-//                    getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                     layhidekeyb.setVisibility(View.VISIBLE);
                     continueRL.startAnimation(slideDownOut);
                     progress2.startAnimation(slideUpOut);
@@ -227,7 +219,7 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
     {
 
         float width = utils.getScreenWidth(getActivity());
-        System.out.println("width = "+width);
+        Log.d("width", String.valueOf(width));
         // force aspect ratio for txtView
         int height = utils.getPreviewHeight(width,screen);
         Bitmap.Config conf = Bitmap.Config.ALPHA_8;
@@ -241,7 +233,6 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
         // set sizes
         txt.setTextSize(TypedValue.COMPLEX_UNIT_PX, textsize);
         txt.setPadding(margin, margin, margin, margin);
-
     }
 
 

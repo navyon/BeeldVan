@@ -79,4 +79,8 @@
     <string name="no_storage_card">No storage card</string>
     <string name="not_enough_space">Not enough space</string>
 
+    <!-- Standard Fonts-->
+    <string name="light_font">sans-serif-light</string>
+    <string name="thin_font">sans-serif-thin</string>
+
 </resources>

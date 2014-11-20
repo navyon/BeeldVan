@@ -220,6 +220,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
                         try {
                             String tag = "MessageFragment";
                             FragmentTransaction ft1 = fm1.beginTransaction();
+                            ft1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
                             fragment = new MessageFragment();
                             ft1.addToBackStack(null);
                             extras.putString("imagePath", imagePath);
@@ -252,6 +253,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
                     try {
                         String tag = "MessageFragment";
                         FragmentTransaction ft1 = fm1.beginTransaction();
+                        ft1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
                         fragment = new MessageFragment();
                         ft1.addToBackStack(null);
 

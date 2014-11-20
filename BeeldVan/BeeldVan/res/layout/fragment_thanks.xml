@@ -7,8 +7,10 @@
 
     <ImageView
             android:id="@+id/SplashImage"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:maxWidth="200dp"
+            android:maxHeight="200dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal|top"
@@ -26,6 +28,7 @@
             android:layout_gravity="center_horizontal|bottom"
             android:background="@color/transparent"
             android:gravity="center_horizontal|bottom"
+            android:fontFamily="@string/light_font"
             android:padding="10dp"
             android:text="@string/FinalThnx" />
 
@@ -38,12 +41,11 @@
             android:layout_below="@+id/thanks"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:background="@color/transparent"
-            android:gravity="center_horizontal|top"
+            android:gravity="center_horizontal"
             android:maxWidth="300dp"
-            android:padding="10dp"
-            android:scrollbars="vertical"
+            android:fontFamily="@string/light_font"
             android:text="@string/FinalTip" />
 
     <Button
@@ -56,9 +58,9 @@
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="30dp"
             android:background="#0069b4"
-            android:fontFamily="sans-serif-light"
             android:gravity="center"
             android:text="@string/like_ons_op_facebook_"
+            android:fontFamily="@string/light_font"
             android:textSize="15sp" />
 
 </RelativeLayout>

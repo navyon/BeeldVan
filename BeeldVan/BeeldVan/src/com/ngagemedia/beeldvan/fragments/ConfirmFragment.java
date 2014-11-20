@@ -70,7 +70,6 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 	JSONParser jsonParser = new JSONParser();
 
 	// JSON Node names
-	private static final String TAG_SUCCESS = "success";
 	private static String url_create_message = "http://api.beeldvan.nu/1.0/messages/post.json";
 
 	Utilities utils;
@@ -95,7 +94,6 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
     Button emailClose;
     RelativeLayout emailInfoRL;
 
-	FragmentManager fm1 = ConfirmFragment.this.getFragmentManager();
 
 	public final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+");
 
@@ -120,12 +118,16 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 				{
 					imagePath = extras.getString("imagePath");
 					if (imagePath != null)
-						hasphoto = true;
-
+						hasphoto = true; //check for image
 				}
+
+            //date time picker
 			dateTimeTv = (TextView) rootView.findViewById(R.id.dateTimeTv);
 			mDp = new MyDatePicker(getActivity(), Calendar.getInstance(), rootView.findViewById(R.id.fcLlDate));
 			mTp = new MyTimePicker(getActivity(), Calendar.getInstance(), rootView.findViewById(R.id.fcLlTime));
+            dateTimePicker = (RelativeLayout) rootView.findViewById(R.id.dateTimePicker);
+
+            //other buttons and input
 			submitbox = (Button) rootView.findViewById(R.id.btnfinalsubmit);
 			edittx_email = (EditText) rootView.findViewById(R.id.editText_email);
 			edittx_email.setTextColor(Color.BLACK);
@@ -133,31 +135,26 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
             emailClose = (Button) rootView.findViewById(R.id.email_question_closebtn);
             emailInfoRL = (RelativeLayout) rootView.findViewById(R.id.emailInfo);
 
-			Typeface fontRegular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Regular.ttf");
-			Typeface fontLight = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");
-
-			edittx_email.setTypeface(fontLight);
             edittx_email.setImeOptions(EditorInfo.IME_ACTION_DONE);
-			submitbox.setTypeface(fontLight);
 
-
-            dateTimePicker = (RelativeLayout) rootView.findViewById(R.id.dateTimePicker);
             mScrollView = (ScrollView) rootView.findViewById(R.id.confirmsv);
             mProgress = (ImageView) rootView.findViewById(R.id.progress_4Img);
+            confirmOptions = (LinearLayout) rootView.findViewById(R.id.confirmOptionsLL);
+            chkbox = (CheckBox) rootView.findViewById(R.id.checkBox);
+
 
 			utils = new Utilities(getActivity());
 			screen = utils.getSelectedLocation(getActivity());
-			chkbox = (CheckBox) rootView.findViewById(R.id.checkBox);
-			chkbox.setTypeface(fontRegular);
-            confirmOptions = (LinearLayout) rootView.findViewById(R.id.confirmOptionsLL);
 
+            //animations
             fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
             fadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
 
-            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
             fadeOut.setAnimationListener(this);
 
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+            //onclicklisteners
             emailQuestion.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -193,11 +190,10 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
                         if(mProgress.getVisibility() == View.INVISIBLE){
                         }
                     }
-
                 }
             });
 
-
+            //load email adress if saved
             String mail = utils.getSharedPrefValue("email");
 			if (mail != null)
 				{
@@ -206,10 +202,14 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 
 			getActivity().setTitle("Verzenden");
 
+
+            //Submit listener -> posts the message to API
 			submitbox.setOnClickListener(new View.OnClickListener()
 				{
 					public void onClick(View v)
 						{
+
+                            //get date and time
                             mPublishDate = mDp.getDate()+ ", " + mTp.getTime();
 
                             DateTimeZone zone = DateTimeZone.forID("Europe/Amsterdam");
@@ -226,16 +226,21 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 
                             }
 
+                            // if the message is not in the past, post
                             if(unixPublishDate > (System.currentTimeMillis()-300000)/1000) {
 
                                 String email = edittx_email.getText().toString();
+
+                                //check valid email
                                 if (checkEmail(email)) {
                                     utils.saveValueToSharedPrefs("email", email);
+                                    //check checkbox
                                     if (chkbox.isChecked()) {
                                         // creating new message in background thread
                                         new CreateNewMessage().execute();
 
-                                    } else {
+
+                                    } else { //foutmeldingen
                                         String chkboxerror = getString(R.string.ConfirmCheckboxError);
                                         Toast.makeText(getActivity().getApplicationContext(), chkboxerror, Toast.LENGTH_LONG).show();
                                     }
@@ -249,7 +254,6 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
                                 String DateError = getString(R.string.ConfirmDateError);
                                 Toast.makeText(getActivity().getApplicationContext(), DateError, Toast.LENGTH_LONG).show();
                             }
-
 						}
 				});
 			return rootView;
@@ -328,8 +332,8 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 						StringBody message = new StringBody(msg.getMsg(), ContentType.TEXT_PLAIN);
 						StringBody ip = new StringBody(msg.getIp_address(), ContentType.TEXT_PLAIN);
 						StringBody source = new StringBody("Android", ContentType.TEXT_PLAIN);
-						StringBody location = new StringBody(Integer.toString(screen.getLid()), ContentType.TEXT_PLAIN);
-						StringBody publishDate = new StringBody(Long.toString(unixPublishDate), ContentType.TEXT_PLAIN);
+						StringBody location = new StringBody(Integer.toString(msg.getLocationid()), ContentType.TEXT_PLAIN);
+						StringBody publishDate = new StringBody(Long.toString(msg.getTimestamp()), ContentType.TEXT_PLAIN);
 
 						entityBuilder.addPart("message", message);
 						entityBuilder.addPart("email", email);
@@ -358,6 +362,7 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 					}
 				FragmentManager fm = getFragmentManager();
 				FragmentTransaction ft1 = fm.beginTransaction();
+                ft1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
 				Fragment fragment = new FacebookFragment();
 
 				ft1.replace(R.id.frame_container, fragment);
@@ -382,7 +387,7 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 						foto = f.getName();
 					}
 				String bericht = extras.getString("msg");
-				Message msg = new Message(bericht, ip_address, email, foto, 4);
+				Message msg = new Message(bericht, ip_address, email, foto, screen.getLid(), unixPublishDate);
 				POST(msg, hasphoto);
 
 				return null;
@@ -413,15 +418,20 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 		}
 
 
+
 	// Creates a http connection
 
 	public static String getPublicIP()
 		{
-			// Document doc = Jsoup.connect("http://api.externalip.net/ip").get();
-			// return doc.body().text();
 			return getIPAddress(true);
 		}
 
+
+    /**
+     * This finds the IP adress of the user,
+     * can be deleted, as mobile users change
+     * address often.
+     */
 	public static String getIPAddress(boolean useIPv4)
 		{
 			try
@@ -458,7 +468,4 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 				} // for now eat exceptions
 			return "";
 		}
-
-
-
 }

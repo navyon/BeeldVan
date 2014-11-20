@@ -9,8 +9,8 @@
         android:id="@+id/icon"
         android:layout_width="25dp"
         android:layout_height="20dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="60dp"
@@ -27,9 +27,7 @@
         android:textSize="@dimen/slide_menu_textsize"
         android:textColor="#ffffff"
         android:layout_gravity="center_vertical"
-        android:fontFamily="sans-serif-thin"
+        android:fontFamily="@string/thin_font"
         android:layout_centerVertical="true" />
-
-
 
 </RelativeLayout>
