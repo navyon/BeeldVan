@@ -3,8 +3,6 @@ package com.ngagemedia.beeldvan.fragments;
 import android.app.Fragment;
 import android.app.ListActivity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -15,13 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.google.myjson.Gson;
 import com.ngagemedia.beeldvan.R;
-import com.ngagemedia.beeldvan.lazyloader.LazyImageLoader;
 import com.ngagemedia.beeldvan.model.*;
 import com.ngagemedia.beeldvan.utilities.Utilities;
 
@@ -36,16 +32,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 
 import java.io.*;
-import java.net.URL;
 import java.net.URLEncoder;
 
 public class TwitterFragment extends Fragment
 {
-    private ListActivity activity;
     String ScreenName = "beeldvan";
     String Hashtag;
     final static String LOG_TAG = "bvdh";
-    private static final String TAG = "TwitterListActivity";
     private CardArrayAdapter cardArrayAdapter;
     private ListView listView;
     private ProgressBar spinner;
@@ -179,7 +172,7 @@ public class TwitterFragment extends Fragment
                     InputStream inputStream = entity.getContent();
 
                     BufferedReader bReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
-                    String line = null;
+                    String line;
                     while ((line = bReader.readLine()) != null) {
                         sb.append(line);
                     }

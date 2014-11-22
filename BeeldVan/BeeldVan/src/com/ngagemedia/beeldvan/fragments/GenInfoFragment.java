@@ -3,7 +3,6 @@ package com.ngagemedia.beeldvan.fragments;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.ngagemedia.beeldvan.MainActivity;
 import com.ngagemedia.beeldvan.R;
@@ -12,9 +11,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.ngagemedia.beeldvan.model.ImageLoader;
-import com.ngagemedia.beeldvan.model.Locations;
 
 public class GenInfoFragment extends Fragment
 {

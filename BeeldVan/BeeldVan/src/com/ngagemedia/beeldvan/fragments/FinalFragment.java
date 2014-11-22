@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
-import android.widget.TextView;
 
 import com.ngagemedia.beeldvan.MainActivity;
 import com.ngagemedia.beeldvan.R;
@@ -15,10 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class FacebookFragment extends Fragment {
+public class FinalFragment extends Fragment {
     Handler handler;
 
-    public FacebookFragment() {
+    public FinalFragment() {
     }
 
     @Override

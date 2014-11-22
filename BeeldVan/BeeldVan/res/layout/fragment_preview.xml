@@ -17,15 +17,117 @@
         android:layout_marginBottom="20dp" />
 
     <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/previewLL"
+        android:layout_below="@+id/progress_3Img">
+
+        <ImageView
+            android:id="@+id/aspectFix"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/border"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/ImageViewPreview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY"
+            android:visibility="visible"
+            android:padding="1dp" />
+
+        <!--<ImageView-->
+            <!--android:id="@+id/ImageViewPreview"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBottom="@+id/aspectFix"-->
+            <!--android:layout_alignLeft="@+id/aspectFix"-->
+            <!--android:layout_alignRight="@+id/aspectFix"-->
+            <!--android:layout_alignTop="@+id/aspectFix"-->
+            <!--android:adjustViewBounds="true"-->
+            <!--android:contentDescription="@string/app_name"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:visibility="visible"-->
+            <!--android:padding="1dp" />-->
+
+        <TextView
+            android:id="@+id/TextViewPreview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical|left"
+            android:maxLines="4"
+            android:singleLine="false"
+            android:textColor="#f5f5f5"
+            android:textStyle="bold"
+            android:visibility="invisible" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/TextViewPreview"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBottom="@+id/aspectFix"-->
+            <!--android:layout_alignLeft="@+id/aspectFix"-->
+            <!--android:layout_alignRight="@+id/aspectFix"-->
+            <!--android:layout_alignTop="@+id/aspectFix"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:clickable="true"-->
+            <!--android:gravity="center_vertical|left"-->
+            <!--android:lineSpacingExtra="-4dp"-->
+            <!--android:maxLines="4"-->
+            <!--android:singleLine="false"-->
+            <!--android:textColor="#f5f5f5"-->
+            <!--android:textStyle="bold"-->
+            <!--android:visibility="invisible" />-->
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignBottom="@+id/aspectFix"
+            android:layout_alignLeft="@+id/aspectFix"
+            android:layout_alignRight="@+id/aspectFix"
+            android:layout_alignTop="@+id/aspectFix" >
+
+            <ImageButton
+                android:id="@+id/btnRestartAnim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="false"
+                android:layout_centerInParent="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/restart"
+                android:visibility="invisible" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
         android:id="@+id/previewTxtOptionsLL"
         android:layout_width="fill_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentEnd="false"
-        android:layout_alignParentRight="false"
+        android:visibility="visible"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:visibility="visible">
+        android:background="@color/green_trans">
 
         <Button
             android:id="@+id/btnChangePreviewPhoto"
@@ -38,7 +140,8 @@
             android:paddingLeft="20dp"
             android:layout_above="@+id/btnchangePreviewText"
             android:fontFamily="@string/light_font"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="20dp" />
 
         <Button
             android:id="@+id/btnchangePreviewText"
@@ -64,83 +167,8 @@
             android:textColor="@android:color/white"
             android:fontFamily="@string/light_font"
             android:paddingLeft="20dp"
-            android:layout_marginBottom="10dp"
-            android:layout_alignParentBottom="true" />
-    </RelativeLayout>
+            android:layout_marginBottom="20dp" />
+    </LinearLayout>
 
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_above="@+id/previewTxtOptionsLL"
-            android:id="@+id/previewLL"
-            android:layout_below="@+id/progress_3Img">
-
-            <ImageView
-                android:id="@+id/aspectFix"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/border"
-                android:contentDescription="@string/app_name"
-                android:scaleType="fitXY" />
-
-            <ImageView
-                android:id="@+id/ImageViewPreview"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/aspectFix"
-                android:layout_alignLeft="@+id/aspectFix"
-                android:layout_alignRight="@+id/aspectFix"
-                android:layout_alignTop="@+id/aspectFix"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/app_name"
-
-                android:scaleType="fitXY"
-                android:visibility="visible"
-                android:padding="1dp" />
-
-            <TextView
-                android:id="@+id/TextViewPreview"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/aspectFix"
-                android:layout_alignLeft="@+id/aspectFix"
-                android:layout_alignRight="@+id/aspectFix"
-                android:layout_alignTop="@+id/aspectFix"
-                android:layout_gravity="center_horizontal"
-                android:clickable="true"
-                android:gravity="center_vertical|left"
-                android:lineSpacingExtra="-4dp"
-                android:maxLines="4"
-                android:singleLine="false"
-                android:textColor="#f5f5f5"
-                android:textStyle="bold"
-                android:visibility="invisible" />
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_alignBottom="@+id/aspectFix"
-                android:layout_alignLeft="@+id/aspectFix"
-                android:layout_alignRight="@+id/aspectFix"
-                android:layout_alignTop="@+id/aspectFix" >
-
-                <ImageButton
-                    android:id="@+id/btnRestartAnim"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="false"
-                    android:layout_centerInParent="true"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/restart"
-                    android:visibility="invisible" />
-            </RelativeLayout>
-        </RelativeLayout>
 </RelativeLayout>

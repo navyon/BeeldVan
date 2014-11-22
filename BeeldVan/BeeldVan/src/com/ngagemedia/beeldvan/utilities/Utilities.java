@@ -280,7 +280,7 @@ public class Utilities
 
 
     //get screen width in pixels (minus the 10dp margin) and calculate correct font size
-    public static float getFontSize(float w, Locations l){
+    public float getFontSize(float w, Locations l){
 
 
         float width = w;
@@ -298,7 +298,7 @@ public class Utilities
         return fontSize;
     }
 
-    public static int getMarginSize(float w, Locations l){
+    public int getMarginSize(float w, Locations l){
 
         float width = w;
 
@@ -311,7 +311,7 @@ public class Utilities
         return margin;
     }
 
-    public static int getPreviewHeight(float w, Locations l){
+    public int getPreviewHeight(float w, Locations l){
 
         float width = w;
         float height;

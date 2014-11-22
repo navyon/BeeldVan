@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="0dp" />
 
     <RelativeLayout
             android:layout_width="fill_parent"
@@ -27,27 +27,13 @@
         android:id="@+id/msgRL"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_below="@+id/progress_2Img">
-
-        <ImageView
-                android:id="@+id/aspectv"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:adjustViewBounds="false"
-                android:background="@drawable/back"
-                android:contentDescription="@string/app_name"
-                android:scaleType="fitXY" />
+        android:layout_below="@+id/progress_2Img"
+        android:layout_marginTop="20dp">
 
         <EditText
                 android:id="@+id/txtView_msg"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/aspectv"
-                android:layout_alignLeft="@+id/aspectv"
-                android:layout_alignRight="@+id/aspectv"
-                android:layout_alignTop="@+id/aspectv"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal|top"
             android:background="@drawable/border"
@@ -55,17 +41,11 @@
                 android:gravity="center_vertical|left"
                 android:hint="@string/MsgHint"
                 android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
-                android:lineSpacingExtra="-4dp"
                 android:lines="4"
-                android:maxHeight="450dp"
                 android:maxLines="4"
-                android:maxWidth="600dp"
-                android:minHeight="225dp"
                 android:minLines="4"
-                android:minWidth="300dp"
                 android:singleLine="false"
                 android:textColor="#f5f5f5"
-                android:textSize="50sp"
 
                 android:textStyle="bold"/>
 

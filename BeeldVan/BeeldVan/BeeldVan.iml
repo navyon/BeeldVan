@@ -11,11 +11,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" generated="true" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 18 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="gson" level="project" />
     <orderEntry type="library" name="libs" level="project" />
     <orderEntry type="library" name="joda-time-2.41" level="project" />
+    <orderEntry type="library" name="renderscript-v8" level="application" />
   </component>
 </module>
 

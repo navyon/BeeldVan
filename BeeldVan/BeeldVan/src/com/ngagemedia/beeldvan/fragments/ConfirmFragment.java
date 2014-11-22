@@ -1,11 +1,6 @@
 package com.ngagemedia.beeldvan.fragments;
 
-import java.io.Console;
 import java.io.File;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -13,7 +8,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.util.InetAddressUtils;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -30,10 +24,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,7 +35,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -60,23 +50,19 @@ import com.ngagemedia.beeldvan.MainActivity;
 import com.ngagemedia.beeldvan.R;
 import com.ngagemedia.beeldvan.model.Locations;
 import com.ngagemedia.beeldvan.model.Message;
-import com.ngagemedia.beeldvan.utilities.JSONParser;
 import com.ngagemedia.beeldvan.utilities.Utilities;
 import com.ngagemedia.beeldvan.views.MyDatePicker;
 import com.ngagemedia.beeldvan.views.MyTimePicker;
 
 public class ConfirmFragment extends Fragment implements Animation.AnimationListener
 {
-	JSONParser jsonParser = new JSONParser();
 
-	// JSON Node names
-	private static String url_create_message = "http://api.beeldvan.nu/1.0/messages/post.json";
-
-	Utilities utils;
+    Utilities utils;
 	Locations screen;
 	String ip_address = "";
 	EditText edittx_email;
 	CheckBox chkbox;
+
 	// Progress Dialog
 	private ProgressDialog pDialog;
 	boolean hasphoto = false;
@@ -95,7 +81,7 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
     RelativeLayout emailInfoRL;
 
 
-	public final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+");
+	public final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile("[a-zA-Z0-9\\+\\._%\\-\\+]{1,256}" + "@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+");
 
 	MyDatePicker mDp;
 	MyTimePicker mTp;
@@ -174,24 +160,24 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
                 }
             });
 
-            edittx_email.setOnFocusChangeListener(new View.OnFocusChangeListener()
-            {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus)
-                {
-                    if (hasFocus)
-                    {
-                        mScrollView.post(new Runnable() {
-                            public void run() {
-                                mScrollView.smoothScrollTo(0,confirmOptions.getBottom());
-                            }
-                        });
-                    } else {
-                        if(mProgress.getVisibility() == View.INVISIBLE){
-                        }
-                    }
-                }
-            });
+//            edittx_email.setOnFocusChangeListener(new View.OnFocusChangeListener()
+//            {
+//                @Override
+//                public void onFocusChange(View v, boolean hasFocus)
+//                {
+//                    if (hasFocus)
+//                    {
+//                        mScrollView.post(new Runnable() {
+//                            public void run() {
+//                                mScrollView.smoothScrollTo(0,confirmOptions.getBottom());
+//                            }
+//                        });
+//                    } else {
+//                        if(mProgress.getVisibility() == View.INVISIBLE){
+//                        }
+//                    }
+//                }
+//            });
 
             //load email adress if saved
             String mail = utils.getSharedPrefValue("email");
@@ -310,7 +296,7 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 		public void POST(Message msg, boolean hasPhoto)
 			{
 
-				String result = "";
+				String result;
 
 				File f = null;
 
@@ -321,7 +307,8 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 					{
 						HttpClient client = new DefaultHttpClient();
 
-						HttpPost post = new HttpPost(url_create_message);
+                        String url_create_message = "http://api.beeldvan.nu/1.0/messages/post.json";
+                        HttpPost post = new HttpPost(url_create_message);
 
 						MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
 						entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
@@ -363,7 +350,7 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 				FragmentManager fm = getFragmentManager();
 				FragmentTransaction ft1 = fm.beginTransaction();
                 ft1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-				Fragment fragment = new FacebookFragment();
+				Fragment fragment = new FinalFragment();
 
 				ft1.replace(R.id.frame_container, fragment);
 				ft1.commit();
@@ -372,7 +359,7 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 		// Create the Message
 		protected String doInBackground(String... args)
 			{
-				ip_address = getPublicIP();
+				ip_address = "0.0.0.0"; //don't log IP address
 				String email = "";
 				boolean isvalid = checkEmail(edittx_email.getText().toString());
 				if (isvalid)
@@ -418,54 +405,4 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
 		}
 
 
-
-	// Creates a http connection
-
-	public static String getPublicIP()
-		{
-			return getIPAddress(true);
-		}
-
-
-    /**
-     * This finds the IP adress of the user,
-     * can be deleted, as mobile users change
-     * address often.
-     */
-	public static String getIPAddress(boolean useIPv4)
-		{
-			try
-				{
-					List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-					for (NetworkInterface intf : interfaces)
-						{
-							List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
-							for (InetAddress addr : addrs)
-								{
-									if (!addr.isLoopbackAddress())
-										{
-											String sAddr = addr.getHostAddress().toUpperCase();
-											boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
-											if (useIPv4)
-												{
-													if (isIPv4)
-														return sAddr;
-												}
-											else
-												{
-													if (!isIPv4)
-														{
-															int delim = sAddr.indexOf('%'); // drop ip6 port suffix
-															return delim < 0 ? sAddr : sAddr.substring(0, delim);
-														}
-												}
-										}
-								}
-						}
-				}
-			catch (Exception ex)
-				{
-				} // for now eat exceptions
-			return "";
-		}
 }

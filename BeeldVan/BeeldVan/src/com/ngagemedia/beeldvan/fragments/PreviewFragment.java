@@ -35,7 +35,6 @@ import java.io.InputStream;
 
 public class PreviewFragment extends Fragment implements Animation.AnimationListener
 {
-    private Uri mImageCaptureUri;
     private TextView txtview;
     public ImageView imagev;
     public ImageView aspectv;
@@ -45,7 +44,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     Button btnChangePreviewPhoto;
     Button btnChangePreviewMessage;
     ImageButton btnRestartAnim;
-    RelativeLayout layBtns;
+    LinearLayout layBtns;
 
     String imagePath = null;
     Fragment fragment;
@@ -56,7 +55,6 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     // implementation of crop
     public static final String TAG = "PreviewFragment";
     private static String FOLDER_NAME;
-    private static String TEMP_PHOTO_FILE_NAME;
 
     public static final int REQUEST_CODE_GALLERY      = 0x1;
     public static final int REQUEST_CODE_TAKE_PICTURE = 0x2;
@@ -88,7 +86,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         btnChangePreviewPhoto = (Button) rootView.findViewById(R.id.btnChangePreviewPhoto);
         btnChangePreviewMessage = (Button) rootView.findViewById(R.id.btnchangePreviewText);
         btnRestartAnim = (ImageButton) rootView.findViewById(R.id.btnRestartAnim);
-        layBtns = (RelativeLayout) rootView.findViewById(R.id.previewTxtOptionsLL);
+        layBtns = (LinearLayout) rootView.findViewById(R.id.previewTxtOptionsLL);
         utils = new Utilities(getActivity());
         screen = utils.getSelectedLocation(getActivity());
         // set fonts
@@ -116,7 +114,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
 
         FOLDER_NAME = checkDir();
 
-        TEMP_PHOTO_FILE_NAME = getRandomFileName();
+        String TEMP_PHOTO_FILE_NAME = getRandomFileName();
 
         //cropoption
         String state = Environment.getExternalStorageState();
@@ -250,10 +248,11 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
 
         float width = utils.getScreenWidth(getActivity());
         int height = utils.getPreviewHeight(width,screen);
-        Bitmap.Config conf = Bitmap.Config.ALPHA_8;
-        Bitmap bmp = Bitmap.createBitmap((int)width, height, conf);
-        aspectv.setImageBitmap(bmp);
+//        Bitmap.Config conf = Bitmap.Config.ALPHA_8;
+//        Bitmap bmp = Bitmap.createBitmap((int)width, height, conf);
+//        aspectv.setImageBitmap(bmp);
         aspectv.setMinimumHeight(height);
+
         if(hasphoto) {
             final Bitmap photo = BitmapFactory.decodeFile(imagePath);
             if (photo != null) {
@@ -271,7 +270,9 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
             setTextSizes(txtview);
         }
 
-
+        imagev.setMinimumHeight(height);
+        txtview.setHeight(height);
+        imagev.setMaxHeight(height);
     }
 
     void animateImage()
@@ -473,6 +474,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         try {
 
             String state = Environment.getExternalStorageState();
+            Uri mImageCaptureUri;
             if (Environment.MEDIA_MOUNTED.equals(state)) {
                 mImageCaptureUri = Uri.fromFile(mFileTemp);
             }

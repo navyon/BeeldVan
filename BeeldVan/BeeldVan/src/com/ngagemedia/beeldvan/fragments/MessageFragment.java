@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.text.Editable;
@@ -30,7 +29,6 @@ import com.ngagemedia.beeldvan.utilities.Utilities;
 public class MessageFragment extends Fragment implements Animation.AnimationListener
 {
     private EditText txtView_msg;
-    private ImageView aspectv;
     private ImageView progress2;
     private RelativeLayout continueRL;
     String msg = null;
@@ -64,7 +62,7 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
         // build alert dialog for max line check
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Er passen maar 4 regels tekst op het scherm");
-        Bundle bundle = this.getArguments();
+        Bundle bundle;
         utils = new Utilities(getActivity());
 
         //get selected screen
@@ -73,7 +71,6 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         txtView_msg = (EditText) rootView.findViewById(R.id.txtView_msg);
-        aspectv = (ImageView) rootView.findViewById(R.id.aspectv);
         progress2 = (ImageView) rootView.findViewById(R.id.progress_2Img);
         setTextSizes(txtView_msg);
 
@@ -221,12 +218,8 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
         float width = utils.getScreenWidth(getActivity());
         Log.d("width", String.valueOf(width));
         // force aspect ratio for txtView
-        int height = utils.getPreviewHeight(width,screen);
-        Bitmap.Config conf = Bitmap.Config.ALPHA_8;
-        Bitmap bmp = Bitmap.createBitmap((int)width, height, conf);// create transparent bitmap
-        aspectv.setImageBitmap(bmp);
-        aspectv.setMinimumHeight(height);
-
+        int height = utils.getPreviewHeight(width, screen);
+        txt.setHeight(height);
         textsize = utils.getFontSize(width,screen);
         int margin = utils.getMarginSize(width, screen);
 

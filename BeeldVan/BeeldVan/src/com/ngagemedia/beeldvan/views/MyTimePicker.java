@@ -21,7 +21,7 @@ public class MyTimePicker
 {
 
 	private Context mContex;
-	public static WheelView hour, min, amPm;
+	public static WheelView hour, min;
 	final int DEFAULT_COLOR = Color.GRAY;
 	final int SELECTED_COLOR = Color.WHITE;
 
@@ -43,7 +43,6 @@ public class MyTimePicker
 
 			hour = new WheelView(mContex);
 			min = new WheelView(mContex);
-			// amPm = new WheelView(mContex);
 
 			lytdate.addView(hour, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
 			lytdate.addView(min, new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
@@ -55,8 +54,6 @@ public class MyTimePicker
 			int curHour = calendar.get(Calendar.HOUR_OF_DAY);
 			int curMin = calendar.get(Calendar.MINUTE);
 
-			// int curAmPm = calendar.get(Calendar.AM_PM);
-			// String[] amPmArr = new String[] {"AM", "PM"};
 			DateNumericAdapter hourAdapter = new DateNumericAdapter(context, 0, 23, curHour);
 			hour.setViewAdapter(hourAdapter);
 			hour.addChangingListener(hourAdapter);

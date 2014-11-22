@@ -35,7 +35,6 @@ import java.io.InputStream;
 public class HomeFragment extends Fragment implements View.OnClickListener
 {
 
-    private static Uri mImageCaptureUri;
     public static final int REQUEST_CODE_GALLERY = 0x1;
     public static final int REQUEST_CODE_TAKE_PICTURE = 0x2;
     public static final int REQUEST_CODE_CROP_IMAGE = 0x3;
@@ -99,6 +98,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         if (!dir.exists()) {
             boolean result = dir.mkdir();
             if (result) {
+                Log.d("dir", "dir created");
             }
         }
         return dirname;
@@ -137,6 +137,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         try {
 
             String state = Environment.getExternalStorageState();
+            Uri mImageCaptureUri;
             if (Environment.MEDIA_MOUNTED.equals(state)) {
                 mImageCaptureUri = Uri.fromFile(mFileTemp);
             } else {
@@ -177,8 +178,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
 
     private String getRandomFileName() {
         long n = System.currentTimeMillis();
-        String fileName = FOLDER_NAME + File.separator + String.valueOf(n) + "_beeldvan.jpg";
-        return fileName;
+        return FOLDER_NAME + File.separator + String.valueOf(n) + "_beeldvan.jpg";
     }
 
 
@@ -214,7 +214,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener
                 if (imagePath != null) {
                     final Bundle extras = data.getExtras();
                     MainActivity.imageLocation = imagePath;
-                    boolean hasphoto = true;
 
                     if (extras != null) {
                         try {
@@ -224,7 +223,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
                             fragment = new MessageFragment();
                             ft1.addToBackStack(null);
                             extras.putString("imagePath", imagePath);
-                            extras.putBoolean("hasphoto", hasphoto);
+                            extras.putBoolean("hasphoto", true);
                             ft1.replace(R.id.frame_container, fragment, tag);
                             fragment.setArguments(extras);
                             ft1.commit();

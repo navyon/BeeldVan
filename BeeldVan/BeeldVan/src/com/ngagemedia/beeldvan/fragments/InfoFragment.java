@@ -1,7 +1,6 @@
 package com.ngagemedia.beeldvan.fragments;
 
 import android.text.Html;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.ngagemedia.beeldvan.MainActivity;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ngagemedia.beeldvan.crop.Util;
 import com.ngagemedia.beeldvan.model.ImageLoader;
 import com.ngagemedia.beeldvan.model.Locations;
 import com.ngagemedia.beeldvan.utilities.Utilities;
@@ -48,8 +46,6 @@ public class InfoFragment extends Fragment
             String infoImage =  screen.getInfoImageLocation();
 
             String image_url = baseUrl+infoImage;
-            // ImageLoader class instance
-
 
             ImageLoader imgLoader = new ImageLoader(getActivity().getApplicationContext());
             imgLoader.DisplayImage(image_url, loader, cityImage);
@@ -59,6 +55,7 @@ public class InfoFragment extends Fragment
             getActivity().setTitle(cityName+" "+screen.getName());
             MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
         }
+
         return rootView;
 	}
 

@@ -39,7 +39,6 @@ import android.view.View.OnClickListener;
 
 
 public class MainActivity extends Activity implements ImageLoadInterface, ListItemClickedInterface {
-    private static Uri mImageCaptureUri;
     // Sliding menu objects
     public static DrawerLayout mDrawerLayout;
     public static ExpandableListView mDrawerList;
@@ -59,21 +58,13 @@ public class MainActivity extends Activity implements ImageLoadInterface, ListIt
     // slide menu items
     private String[] navMenuTitles;
 
-    public static final int REQUEST_CODE_GALLERY = 0x1;
-    public static final int REQUEST_CODE_TAKE_PICTURE = 0x2;
-    public static final int REQUEST_CODE_CROP_IMAGE = 0x3;
     public static final String TAG = "MainActivity";
     public static String TEMP_PHOTO_FILE_NAME;
-    public static String FOLDER_NAME;
 
-//    private File mFileTemp;
 
     Utilities utils;
-//    ImageView camaerIconImg;
 
     GridView postedImgsGridView;
-//    public static View main_include_layout;
-//    String imagePath;
     public static String imageLocation;
     int lastExpandedGroupPosition = -1;
     FragmentManager fm1 = getFragmentManager();
@@ -87,33 +78,8 @@ public class MainActivity extends Activity implements ImageLoadInterface, ListIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_new);
         utils = new Utilities(this);
-//        main_include_layout = (View) findViewById(R.id.main_include_layout);
         postedImgsGridView = (GridView) findViewById(R.id.postedImgsGridView);
-//        TextView overslaanTV = (TextView) findViewById(R.id.overslaanTv);
-//        overslaanTV.setOnClickListener(this);
 
-        //crop option implementation
-//        FOLDER_NAME = checkDir();
-
-//        TEMP_PHOTO_FILE_NAME = getRandomFileName();
-//
-//        String state = Environment.getExternalStorageState();
-//        if (Environment.MEDIA_MOUNTED.equals(state)) {
-//            mFileTemp = new File(Environment.getExternalStorageDirectory(), TEMP_PHOTO_FILE_NAME);
-//        } else {
-//            mFileTemp = new File(getFilesDir(), TEMP_PHOTO_FILE_NAME);
-//        }
-//
-//
-//        camaerIconImg = (ImageView) findViewById(R.id.camaerIconImg);
-//
-//        camaerIconImg.setOnClickListener(this);
-//
-//
-//        // Slider Menu methods
-//        mTitle = mDrawerTitle = getTitle();
-//        mTitle = "Afbeelding";
-//        setTitle(mTitle);
 
         // load slide menu items
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
@@ -132,7 +98,6 @@ public class MainActivity extends Activity implements ImageLoadInterface, ListIt
             FragmentTransaction ft = fm.beginTransaction();
             ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
             String tag = "HomeFragment";
-//            ft.add(R.id.frame_container, new HomeFragment()).commit();
             fragment = new HomeFragment();
             ft.addToBackStack("main");
             ft.add(R.id.frame_container, fragment, tag).commit();
@@ -201,8 +166,6 @@ public class MainActivity extends Activity implements ImageLoadInterface, ListIt
                     ft.replace(R.id.frame_container, fragment, tag);
                     ft.addToBackStack(null);
                     ft.commit();
-                    System.out.println("groupClick" + fragment.getTag());
-//                    main_include_layout.setVisibility(View.GONE);
                 }
                 return false;
             }
