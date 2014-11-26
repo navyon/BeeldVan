@@ -70,6 +70,8 @@ public class SplashActivity extends Activity implements LocationListener, Animat
     private LocationClient mLocationClient;
 
 
+    boolean connected = false; //connected with playservices
+    boolean apiFinished = false; //finished with api call
 
     String baseUrl = "http://beeldvan.nu/";
 
@@ -323,8 +325,10 @@ public class SplashActivity extends Activity implements LocationListener, Animat
 
     //this is called after API update getCurrentVersion()
     public void startLocationChecks(){
+
         CityDataList = utils.getAllCitiesList();
         //40 second time-out for location check
+        apiFinished = true;
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -341,9 +345,10 @@ public class SplashActivity extends Activity implements LocationListener, Animat
 //        mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER,this,Looper.getMainLooper());
 //        mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER,this,Looper.getMainLooper());
 
-        if (servicesConnected()) {
+        if(connected) {
             startPeriodicUpdates();
         }
+
     }
 
     /**
@@ -601,7 +606,11 @@ public class SplashActivity extends Activity implements LocationListener, Animat
 
     @Override
     public void onConnected(Bundle bundle) {
-        startPeriodicUpdates();
+//        startPeriodicUpdates();
+        connected = true;
+        if(apiFinished){
+            startPeriodicUpdates();
+        }
     }
 
     @Override
