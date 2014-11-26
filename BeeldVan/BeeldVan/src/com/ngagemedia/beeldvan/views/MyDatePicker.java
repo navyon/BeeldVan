@@ -51,10 +51,12 @@ public class MyDatePicker
 			lytmain.addView(lytdate);
 
 			int curMonth = calendar.get(Calendar.MONTH);
+            Log.d("DatePicker", "month "+String.valueOf(curMonth));
 			DateArrayAdapter monthAdapter = new DateArrayAdapter(context, monthsShort, curMonth);
 			month.setViewAdapter(monthAdapter);
-			month.addChangingListener(monthAdapter);
-			month.setCurrentItem(curMonth);
+            month.setCurrentItem(curMonth);
+            month.addChangingListener(monthAdapter);
+
 
 			Calendar cal = Calendar.getInstance();
 			// year
@@ -104,7 +106,7 @@ public class MyDatePicker
 		public DateNumericAdapter( Context context, int minValue, int maxValue, int current )
 			{
 				super(context, minValue, maxValue);
-				setTextSize(20);
+				setTextSize(DEFAULT_TEXT_SIZE);
 			}
 
 		@Override
@@ -112,6 +114,14 @@ public class MyDatePicker
 			{
 
 			}
+
+        @Override
+        public void onChanged(WheelView wheel, int oldValue, int newValue)
+        {
+            selTv = ((TextView) wheel.getItemView(newValue));
+
+            notifyDataChangedEvent();
+        }
 
 		@Override
 		protected void configureTextView(TextView view)
@@ -137,13 +147,7 @@ public class MyDatePicker
 				return super.getItem(index, index, cachedView, parent);
 			}
 
-		@Override
-		public void onChanged(WheelView wheel, int oldValue, int newValue)
-			{
-				selTv = ((TextView) wheel.getItemView(newValue));
 
-				notifyDataChangedEvent();
-			}
 	}
 
 	private class DateArrayAdapter extends ArrayWheelAdapter<String> implements OnWheelChangedListener
@@ -153,8 +157,18 @@ public class MyDatePicker
 		public DateArrayAdapter( Context context, String[] items, int current )
 			{
 				super(context, items);
-				setTextSize(20);
+				setTextSize(DEFAULT_TEXT_SIZE);
 			}
+
+        @Override
+        public void onChanged(WheelView wheel, int oldValue, int newValue)
+        {
+            //make sure there' no non-existent dates
+            updateDays(year, month, day);
+            selTv = ((TextView) wheel.getItemView(newValue));
+            notifyDataChangedEvent();
+
+        }
 
 		@Override
 		protected void configureTextView(TextView view)
@@ -180,14 +194,7 @@ public class MyDatePicker
 				return super.getItem(index, index, cachedView, parent);
 			}
 
-		@Override
-		public void onChanged(WheelView wheel, int oldValue, int newValue)
-			{
-                //make sure there' no non-existent dates
-                updateDays(year, month, day);
-                selTv = ((TextView) wheel.getItemView(newValue));
-				notifyDataChangedEvent();
-			}
+
 
 		@Override
 		public void onChanged(WheelView wheel, TextView oldTextView, TextView newTextView)

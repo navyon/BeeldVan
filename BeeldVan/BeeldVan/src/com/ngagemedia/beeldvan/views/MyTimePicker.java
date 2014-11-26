@@ -99,7 +99,7 @@ public class MyTimePicker
 		public DateNumericAdapter( Context context, int minValue, int maxValue, int current )
 			{
 				super(context, minValue, maxValue);
-				setTextSize(20);
+				setTextSize(DEFAULT_TEXT_SIZE);
 			}
 
 		@Override
@@ -147,7 +147,7 @@ public class MyTimePicker
 		public TimeArrayAdapter( Context context, String[] items, int current )
 			{
 				super(context, items);
-				setTextSize(20);
+				setTextSize(DEFAULT_TEXT_SIZE);
 			}
 
 		@Override

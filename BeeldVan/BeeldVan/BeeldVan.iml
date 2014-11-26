@@ -17,6 +17,7 @@
     <orderEntry type="library" name="libs" level="project" />
     <orderEntry type="library" name="joda-time-2.41" level="project" />
     <orderEntry type="library" name="renderscript-v8" level="application" />
+    <orderEntry type="library" name="google-play-services" level="project" />
   </component>
 </module>
 

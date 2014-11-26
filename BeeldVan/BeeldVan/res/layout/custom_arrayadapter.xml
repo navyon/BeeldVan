@@ -8,6 +8,8 @@
     android:textColor="?android:attr/textColorAlertDialogListItem"
     android:gravity="center_vertical"
     android:paddingStart="14dip"
+    android:paddingLeft="14dip"
     android:paddingEnd="15dip"
+    android:paddingRight="15dip"
     android:ellipsize="marquee"
     />

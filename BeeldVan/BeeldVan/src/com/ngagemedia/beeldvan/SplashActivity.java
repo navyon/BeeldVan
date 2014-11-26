@@ -1,11 +1,15 @@
 package com.ngagemedia.beeldvan;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ngagemedia.beeldvan.lazyloader.LazyImageLoader;
 import com.ngagemedia.beeldvan.model.CityData;
 
 
 import com.ngagemedia.beeldvan.asynctasks.Sync2Manager;
 import com.ngagemedia.beeldvan.model.Locations;
+import com.ngagemedia.beeldvan.utilities.LocationUtils;
 import com.ngagemedia.beeldvan.utilities.Utilities;
 import com.ngagemedia.beeldvan.utilities.getLocation;
 import com.ngagemedia.beeldvan.views.Rotate3dAnimation;
@@ -13,6 +17,7 @@ import com.ngagemedia.beeldvan.views.Rotate3dAnimation;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
@@ -26,9 +31,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.renderscript.Allocation;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -40,10 +42,17 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.location.*;
+import android.support.v8.renderscript.Allocation;
+import android.support.v8.renderscript.RenderScript;
+import android.support.v8.renderscript.ScriptIntrinsicBlur;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class SplashActivity extends Activity implements LocationListener, Animation.AnimationListener
+public class SplashActivity extends Activity implements LocationListener, Animation.AnimationListener, com.google.android.gms.location.LocationListener,
+        GooglePlayServicesClient.ConnectionCallbacks,
+        GooglePlayServicesClient.OnConnectionFailedListener
 {
     Utilities utils;
     Sync2Manager s;
@@ -51,6 +60,16 @@ public class SplashActivity extends Activity implements LocationListener, Animat
     getLocation myLocation;
     LocationManager mLocationManager;
     public static List<Locations> mLocationList;
+    private ArrayList<CityData> CityDataList;
+    /**play services implementation*/
+
+    // A request to connect to Location Services
+    private LocationRequest mLocationRequest;
+
+    // Stores the current instantiation of the location client in this object
+    private LocationClient mLocationClient;
+
+
 
     String baseUrl = "http://beeldvan.nu/";
 
@@ -137,6 +156,46 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         bottomLogo.setTypeface(fontHelv);
         fixedTop.setTypeface(fontHelv);
         fixedBottom.setTypeface(fontHelv);
+
+        // Create a new global location parameters object
+        mLocationRequest = LocationRequest.create();
+
+        /*
+         * Set the update interval
+         */
+        mLocationRequest.setInterval(LocationUtils.UPDATE_INTERVAL_IN_MILLISECONDS);
+
+        // Use high accuracy
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        // Set the interval ceiling to one minute
+        mLocationRequest.setFastestInterval(LocationUtils.FAST_INTERVAL_CEILING_IN_MILLISECONDS);
+
+        mLocationClient = new LocationClient(this, this, this);
+    }
+
+    /*
+ * Called when the Activity is no longer visible at all.
+ * Stop updates and disconnect.
+ */
+    @Override
+    public void onStop() {
+
+        // If the client is connected
+        if (mLocationClient.isConnected()) {
+            stopPeriodicUpdates();
+        }
+
+        // After disconnect() is called, the client is considered "dead".
+        mLocationClient.disconnect();
+
+        super.onStop();
+    }
+
+    @Override
+    protected void  onStart(){
+        super.onStart();
+        mLocationClient.connect();
     }
 
     @Override
@@ -149,7 +208,6 @@ public class SplashActivity extends Activity implements LocationListener, Animat
 
         //init location check
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -172,7 +230,95 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         }
     }
 
-    private ArrayList<CityData> CityDataList;
+    /*
+     * Handle results returned to this Activity by other Activities started with
+     * startActivityForResult(). In particular, the method onConnectionFailed() in
+     * LocationUpdateRemover and LocationUpdateRequester may call startResolutionForResult() to
+     * start an Activity that handles Google Play services problems. The result of this
+     * call returns here, to onActivityResult.
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        // Choose what to do based on the request code
+        switch (requestCode) {
+
+            // If the request code matches the code sent in onConnectionFailed
+            case LocationUtils.CONNECTION_FAILURE_RESOLUTION_REQUEST :
+
+                switch (resultCode) {
+                    // If Google Play services resolved the problem
+                    case Activity.RESULT_OK:
+
+                        // Log the result
+                        Log.d(LocationUtils.APPTAG, getString(R.string.resolved));
+
+                        // Display the result
+                        break;
+
+                    // If any other result was returned by Google Play services
+                    default:
+                        // Log the result
+                        Log.d(LocationUtils.APPTAG, getString(R.string.no_resolution));
+                        break;
+                }
+
+                // If any other request code was received
+            default:
+                // Report that this Activity received an unknown requestCode
+                Log.d(LocationUtils.APPTAG,
+                        getString(R.string.unknown_activity_request_code, requestCode));
+
+                break;
+        }
+    }
+
+    /**
+     * Verify that Google Play services is available before making a request.
+     *
+     * @return true if Google Play services is available, otherwise false
+     */
+    private boolean servicesConnected() {
+
+        // Check that Google Play services is available
+        int resultCode =
+                GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+        // If Google Play services is available
+        if (ConnectionResult.SUCCESS == resultCode) {
+            // In debug mode, log the status
+            Log.d(LocationUtils.APPTAG, getString(R.string.play_services_available));
+
+            // Continue
+            return true;
+            // Google Play services was not available for some reason
+        } else {
+            // Display an error dialog
+            Log.d(LocationUtils.APPTAG, "ERROR LOCATION");
+            return false;
+        }
+    }
+
+    /**
+     * Invoked by the "Get Location" button.
+     *
+     * Calls getLastLocation() to get the current location
+     *
+     * @param v The view object associated with this method, in this case a Button.
+     */
+    public void getLocation(View v) {
+
+        // If Google Play Services is available
+        if (servicesConnected()) {
+
+            // Get the current location
+            Location currentLocation = mLocationClient.getLastLocation();
+
+            // Display the current location in the UI
+        }
+    }
+
+
 
 
     //this is called after API update getCurrentVersion()
@@ -191,7 +337,26 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         // start location check with coarse accuracy.
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-        mLocationManager.requestSingleUpdate(criteria, this, Looper.getMainLooper());
+//        mLocationManager.requestSingleUpdate(criteria, this, Looper.getMainLooper());
+//        mLocationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER,this,Looper.getMainLooper());
+//        mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER,this,Looper.getMainLooper());
+
+        if (servicesConnected()) {
+            startPeriodicUpdates();
+        }
+    }
+
+    /**
+     * Invoked by the "Stop Updates" button
+     * Sends a request to remove location updates
+     * request them.
+     *
+     * @param v The view object associated with this method, in this case a Button.
+     */
+    public void stopUpdates(View v) {
+        if (servicesConnected()) {
+            stopPeriodicUpdates();
+        }
     }
 
 
@@ -203,7 +368,7 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         handler.removeCallbacksAndMessages(null); //delete timeout function
         mLocation = location;
         Log.d("location", mLocation.toString());
-
+        stopPeriodicUpdates();
         //fill temp list
         for(int i = 0; i < CityDataList.size(); i++){
             List<Locations> l = CityDataList.get(i).getLocations();
@@ -252,10 +417,11 @@ public class SplashActivity extends Activity implements LocationListener, Animat
             public void onImageLoad() {
 
                 //blur
-                cityImage.buildDrawingCache(true);
-                Bitmap bmp = Bitmap.createBitmap(cityImage.getDrawingCache());
-                cityImage.setDrawingCacheEnabled(false);
-                blur(bmp, blurredView, 20);
+                    cityImage.setDrawingCacheEnabled(true);
+                    cityImage.buildDrawingCache(true);
+                    Bitmap bmp = Bitmap.createBitmap(cityImage.getDrawingCache());
+                    cityImage.setDrawingCacheEnabled(false);
+                    blur(bmp, blurredView, 20);
 
                 //start animation
                 LocationTitleTv.startAnimation(fadeIn);
@@ -427,10 +593,67 @@ public class SplashActivity extends Activity implements LocationListener, Animat
         blur.forEach(overlayAlloc);
 
         overlayAlloc.copyTo(overlay);
-
-        view.setBackground(new BitmapDrawable(
+        view.setBackgroundDrawable(new BitmapDrawable(
                 getResources(), overlay));
 
         rs.destroy();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        startPeriodicUpdates();
+    }
+
+    @Override
+    public void onDisconnected() {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        /*
+         * Google Play services can resolve some errors it detects.
+         * If the error has a resolution, try sending an Intent to
+         * start a Google Play services activity that can resolve
+         * error.
+         */
+        if (connectionResult.hasResolution()) {
+            try {
+
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult(
+                        this,
+                        LocationUtils.CONNECTION_FAILURE_RESOLUTION_REQUEST);
+
+                /*
+                * Thrown if Google Play services canceled the original
+                * PendingIntent
+                */
+
+            } catch (IntentSender.SendIntentException e) {
+
+                // Log the error
+                e.printStackTrace();
+            }
+        } else {
+
+        }
+    }
+
+    /**
+     * In response to a request to start updates, send a request
+     * to Location Services
+     */
+    private void startPeriodicUpdates() {
+
+        mLocationClient.requestLocationUpdates(mLocationRequest, this);
+    }
+
+    /**
+     * In response to a request to stop updates, send a request to
+     * Location Services
+     */
+    private void stopPeriodicUpdates() {
+        mLocationClient.removeLocationUpdates(this);
     }
 }

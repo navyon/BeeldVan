@@ -1,6 +1,7 @@
 package com.ngagemedia.beeldvan;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.ngagemedia.beeldvan.model.Locations;
 
@@ -18,7 +19,7 @@ public class myApplication extends Application {
 
     public void setSelectedLocation(Locations l) {
         this.selectedLocation = l;
-        System.out.println("saved location = "+l.getName());
+        Log.d("Location", "saved = "+l.getName());
     }
 
     public Locations getSelectedLocation(){

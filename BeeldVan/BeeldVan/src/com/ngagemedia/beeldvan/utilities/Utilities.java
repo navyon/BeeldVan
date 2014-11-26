@@ -98,7 +98,6 @@ public class Utilities
         {
         }.getType();
         ArrayList<CityData> cityDatas = gson.fromJson(callbackJson, collectionType);
-        System.out.println();
         return cityDatas;
     }
 
@@ -184,8 +183,8 @@ public class Utilities
         {
             double lat = locationList.get(i).getLatitude();
             double lng = locationList.get(i).getLongitude();
-            System.out.println(locationList.get(i).getName()+"lat = "+lat);
-            System.out.println(locationList.get(i).getName()+"lng = "+lng);
+            Log.d("Location", locationList.get(i).getName()+" "+lat+" "+lng);
+//            Log.d("Location", locationList.get(i).getName()+"lng = "+lng);
             Location loc = new Location("");
             loc.setLatitude(lat);
             loc.setLongitude(lng);
@@ -208,7 +207,7 @@ public class Utilities
                 if (l.size() > 0) {
                     for (int j = 0; j < l.size(); j++) {
                         if (l.get(j).getLid() == loc.getLid()) {
-                            System.out.println("lid " + loc.getLid()+ " = " + l.get(j).getName());
+                            Log.d("LID",  String.valueOf(loc.getLid() + " = " + l.get(j).getName()));
                             position = n;
                         }
                         n++; // count number of screens
@@ -251,7 +250,7 @@ public class Utilities
                 if (l.size() > 0) {
                     for (int j = 0; j < l.size(); j++) {
                         if (l.get(j).getLid() == lid) {
-                            System.out.println("position = " + l.get(j).getName());
+                            Log.d("Location", l.get(j).getName());
                             loc = l.get(j);
                         }
                     }
@@ -294,7 +293,7 @@ public class Utilities
 
         //set fontsize (screenpixels * ratio)
         float fontSize = (width * r);
-        System.out.println("fontsize = " + fontSize);
+        Log.d("Sizes", "font" + String.valueOf(fontSize));
         return fontSize;
     }
 
@@ -307,7 +306,7 @@ public class Utilities
 
         float r = lMargin/lWidth;
         int margin = (int)(width * r);
-        System.out.println("margin = " + margin);
+        Log.d("Sizes", "margin" + String.valueOf(margin));
         return margin;
     }
 

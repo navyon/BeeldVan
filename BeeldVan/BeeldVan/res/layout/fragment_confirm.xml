@@ -128,7 +128,7 @@
                     <LinearLayout
                         android:id="@+id/dateTimeLL"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="100dp"
                         android:layout_below="@+id/lineSeparator"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -138,16 +138,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="horizontal"
-                            android:layout_marginRight="20dp"></LinearLayout>
+                            android:orientation="horizontal"></LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/fcLlTime"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="horizontal"
-                            android:layout_marginLeft="20dp"></LinearLayout>
+                            android:orientation="horizontal"></LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
@@ -217,7 +215,7 @@
                     android:layout_weight="0.69"
                     android:button="@drawable/checkbox"
                     android:checked="false"
-                    android:gravity="center_vertical|left"
+                    android:gravity="center_vertical|right|end"
                     android:paddingLeft="10dp"
                     android:paddingRight="15dp"
                     android:radius="5dp"
