@@ -31,7 +31,8 @@ public class InfoFragment extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-        int loader = R.drawable.loader;
+//        int loader = R.drawable.loader;
+        int loader = R.color.purple;
 		View rootView = inflater.inflate(R.layout.fragment_city_info, container, false);
         cityImage = (ImageView) rootView.findViewById(R.id.cityimageView);
         cityInfo = (TextView) rootView.findViewById(R.id.txtCityInfo);

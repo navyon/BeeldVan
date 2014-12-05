@@ -11,11 +11,11 @@
     <!-- ActionBar styles -->
     <style name="MyActionBar"
         parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/backrepeat</item>
+        <item name="android:background">@color/purple</item>
     </style>
 
     <style name="SplashStyle"
         parent="@android:style/Theme.Holo.NoActionBar">
-        <item name="android:background">#342A3C</item>
+        <item name="android:background">@color/purple</item>
         </style>
 </resources>

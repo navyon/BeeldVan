@@ -222,7 +222,7 @@
                     android:text="@string/ConfirmCheckbox"
                     android:textColor="@android:color/white"
                     android:fontFamily="@string/light_font"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:visibility="visible" />
 
                 <Button
@@ -237,6 +237,7 @@
                     android:visibility="visible" />
 
             </LinearLayout>
+
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>

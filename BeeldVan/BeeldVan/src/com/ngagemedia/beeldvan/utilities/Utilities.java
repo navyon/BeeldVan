@@ -183,7 +183,7 @@ public class Utilities
         {
             double lat = locationList.get(i).getLatitude();
             double lng = locationList.get(i).getLongitude();
-            Log.d("Location", locationList.get(i).getName()+" "+lat+" "+lng);
+//            Log.d("Location", locationList.get(i).getName()+" "+lat+" "+lng);
 //            Log.d("Location", locationList.get(i).getName()+"lng = "+lng);
             Location loc = new Location("");
             loc.setLatitude(lat);

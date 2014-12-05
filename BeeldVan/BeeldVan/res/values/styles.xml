@@ -3,7 +3,7 @@
     <!--these are the buttons used.
         Simple button is solid green-->
     <style name="button_simple">
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@drawable/button_simple</item>
         <item name="android:gravity">center</item>
@@ -13,7 +13,7 @@
 
     <!--This is a button with only a border-->
     <style name="button_transparant">
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@drawable/button_transparant</item>
         <item name="android:gravity">center</item>

@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
+import com.ngagemedia.beeldvan.MainActivity;
 import com.ngagemedia.beeldvan.R;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -125,7 +126,7 @@ public class MessageFragment extends Fragment implements Animation.AnimationList
                     fragment = new PreviewFragment();
                     ft1.addToBackStack(null);
 
-                    ft1.replace(R.id.frame_container, fragment);
+                    ft1.replace(R.id.frame_container, fragment, "PreviewFragment");
                     if (photo == null)
                         extras = new Bundle();
                     else

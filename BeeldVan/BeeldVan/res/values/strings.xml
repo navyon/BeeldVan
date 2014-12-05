@@ -79,6 +79,9 @@
     <string name="no_storage_card">No storage card</string>
     <string name="not_enough_space">Not enough space</string>
 
+    <!--Alert dialog-->
+    <string name="message_alert_text">Weet u zeker dat u het maken van het bericht wilt verlaten? Deze wordt niet opgeslagen</string>
+    <string name="message_alert_title">Bericht plaatsen verlaten</string>
     <!-- Standard Fonts-->
     <string name="light_font">sans-serif-light</string>
     <string name="thin_font">sans-serif-thin</string>

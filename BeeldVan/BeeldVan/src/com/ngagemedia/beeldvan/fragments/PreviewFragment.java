@@ -45,6 +45,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
     Button btnChangePreviewMessage;
     ImageButton btnRestartAnim;
     LinearLayout layBtns;
+    RelativeLayout prevLL;
 
     String imagePath = null;
     Fragment fragment;
@@ -87,6 +88,8 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
         btnChangePreviewMessage = (Button) rootView.findViewById(R.id.btnchangePreviewText);
         btnRestartAnim = (ImageButton) rootView.findViewById(R.id.btnRestartAnim);
         layBtns = (LinearLayout) rootView.findViewById(R.id.previewTxtOptionsLL);
+        prevLL = (RelativeLayout) rootView.findViewById(R.id.previewLL);
+
         utils = new Utilities(getActivity());
         screen = utils.getSelectedLocation(getActivity());
         // set fonts
@@ -155,7 +158,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                 ft1.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
                 fragment = new ConfirmFragment();
                 ft1.addToBackStack(null);
-                ft1.replace(R.id.frame_container, fragment);
+                ft1.replace(R.id.frame_container, fragment, "ConfirmFragment");
                 Bundle extras = getArguments();
                 if (extras != null) {
                     extras.putString("msg", msg);
@@ -187,7 +190,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                 fragment = new MessageFragment();
                 Bundle extras = new Bundle();
                 ft1.addToBackStack(null);
-                ft1.replace(R.id.frame_container, fragment);
+                ft1.replace(R.id.frame_container, fragment, "MessageFragment");
 
                 if (hasphoto) {
                     extras.putString("imagePath", imagePath);
@@ -213,6 +216,9 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                 layBtns.startAnimation(slideDownOut);
             }
         });
+
+
+
         return rootView;
     }
 
@@ -301,10 +307,24 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
 
         else if (animation == animFadeTxt)
         {
+            layBtns.setVisibility(View.VISIBLE);
+            prevLL.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            layBtns.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            txtview.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            int bot = prevLL.getTop()+ txtview.getBottom();
+            int top = layBtns.getTop();
+            Log.d("TOP", " "+top);
+            Log.d("BOT", " "+bot);
+            //if buttons overlap screen -> add background
+            if(bot < top){
+
+                layBtns.setBackgroundColor(getResources().getColor(R.color.transparant));
+            }
             txtview.setVisibility(View.INVISIBLE);
             btnRestartAnim.startAnimation(fadeIn);
             btnRestartAnim.setVisibility(View.VISIBLE); // else show restart button
-            layBtns.setVisibility(View.VISIBLE);
+
+
             layBtns.startAnimation(slideUpIn);
         }
 
@@ -391,7 +411,7 @@ public class PreviewFragment extends Fragment implements Animation.AnimationList
                             fragment = new PreviewFragment();
 
                             ft1.addToBackStack(null);
-                            ft1.replace(R.id.frame_container, fragment);
+                            ft1.replace(R.id.frame_container, fragment, "PreviewFragment");
                             extras.putString("msg", msg);
                             extras.putString("imagePath", imagePath);
                             extras.putBoolean("hasphoto", true);

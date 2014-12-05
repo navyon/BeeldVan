@@ -67,16 +67,17 @@ public class FinalFragment extends Fragment {
 
     public void onStop() {
         super.onStop();
-        //on stop clear the backstack
-        FragmentManager fm = getFragmentManager();
-        fm.popBackStack("main", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
+
     }
 
 
     public void onPause() {
         super.onPause();
+        //on stop clear the backstack
+//        FragmentManager fm = getFragmentManager();
+//        MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
+//        fm.popBackStackImmediate("HomeFragment",0);
+//        MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
         handler.removeCallbacksAndMessages(null);
-        MainActivity.mDrawerLayout.closeDrawer(MainActivity.mDrawerList);
     }
 }
