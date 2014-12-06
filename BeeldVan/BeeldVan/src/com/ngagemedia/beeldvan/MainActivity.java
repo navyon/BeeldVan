@@ -2,40 +2,32 @@
 
 package com.ngagemedia.beeldvan;
 
-import java.io.*;
 import java.util.*;
 
 import android.app.*;
 import android.content.*;
-import android.os.Handler;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import com.ngagemedia.beeldvan.adapter.NavDrawerListAdapter;
 import com.ngagemedia.beeldvan.asynctasks.GetImagesAsyncTask;
-import com.ngagemedia.beeldvan.crop.CropImage;
 import com.ngagemedia.beeldvan.fragments.*;
 import com.ngagemedia.beeldvan.fragments.InfoFragment;
 import com.ngagemedia.beeldvan.interfaces.ImageLoadInterface;
 import com.ngagemedia.beeldvan.interfaces.ListItemClickedInterface;
 import com.ngagemedia.beeldvan.model.*;
-import com.ngagemedia.beeldvan.utilities.InternalStorageContentProvider;
 import com.ngagemedia.beeldvan.utilities.Utilities;
 
 import org.json.JSONObject;
 
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 
 
 public class MainActivity extends Activity implements ImageLoadInterface, ListItemClickedInterface {
@@ -60,6 +52,7 @@ public class MainActivity extends Activity implements ImageLoadInterface, ListIt
 
     public static final String TAG = "MainActivity";
     public static String TEMP_PHOTO_FILE_NAME;
+
 
 
     Utilities utils;
@@ -99,7 +92,7 @@ public class MainActivity extends Activity implements ImageLoadInterface, ListIt
             ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
             String tag = "HomeFragment";
             fragment = new HomeFragment();
-            ft.addToBackStack("main");
+            ft.addToBackStack(tag);
             ft.add(R.id.frame_container, fragment, tag).commit();
         }
 
@@ -239,7 +232,7 @@ public class MainActivity extends Activity implements ImageLoadInterface, ListIt
     @Override
     protected void onStop() {
         super.onStop();
-        mDrawerLayout.closeDrawer(mDrawerList);
+//        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     private void loadImagesList() {
@@ -342,22 +335,69 @@ public class MainActivity extends Activity implements ImageLoadInterface, ListIt
             default:
                 break;
         }
+        Fragment mHomeFragment = getFragmentManager().findFragmentByTag("HomeFragment");
+        Fragment mInfoFragment = getFragmentManager().findFragmentByTag("InfoFragment");
+        Fragment mTwitterFragment = getFragmentManager().findFragmentByTag("TwitterFragment");
+        Fragment mFinalFragment = getFragmentManager().findFragmentByTag("FinalFragment");
 
 
-        if (fragment != null) {
+        if(fragment != null){
+            if ((mHomeFragment != null && mHomeFragment.isVisible()) || (mInfoFragment != null && mInfoFragment.isVisible()) || (mTwitterFragment != null && mTwitterFragment.isVisible()) || (mFinalFragment != null && mFinalFragment.isVisible())) {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
+                ft.addToBackStack(null);
+                ft.replace(R.id.frame_container, fragment, tag).commit();
+                // update selected item and title, then close the drawer
+                mDrawerList.setItemChecked(childposition, true);
+                mDrawerList.setSelection(childposition);
+                setTitle(navMenuTitles[childposition]);
+                mDrawerLayout.closeDrawer(mDrawerList);
+            } else{
+                final String tag_ = tag;
+                final int child_ = childposition;
+                Log.d("Menu", tag_);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        this);
 
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
-            ft.addToBackStack(null);
-            ft.replace(R.id.frame_container, fragment, tag).commit();
-            // update selected item and title, then close the drawer
-            mDrawerList.setItemChecked(childposition, true);
-            mDrawerList.setSelection(childposition);
-            setTitle(navMenuTitles[childposition]);
-            mDrawerLayout.closeDrawer(mDrawerList);
+                // set title
+                alertDialogBuilder.setTitle(R.string.message_alert_title);
 
-        } else {
+                // set dialog message
+                alertDialogBuilder
+                        .setMessage(R.string.message_alert_text)
+                        .setCancelable(false)
+                        .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                FragmentManager fm = getFragmentManager();
+                                FragmentTransaction ft = fm.beginTransaction();
+                                ft.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
+                                ft.addToBackStack(null);
+                                ft.replace(R.id.frame_container, fragment, tag_).commit();
+                                // update selected item and title, then close the drawer
+                                mDrawerList.setItemChecked(child_, true);
+                                mDrawerList.setSelection(child_);
+                                setTitle(navMenuTitles[child_]);
+                                mDrawerLayout.closeDrawer(mDrawerList);
+                            }
+                        })
+                        .setNegativeButton("Nee", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // if this button is clicked, just close
+                                // the dialog box and do nothing
+                                mDrawerLayout.closeDrawer(mDrawerList);
+                                dialog.cancel();
+                            }
+                        });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+            }
+        }
+        else {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");
         }
@@ -389,9 +429,13 @@ public class MainActivity extends Activity implements ImageLoadInterface, ListIt
 
     @Override
     protected void onPause() {
-        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        mDrawerLayout.closeDrawer(mDrawerList);
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("state", "onDestroy");
     }
 
 
@@ -409,4 +453,6 @@ public class MainActivity extends Activity implements ImageLoadInterface, ListIt
     public void whichItemClicked(int position) {
         displayView(position, sgroupPosition);
     }
+
+
 }

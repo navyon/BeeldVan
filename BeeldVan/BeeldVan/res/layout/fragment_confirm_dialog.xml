@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/confirmsv"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/backrepeat"
+    android:fillViewport="true"
+    android:isScrollContainer="false"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:background="#ffffffff"
+            android:visibility="gone"
+            android:id="@+id/emailInfo">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email_question_title"
+                android:id="@+id/email_question_title"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:textStyle="bold"
+                android:typeface="sans"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email_question_text"
+                android:id="@+id/email_question_text"
+                android:layout_below="@+id/email_question_title"
+                android:layout_alignParentLeft="true"
+                android:typeface="sans"
+                android:textStyle="normal"
+                android:textSize="18sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Close"
+                android:id="@+id/email_question_closebtn"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="20dp"
+                android:background="@color/transparent"
+                android:gravity="center_vertical|right"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:focusable="false">
+
+            <ImageView
+                android:id="@+id/progress_4Img"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:adjustViewBounds="false"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/progress_4" />
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:layout_above="@+id/confirmOptionsLL"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="31dp"
+                android:id="@+id/linearLayout">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Datum"
+                    android:id="@+id/dateBtn"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    style="@style/button_transparant"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Tijd"
+                    android:id="@+id/timeBtn"
+                    style="@style/button_transparant"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/confirmOptionsLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical"
+                android:visibility="visible"
+                android:weightSum="1"
+                android:scaleType="centerCrop"
+                android:background="@drawable/backrepeat"
+                android:paddingTop="20dp">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="20dp"
+                    android:layout_weight="0.25">
+
+                    <EditText
+                        android:id="@+id/editText_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toLeftOf="@+id/confirmQuestion"
+                        android:background="@drawable/rounded_white"
+                        android:ems="10"
+                        android:hint="@string/ConfirmEmailHint"
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="15dp"
+                        android:selectAllOnFocus="true"
+                        android:singleLine="true"
+                        android:fontFamily="@string/light_font"
+                        android:textSize="18sp" />
+
+                    <ImageButton
+                        android:id="@+id/confirmQuestion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/editText_email"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/editText_email"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/transparant"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="10dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/question_mark" />
+                </RelativeLayout>
+
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="0.25"
+                    android:button="@drawable/checkbox"
+                    android:checked="false"
+                    android:gravity="center_vertical|right|end"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="15dp"
+                    android:radius="5dp"
+                    android:text="@string/ConfirmCheckbox"
+                    android:textColor="@android:color/white"
+                    android:fontFamily="@string/light_font"
+                    android:textSize="12sp"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/btnfinalsubmit"
+                    style="@style/button_simple"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="bottom"
+                    android:text="@string/ConfirmBtn"
+                    android:textColor="@android:color/white"
+                    android:fontFamily="@string/light_font"
+                    android:visibility="visible"
+                    android:layout_weight="0.25" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Je inzending wordt na goedkeuring direct geplaatst."
+                android:id="@+id/timeDateString"
+                android:layout_above="@+id/linearLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                style="@style/textCentre"
+                android:fontFamily="@string/light_font"
+                android:gravity="left" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

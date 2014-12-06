@@ -140,8 +140,10 @@
             android:paddingLeft="20dp"
             android:layout_above="@+id/btnchangePreviewText"
             android:fontFamily="@string/light_font"
+            android:drawablePadding="20dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical|left" />
 
         <Button
             android:id="@+id/btnchangePreviewText"
@@ -153,8 +155,10 @@
             android:text="@string/PreviewbtnChangeTxt"
             android:paddingLeft="20dp"
             android:layout_above="@+id/btnSubmitmsgtxt"
+            android:drawablePadding="20dp"
             android:fontFamily="@string/light_font"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:gravity="center_vertical|left" />
 
         <Button
             android:id="@+id/btnSubmitmsgtxt"
@@ -164,10 +168,12 @@
             android:layout_weight="1"
             android:drawableLeft="@drawable/prev_smile"
             android:text="@string/Continue"
+            android:drawablePadding="20dp"
             android:textColor="@android:color/white"
             android:fontFamily="@string/light_font"
             android:paddingLeft="20dp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            android:gravity="center_vertical|left" />
     </LinearLayout>
 
 

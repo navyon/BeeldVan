@@ -27,6 +27,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -78,7 +80,7 @@ public class ConfirmFragment extends Fragment implements Animation.AnimationList
     Long unixPublishDate;
 //	TextView dateTimeTv;
     Button submitbox;
-    LinearLayout confirmOptions;
+//    LinearLayout confirmOptions;
 //    RelativeLayout dateTimePicker;
 //    ScrollView mScrollView;
     ImageView mProgress;
@@ -151,7 +153,7 @@ private int mYear, mMonth, mDay, mHour, mMinute;
                             timeDateTV.setText(tmp);
                         }
                     }, mYear, mMonth, mDay);
-            dpd.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
+            dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
            tpd = new TimePickerDialog(getActivity(),
                     new TimePickerDialog.OnTimeSetListener() {
@@ -186,7 +188,7 @@ private int mYear, mMonth, mDay, mHour, mMinute;
             edittx_email.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
 //            mScrollView = (ScrollView) rootView.findViewById(R.id.confirmsv);
-//            mProgress = (ImageView) rootView.findViewById(R.id.progress_4Img);
+            mProgress = (ImageView) rootView.findViewById(R.id.progress_4Img);
 //            confirmOptions = (LinearLayout) rootView.findViewById(R.id.confirmOptionsLL);
             chkbox = (CheckBox) rootView.findViewById(R.id.checkBox);
 
@@ -200,7 +202,7 @@ private int mYear, mMonth, mDay, mHour, mMinute;
 
             fadeOut.setAnimationListener(this);
 
-            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
             //onclicklisteners
             emailQuestion.setOnClickListener(this);
@@ -220,6 +222,7 @@ private int mYear, mMonth, mDay, mHour, mMinute;
             mDp.setOnClickListener(this);
             //Submit listener -> posts the message to API
 			submitbox.setOnClickListener(this);
+
 			return rootView;
 		}
 

@@ -11,26 +11,38 @@
             android:layout_height="150dp"
             android:contentDescription="@string/News"
         android:scaleType="centerCrop" />
+
     <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/txtcityTitle"
-            android:layout_below="@+id/cityimageView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
-    <TextView
-        android:id="@+id/txtCityInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txtcityTitle"
-        android:textSize="15sp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:id="@+id/txtCityInfo"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textSize="15sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+        </FrameLayout>
+    </ScrollView>
 
 
 </LinearLayout>

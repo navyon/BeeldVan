@@ -205,13 +205,15 @@ class HighlightView {
         mCropCirclePaint.setColor(Color.WHITE);
         mCropCirclePaint.setStyle(Paint.Style.FILL);
 
-
+        final float scale = mContext.getResources().getDisplayMetrics().density;
+        int DESIRED_DP_VALUE = 10;
+        int circleWidth = (int) (DESIRED_DP_VALUE * scale + 0.5f);
         int xMiddle = mDrawRect.left + ((mDrawRect.right - mDrawRect.left) / 2);
         int yMiddle = mDrawRect.top  + ((mDrawRect.bottom - mDrawRect.top) / 2);
-        canvas.drawCircle(mDrawRect.right, yMiddle, 25, mCropCirclePaint);
-        canvas.drawCircle(mDrawRect.left, yMiddle, 25, mCropCirclePaint);
-        canvas.drawCircle(xMiddle, mDrawRect.top, 25, mCropCirclePaint);
-        canvas.drawCircle(xMiddle, mDrawRect.bottom, 25, mCropCirclePaint);
+        canvas.drawCircle(mDrawRect.right, yMiddle, circleWidth, mCropCirclePaint);
+        canvas.drawCircle(mDrawRect.left, yMiddle, circleWidth, mCropCirclePaint);
+        canvas.drawCircle(xMiddle, mDrawRect.top, circleWidth, mCropCirclePaint);
+        canvas.drawCircle(xMiddle, mDrawRect.bottom, circleWidth, mCropCirclePaint);
 
 
     }
